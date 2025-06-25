@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definir keyframes y animación */
+@layer utilities {
+  @keyframes fadeIn {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease forwards;
+  }
+}
