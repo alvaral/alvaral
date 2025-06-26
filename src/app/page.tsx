@@ -1,16 +1,18 @@
 import Section from "@/components/Section";
 import Gallery from "@/components/Gallery";
 
-import A from "@/assets/images/A_1.123.1.jpg";
-import B from "@/assets/images/B_1.130.1.jpg";
-import C from "@/assets/images/C_1.6.1.jpg";
-import D from "@/assets/images/D_1.3.1.jpg";
-import E from "@/assets/images/E_1.76.1.jpg";
-import F from "@/assets/images/F_1.2.1.jpg";
-import G from "@/assets/images/G_1.93.1.jpg";
+
 import BlogCard from "@/components/BlogCard";
 
-const images = [E, C, F, D, B, A, G];
+const images = [
+  { src: "/assets/images/A_1.123.1.jpg" },
+  { src: "/assets/images/B_1.130.1.jpg" },
+  { src: "/assets/images/C_1.6.1.jpg" },
+  { src: "/assets/images/D_1.3.1.jpg" },
+  { src: "/assets/images/E_1.76.1.jpg" },
+  { src: "/assets/images/F_1.2.1.jpg" },
+  { src: "/assets/images/G_1.93.1.jpg" },
+];
 
 export default function HomePage() {
   return (
