@@ -44,7 +44,6 @@ const Section = ({
 
   const inlineStyle = {
     minHeight: `${customHeight}vh`,
-    paddingTop: `${customHeight * 12}px`,
     ...style,
   };
 
