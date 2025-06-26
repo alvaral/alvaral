@@ -50,7 +50,8 @@ export default function Gallery({ images }: GalleryProps) {
           }`}
         >
           {row.map((img, index) => (
-            <Section key={`${rowIndex}-${index}`}>
+            <Section key={`${rowIndex}-${index}`}
+              limitContentWidth={false}>
               <div className="overflow-hidden rounded-lg">
                 <Image
                   src={img.src}

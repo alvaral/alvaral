@@ -11,8 +11,8 @@ export default function Header() {
   return (
     <>
       <header className="fixed top-0 w-full z-40 bg-white transition-colors duration-300">
-        <div className="mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold">
+        <div className="mx-auto px-4 py-4 flex items-center justify-between max-w-[750px]">
+          <Link href="/" className="text-xl font-bold whitespace-nowrap">
             alvaral
           </Link>
           {/* Botón hamburguesa fijo y con z-index alto */}

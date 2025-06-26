@@ -1,4 +1,4 @@
-"use client"; // necesario para usar Framer Motion en Next.js App Router
+"use client";
 
 import React, { ReactNode, CSSProperties } from "react";
 import { motion } from "framer-motion";
@@ -13,7 +13,8 @@ interface SectionProps {
   verticalAlign?: string;
   style?: CSSProperties;
   children?: ReactNode;
-  isAlternate?: boolean; // fondo alternativo gris claro
+  isAlternate?: boolean;
+  limitContentWidth?: boolean; 
 }
 
 const Section = ({
@@ -27,6 +28,7 @@ const Section = ({
   style = {},
   children,
   isAlternate = false,
+  limitContentWidth = true, 
 }: SectionProps) => {
   const sectionClass = `
     page-section
@@ -69,7 +71,9 @@ const Section = ({
           paddingTop: `calc(${customHeight}vmax / 10)`,
         }}
       >
-        <div className="content">{children}</div>
+        <div className={`content ${limitContentWidth ? "max-w-[750px] mx-auto" : ""}`}>
+          {children}
+        </div>
       </div>
     </motion.section>
   );
