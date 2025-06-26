@@ -1,15 +1,20 @@
 'use client'
+
 import Link from 'next/link'
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function Header() {
   const [open, setOpen] = useState(false)
+  const pathname = usePathname() // ruta actual
 
   return (
     <>
       <header className="fixed top-0 w-full z-40 bg-white transition-colors duration-300">
         <div className="mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold">alvaral</Link>
+          <Link href="/" className="text-xl font-bold">
+            alvaral
+          </Link>
           {/* Botón hamburguesa fijo y con z-index alto */}
           <button
             onClick={() => setOpen(!open)}
@@ -19,8 +24,22 @@ export default function Header() {
             <MenuIcon isOpen={open} />
           </button>
           <nav className="hidden md:flex space-x-6 text-sm font-medium">
-            <Link href="/blog">Blog</Link>
-            <Link href="/about">About</Link>
+            <Link
+              href="/blog"
+              className={`hover:underline ${
+                pathname === '/blog' ? 'underline decoration-2 decoration-black' : ''
+              }`}
+            >
+              Blog
+            </Link>
+            <Link
+              href="/about"
+              className={`hover:underline ${
+                pathname === '/about' ? 'underline decoration-2 decoration-black' : ''
+              }`}
+            >
+              About
+            </Link>
           </nav>
         </div>
       </header>
@@ -33,9 +52,27 @@ export default function Header() {
         `}
         style={{ marginTop: '3.5rem' }} // Deja espacio para el botón
       >
-        <Link href="/" onClick={() => setOpen(false)}>Home</Link>
-        <Link href="/blog" onClick={() => setOpen(false)}>Blog</Link>
-        <Link href="/about" onClick={() => setOpen(false)}>About</Link>
+        <Link
+          href="/"
+          onClick={() => setOpen(false)}
+          className={`hover:underline ${pathname === '/' ? 'underline decoration-2 decoration-black' : ''}`}
+        >
+          Home
+        </Link>
+        <Link
+          href="/blog"
+          onClick={() => setOpen(false)}
+          className={`hover:underline ${pathname === '/blog' ? 'underline decoration-2 decoration-black' : ''}`}
+        >
+          Blog
+        </Link>
+        <Link
+          href="/about"
+          onClick={() => setOpen(false)}
+          className={`hover:underline ${pathname === '/about' ? 'underline decoration-2 decoration-black' : ''}`}
+        >
+          About
+        </Link>
       </div>
     </>
   )

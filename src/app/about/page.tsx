@@ -1,12 +1,23 @@
-// src/pages/about.tsx (o src/app/about/page.tsx según tu estructura)
-
 import Section from "@/components/Section";
+import Image from "next/image";
+import G1931 from "@/assets/images/G_1.93.1.jpg";
 
 export default function About() {
   return (
     <main className="max-w-3xl mx-auto p-6">
       <Section>
-        <h1 className="text-4xl font-bold mb-6">Sobre mí</h1>
+        <div className="flex flex-col items-center mb-6">
+          <div className="w-full max-w-xs relative aspect-square mb-4 rounded-md overflow-hidden">
+            <Image
+              src={G1931}
+              alt="Foto de Álvaro Alonso"
+              fill
+              style={{ objectFit: "cover" }}
+              priority
+            />
+          </div>
+          <h1 className="text-4xl font-bold">Sobre mí</h1>
+        </div>
       </Section>
       <Section>
         <p className="mb-4 text-lg leading-relaxed">
