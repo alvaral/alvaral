@@ -18,13 +18,11 @@ export default function HomePage() {
   return (
     <main className="p-8 animate-fadeIn">
       <Section
-        theme=""
-        sectionHeight="custom"
-        customHeight={10}
-        contentWidth="wide"
-        horizontalAlign="center"
-        verticalAlign="middle"
-    >
+          sectionHeight="custom"
+          customHeight={10}
+          contentWidth="wide"
+          horizontalAlign="center"
+          verticalAlign="middle">
         <h1 className="text-4xl font-bold mb-4">Hola, soy Álvaro</h1>
         <h2>Hi, I’m a software engineer and a content creator posting regularly about my daily life and projects.</h2>
       </Section>
@@ -32,8 +30,10 @@ export default function HomePage() {
       <Section>
         <BlogCard
           title="Mi ultimo post"
-          description="Este es mi último post escrito">
-        </BlogCard></Section>
+          description="¿Existe el programador perfecto? Tal vez no, pero sí hay rasgos que todos podemos cultivar. Este artículo los explora con humor y realismo."
+          href="/blog/posts/1">
+        </BlogCard>
+      </Section>
 
     </main>
   )
