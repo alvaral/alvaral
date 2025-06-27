@@ -28,7 +28,7 @@ export default function HomePage() {
         <h1 className="text-4xl font-bold mb-4">Hola, soy Álvaro</h1>
         <h2>Hi, I’m a software engineer and a content creator posting regularly about my daily life and projects.</h2>
       </Section>
-      <Section limitContentWidth={false}><Gallery images={images} /></Section>
+      <Gallery images={images} />
       <Section>
         <BlogCard
           title="Mi ultimo post"

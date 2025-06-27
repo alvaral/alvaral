@@ -1,7 +1,7 @@
 "use client";
 
-import React, { ReactNode, CSSProperties, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import React, { ReactNode, CSSProperties, useRef, useEffect } from "react";
+import { motion, useAnimation, useInView } from "framer-motion";
 
 interface SectionProps {
   theme?: string;
@@ -14,7 +14,7 @@ interface SectionProps {
   style?: CSSProperties;
   children?: ReactNode;
   isAlternate?: boolean;
-  limitContentWidth?: boolean; 
+  limitContentWidth?: boolean;
 }
 
 const Section = ({
@@ -28,7 +28,7 @@ const Section = ({
   style = {},
   children,
   isAlternate = false,
-  limitContentWidth = true, 
+  limitContentWidth = true,
 }: SectionProps) => {
   const sectionClass = `
     page-section
@@ -49,8 +49,28 @@ const Section = ({
     ...style,
   };
 
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.2 });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [inView, controls]);
+
+  // Forzar animación si no se ejecutó en 3 segundos
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      controls.start("visible");
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, [controls]);
+
   return (
     <motion.section
+      ref={ref}
       data-test="page-section"
       data-section-theme={theme}
       className={sectionClass}
@@ -58,12 +78,11 @@ const Section = ({
       data-controller="SectionWrapperController"
       data-active="true"
       initial="hidden"
-      whileInView="visible"
+      animate={controls}
       variants={{
         hidden: { opacity: 0, y: 40 },
-        visible: { opacity: 1, y: 0 }
+        visible: { opacity: 1, y: 0 },
       }}
-      viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="section-border">
