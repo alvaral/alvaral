@@ -9,7 +9,7 @@ export default function BlogPage() {
       title: "Mi primer post",
       description: "Este es un resumen corto que explica de qué trata mi primer post.",
       date: "2025-06-20",
-      imageSrc: "/assets/images/profile-photo.png",
+      imageSrc: "/assets/images/profile-photo.jpeg",
     },
     {
       id: "segundo-post",

@@ -8,7 +8,7 @@ export default function About() {
         <div className="flex flex-col items-center mb-6">
           <div className="w-full max-w-xs relative aspect-square mb-4 rounded-md overflow-hidden">
             <Image
-              src="/assets/images/profile-photo.png"
+              src="/assets/images/profile-photo.jpeg"
               alt="Foto de Álvaro Alonso"
               fill
               style={{ objectFit: "cover" }}
