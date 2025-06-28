@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# **alvaral** — Personal Blog & Portfolio
 
-## Getting Started
+Welcome to **alvaral**, a minimalist and performant personal blog & portfolio built with [Next.js](https://nextjs.org).
+Created and maintained by **Álvaro Alonso**, this project showcases technical writing, ideas, and creative projects.
 
-First, run the development server:
+---
+
+## 🌍 Live Site
+
+**🔗 [www.alvaral.com](https://www.alvaral.com)** (coming soon)
+
+Deployed on **AWS** (Amplify) with CI/CD powered by **GitHub Actions**.
+
+---
+
+## 🚀 Getting Started
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Edit the main page via:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+app/page.tsx
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## ✨ Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* ⚡️ Built with **Next.js App Router**
+* 🎨 Styled using **Tailwind CSS**
+* 🌍 **i18n support** (default: English, optional: `/es/` for Spanish)
+* 🖋 Custom blog posts with Markdown or structured JSON
+* 🧠 Optimized fonts using [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
+* ☁️ CI/CD on AWS using **GitHub Actions**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🧪 Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* **Framework**: [Next.js](https://nextjs.org)
+* **Styling**: Tailwind CSS
+* **Hosting**: AWS (S3 + CloudFront)
+* **CI/CD**: GitHub Actions
+* **Fonts**: [Geist](https://vercel.com/font)
+* **Icons**: [Lucide](https://lucide.dev)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📚 Learn More
+
+* [Next.js Docs](https://nextjs.org/docs)
+* [Learn Next.js](https://nextjs.org/learn)
+* [Tailwind Docs](https://tailwindcss.com/docs)
+* [Vercel Deployment Guide](https://nextjs.org/docs/app/building-your-application/deploying)
+
+---
+
+Built with 💻 by **Álvaro Alonso**.

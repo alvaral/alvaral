@@ -1,0 +1,24 @@
+# Mejoras del blog
+
+## Infraestructura
+- [ ] Gestionar bien los idiomas (por defecto inglés, español en `/es/`)
+- [ ] Crear dominio propio (ej. www.alvaral.com) y comparar precios
+- [ ] Crear entorno de preproducción
+- [ ] Crear artículos en `.tsx` y guardar el texto enriquecido en `.json`
+
+## Funcionalidades
+- [ ] Hacer clicable el email del footer (`mailto:...`)
+- [ ] Hacer toda la blogcard clicable (especialmente descripción)
+- [ ] Subir texto de "Publicado" y "Ver más" en blogcard
+- [ ] Añadir cabecera general en blog
+
+## Estética y experiencia de usuario
+- [ ] Añadir animación fade-in más lenta y por orden (scroll)
+- [ ] Mejorar presentación de blogcards con imagen
+- [ ] Añadir firma/foto del autor al final de cada artículo
+- [ ] Añadir emojis/redes sociales en: menú, página About, final del post
+
+## Contenido enriquecido
+- [ ] Añadir texto remarcado con barra lateral en artículos
+- [ ] Añadir gráficos explicativos estilo The Pragmatic Programmer
+
