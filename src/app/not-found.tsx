@@ -1,4 +1,5 @@
 import Section from "@/components/Section";
+import Link from "next/link";
 
 export default function NotFound() {
   return (
@@ -6,7 +7,9 @@ export default function NotFound() {
       <Section >
         <h1 className="text-6xl font-bold mb-4">404</h1>
         <p className="text-xl mb-8">Oops! Página no encontrada.</p>
-        <a href="/" className="text-blue-600 hover:underline">Volver al inicio</a>
+        <Link href="/" className="text-blue-600 hover:underline">
+          Volver al inicio
+        </Link>
       </Section>
     </main>
   )

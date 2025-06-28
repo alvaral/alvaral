@@ -56,7 +56,7 @@ export default function IdealDeveloperPost() {
 
             <h2 className="text-[1.2rem] font-semibold mt-10 mb-3">Control de versiones o git</h2>
             <p className="mb-4">
-            Saber Git es casi tan esencial como saber escribir código. Es el "Ctrl+Z" del desarrollo profesional. ¿Nunca te ha pasado que has necesitado hacer borrón y cuenta nueva en algo? De eso trata.
+            Saber Git es casi tan esencial como saber escribir código. Es el &quot;Ctrl+Z&quot; del desarrollo profesional. ¿Nunca te ha pasado que has necesitado hacer borrón y cuenta nueva en algo? De eso trata.
             </p>
             <p className="mb-4">
             Poder versionar, revisar y colaborar sin miedo a romper todo es una de las habilidades que más tranquilidad mental me aporta.
@@ -78,7 +78,7 @@ export default function IdealDeveloperPost() {
             Las habilidades blandas (o soft skills) son las capacidades personales e interpersonales que hacen la comunicación, colaboración y adaptación en distintos entornos laborales y sociales.
             </p>
             <p className="mb-4">
-            Es lo que podría definirse como aquello que nos hace humanos. O como yo digo, no ser "un capullo". Por ejemplo, se podría decir que Sheldon Cooper no tiene muchas habilidades blandas (aunque sea un genio, no se lleva bien con los demás y eso le limita laboralmente). Puedes ser el mejor programador del mundo, pero si no sabes comunicarte, colaborar o adaptarte, tu impacto será limitado.
+            Es lo que podría definirse como aquello que nos hace humanos. O como yo digo, no ser &quot;un capullo&quot;. Por ejemplo, se podría decir que Sheldon Cooper no tiene muchas habilidades blandas (aunque sea un genio, no se lleva bien con los demás y eso le limita laboralmente). Puedes ser el mejor programador del mundo, pero si no sabes comunicarte, colaborar o adaptarte, tu impacto será limitado.
             </p>
 
             <h2 className="text-[1.2rem] font-semibold mt-10 mb-3">Comunicación</h2>
