@@ -14,6 +14,7 @@
 
 ## Estética y experiencia de usuario
 - [ ] Añadir animación fade-in más lenta y por orden (scroll)
+- [ ] arreglar fade in foto de pagina about (mostrar animacion al haber cargado la imagen)
 - [ ] Mejorar presentación de blogcards con imagen
 - [ ] Añadir firma/foto del autor al final de cada artículo
 - [ ] Añadir emojis/redes sociales en: menú, página About, final del post
@@ -21,4 +22,5 @@
 ## Contenido enriquecido
 - [ ] Añadir texto remarcado con barra lateral en artículos
 - [ ] Añadir gráficos explicativos estilo The Pragmatic Programmer
+- [ ] Añadir página reading-list
 
