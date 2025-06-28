@@ -9,8 +9,9 @@
 ## Funcionalidades
 - [ ] Hacer clicable el email del footer (`mailto:...`)
 - [ ] Hacer toda la blogcard clicable (especialmente descripción)
-- [ ] Subir texto de "Publicado" y "Ver más" en blogcard
-- [ ] Añadir cabecera general en blog
+- [ ] Subir texto de "fecha publicacion" y "Ver más" en blogcard
+- [ ] Añadir imagen en cabecera de página blog
+- [ ] Añadir analytics (Plausible, Umami...)
 
 ## Estética y experiencia de usuario
 - [ ] Añadir animación fade-in más lenta y por orden (scroll)
