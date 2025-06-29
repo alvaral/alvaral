@@ -1,7 +1,10 @@
 import Section from "@/components/Section";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function About() {
+  const t = useTranslations("about");
+
   return (
     <main className="max-w-3xl mx-auto p-6">
       <Section>
@@ -15,16 +18,12 @@ export default function About() {
               priority
             />
           </div>
-          <h1 className="text-4xl font-bold">Sobre mí</h1>
+          <h1 className="text-4xl font-bold">{t("title")}</h1>
         </div>
       </Section>
       <Section>
-        <p className="mb-4 text-lg leading-relaxed">
-          ¡Hola! Soy Álvaro Alonso, ingeniero software apasionado por crear experiencias digitales únicas y funcionales.
-        </p>
-        <p className="mb-4 text-lg leading-relaxed">
-          Me encanta aprender nuevas herramientas y mejorar continuamente mis habilidades para ofrecer soluciones de alta calidad. Siempre busco combinar creatividad y eficiencia en mis proyectos.
-        </p>
+        <p className="mb-4 text-lg leading-relaxed">{t("intro")}</p>
+        <p className="mb-4 text-lg leading-relaxed">{t("body")}</p>
       </Section>
     </main>
   );

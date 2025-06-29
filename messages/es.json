@@ -1,0 +1,38 @@
+{
+  "notFound": {
+    "title": "404",
+    "description": "¡Ups! Página no encontrada.",
+    "backHome": "Volver al inicio"
+  },
+  "blogCard": {
+    "readMore": "Ver más →",
+    "publishedOn": "Publicado el"
+  },
+  "footer": {
+    "follow": "Sígueme en",
+    "businessEmail": "Correo para negocios",
+    "languageLabel": "Idioma"
+  },
+  "homepage": {
+    "greeting": "Hola, soy Álvaro",
+    "intro": "Soy ingeniero de software y creador de contenido. Comparto anécdotas, ideas y proyectos de mi día a día.",
+    "latestPostTitle": "Último artículo",
+    "latestPostDescription": "¿Existe el programador perfecto? Quizás no, pero hay cualidades que todos podemos desarrollar. En este post hablo de ellas con un toque de humor y sinceridad."
+  },
+  "header": {
+    "home": "Inicio",
+    "blog": "Blog",
+    "about": "Sobre mí",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
+  },
+  "about": {
+    "title": "Sobre mí",
+    "intro": "¡Hola! Soy Álvaro Alonso, ingeniero de software con pasión por crear experiencias digitales útiles y agradables.",
+    "body": "Me encanta aprender nuevas herramientas y mejorar continuamente mis habilidades para ofrecer soluciones de alta calidad. Siempre busco combinar creatividad y eficiencia en mis proyectos."
+  },
+  "blogPage": {
+    "title": "Blog"
+  }
+}
+  

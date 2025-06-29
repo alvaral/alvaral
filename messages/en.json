@@ -1,0 +1,38 @@
+{
+  "notFound": {
+    "title": "404",
+    "description": "Oops! Page not found.",
+    "backHome": "Back to home"
+  },
+  "blogCard": {
+    "readMore": "Read more →",
+    "publishedOn": "Published on"
+  },
+  "footer": {
+    "follow": "Follow me on",
+    "businessEmail": "Business email",
+    "languageLabel": "Language"
+  },
+  "homepage": {
+    "greeting": "Hello, I am Álvaro",
+    "intro": "Hi, I’m a software engineer and a content creator posting regularly about my daily life and projects.",
+    "latestPostTitle": "Mi last post",
+    "latestPostDescription": "¿Existe el programador perfecto? Tal vez no, pero sí hay rasgos que todos podemos cultivar. Este artículo los explora con humor y realismo."
+  },
+  "header": {
+    "home": "Home",
+    "blog": "Blog",
+    "about": "About",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "about": {
+    "title": "About Me",
+    "intro": "Hi! I'm Álvaro Alonso, a software engineer passionate about creating unique and functional digital experiences.",
+    "body": "I love learning new tools and constantly improving my skills to deliver high-quality solutions. I always seek to combine creativity and efficiency in my projects."
+  },
+  "blogPage": {
+    "title": "Blog"
+  }
+}
+  

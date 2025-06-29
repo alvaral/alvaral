@@ -1,7 +1,6 @@
 import Section from "@/components/Section";
 import Gallery from "@/components/Gallery";
-
-
+import { useTranslations } from "next-intl";
 import BlogCard from "@/components/BlogCard";
 
 const images = [
@@ -15,26 +14,30 @@ const images = [
 ];
 
 export default function HomePage() {
+  const t = useTranslations("homepage");
+
   return (
     <main className="p-8 animate-fadeIn">
       <Section
-          sectionHeight="custom"
-          customHeight={10}
-          contentWidth="wide"
-          horizontalAlign="center"
-          verticalAlign="middle">
-        <h1 className="text-4xl font-bold mb-4">Hola, soy Álvaro</h1>
-        <h2>Hi, I’m a software engineer and a content creator posting regularly about my daily life and projects.</h2>
-      </Section>
-      <Gallery images={images} />
-      <Section>
-        <BlogCard
-          title="Mi ultimo post"
-          description="¿Existe el programador perfecto? Tal vez no, pero sí hay rasgos que todos podemos cultivar. Este artículo los explora con humor y realismo."
-          href="/blog/posts/1">
-        </BlogCard>
+        sectionHeight="custom"
+        customHeight={10}
+        contentWidth="wide"
+        horizontalAlign="center"
+        verticalAlign="middle"
+      >
+        <h1 className="text-4xl font-bold mb-4">{t("greeting")}</h1>
+        <h2>{t("intro")}</h2>
       </Section>
 
+      <Gallery images={images} />
+
+      <Section>
+        <BlogCard
+          title={t("latestPostTitle")}
+          description={t("latestPostDescription")}
+          href="/blog/posts/1"
+        />
+      </Section>
     </main>
-  )
+  );
 }

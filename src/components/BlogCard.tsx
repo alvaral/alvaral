@@ -1,6 +1,6 @@
-// src/components/BlogCard.tsx
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 interface BlogCardProps {
   title: string;
@@ -19,6 +19,8 @@ export default function BlogCard({
   imageAlt = "Imagen del post",
   href,
 }: BlogCardProps) {
+  const t = useTranslations("blogCard");
+
   function formatDate(dateStr: string) {
     const dateObj = new Date(dateStr);
     return dateObj.toLocaleDateString("es-ES", {
@@ -60,15 +62,14 @@ export default function BlogCard({
         <p className="text-gray-700 text-lg leading-relaxed mb-3">{description}</p>
 
         <div className="flex items-center justify-between text-gray-500 text-sm select-none">
-          {date && <time dateTime={date}>Publicado el {formatDate(date)}</time>}
-
+          {date && <time dateTime={date}>{t("publishedOn")} {formatDate(date)}</time>}
           {href && (
             <Link
               href={href}
               className="text-gray-500 hover:text-gray-700 font-medium no-underline focus:outline-none focus:ring-2 focus:ring-gray-400 rounded"
               aria-label={`Leer post completo: ${title}`}
             >
-              Ver más →
+              {t("readMore")}
             </Link>
           )}
         </div>
