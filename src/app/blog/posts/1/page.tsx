@@ -1,4 +1,12 @@
+import AuthorInfo from "@/components/AuthorInfoCard";
+import HighlightedParagraph from "@/components/HighlightedParagraph";
 import Section from "@/components/Section";
+
+const author = {
+  name: "Álvaro Alonso",
+  avatar: "/assets/images/profile-photo.jpeg", 
+  role: "Software Engineer", 
+};
 
 export default function IdealDeveloperPost() {
   return (
@@ -25,9 +33,9 @@ export default function IdealDeveloperPost() {
 
             <h1 className="text-[1.6rem] font-bold mb-4 font-sans">Habilidades técnicas</h1>
 
-            <p className="mb-4">
-            Las habilidades técnicas (o hard skills) son las competencias específicas que permiten ejecutar tareas concretas relacionadas con una profesión.
-            </p>
+            <HighlightedParagraph>
+              Las habilidades técnicas (o hard skills) son las competencias específicas que permiten ejecutar tareas concretas relacionadas con una profesión.
+            </HighlightedParagraph>
             <p className="mb-4">
             En el caso del desarrollo de software, estas habilidades te permiten construir, mantener y mejorar productos tecnológicos de forma eficiente, segura y escalable. Ya sabes, todas esas que nos enseñan en la universidad.
             </p>
@@ -74,9 +82,10 @@ export default function IdealDeveloperPost() {
 
             <h1 className="text-[1.6rem] font-bold mb-4 font-sans">Habilidades blandas</h1>
 
-            <p className="mb-4">
-            Las habilidades blandas (o soft skills) son las capacidades personales e interpersonales que hacen la comunicación, colaboración y adaptación en distintos entornos laborales y sociales.
-            </p>
+            <HighlightedParagraph>
+              Las habilidades blandas (o soft skills) son las capacidades personales e interpersonales que hacen la comunicación, colaboración y adaptación en distintos entornos laborales y sociales.
+            </HighlightedParagraph>
+
             <p className="mb-4">
             Es lo que podría definirse como aquello que nos hace humanos. O como yo digo, no ser &quot;un capullo&quot;. Por ejemplo, se podría decir que Sheldon Cooper no tiene muchas habilidades blandas (aunque sea un genio, no se lleva bien con los demás y eso le limita laboralmente). Puedes ser el mejor programador del mundo, pero si no sabes comunicarte, colaborar o adaptarte, tu impacto será limitado.
             </p>
@@ -123,6 +132,7 @@ export default function IdealDeveloperPost() {
           <p className="italic">
             Y tú, ¿cómo imaginas al desarrollador ideal?
           </p>
+          <AuthorInfo name={author.name} role={author.role} avatar={author.avatar} />
         </article>
       </Section>
     </main>

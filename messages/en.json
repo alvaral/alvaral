@@ -16,8 +16,8 @@
   "homepage": {
     "greeting": "Hello, I am Álvaro",
     "intro": "Hi, I’m a software engineer and a content creator posting regularly about my daily life and projects.",
-    "latestPostTitle": "Mi last post",
-    "latestPostDescription": "¿Existe el programador perfecto? Tal vez no, pero sí hay rasgos que todos podemos cultivar. Este artículo los explora con humor y realismo."
+    "latestPostTitle": "My last post",
+    "latestPostDescription": "Is there such a thing as the perfect programmer? Maybe not, but there are traits we can all develop. This article explores them with humor and realism."
   },
   "header": {
     "home": "Home",

@@ -4,6 +4,7 @@ import React, { ReactNode, CSSProperties, useRef, useEffect } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 
 interface SectionProps {
+  index?: number, 
   theme?: string;
   classes?: string;
   sectionHeight?: string;
@@ -15,9 +16,11 @@ interface SectionProps {
   children?: ReactNode;
   isAlternate?: boolean;
   limitContentWidth?: boolean;
+  delay?: number;
 }
 
 const Section = ({
+  index = 0,  // default 0 si no se pasa
   theme = "",
   classes = "",
   sectionHeight = "custom",
@@ -29,6 +32,7 @@ const Section = ({
   children,
   isAlternate = false,
   limitContentWidth = true,
+  delay = 0
 }: SectionProps) => {
   const sectionClass = `
     page-section
@@ -59,11 +63,11 @@ const Section = ({
     }
   }, [inView, controls]);
 
-  // Forzar animación si no se ejecutó en 3 segundos
   useEffect(() => {
+    // Forzar animación si no se ejecutó en 3 segundos
     const timeout = setTimeout(() => {
       controls.start("visible");
-    }, 2000);
+    }, 1500);
 
     return () => clearTimeout(timeout);
   }, [controls]);
@@ -71,19 +75,16 @@ const Section = ({
   return (
     <motion.section
       ref={ref}
-      data-test="page-section"
-      data-section-theme={theme}
       className={sectionClass}
       style={inlineStyle}
-      data-controller="SectionWrapperController"
-      data-active="true"
       initial="hidden"
       animate={controls}
       variants={{
         hidden: { opacity: 0, y: 40 },
         visible: { opacity: 1, y: 0 },
       }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      // delay proporcional al índice para que aparezca en orden
+      transition={{ duration: 1, ease: "easeOut", delay: index * 0.3 + delay }}
     >
       <div className="section-border">
         <div className="section-background"></div>

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
 
 interface BlogCardProps {
   title: string;
@@ -19,8 +18,6 @@ export default function BlogCard({
   imageAlt = "Imagen del post",
   href,
 }: BlogCardProps) {
-  const t = useTranslations("blogCard");
-
   function formatDate(dateStr: string) {
     const dateObj = new Date(dateStr);
     return dateObj.toLocaleDateString("es-ES", {
@@ -30,8 +27,8 @@ export default function BlogCard({
     });
   }
 
-  return (
-    <article tabIndex={0} className="group flex space-x-6">
+  const content = (
+    <article tabIndex={0} className="group flex space-x-6 cursor-pointer">
       {imageSrc && (
         <div className="flex-shrink-0 w-24 h-24 relative rounded-md overflow-hidden">
           <Image
@@ -45,35 +42,25 @@ export default function BlogCard({
         </div>
       )}
       <div className="flex flex-col flex-1">
-        <h2 className="text-2xl font-semibold leading-snug mb-2 font-sans">
-          {href ? (
-            <Link
-              href={href}
-              className="text-gray-900 no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded"
-              aria-label={`Leer post completo: ${title}`}
-            >
-              {title}
-            </Link>
-          ) : (
-            title
-          )}
-        </h2>
-
+        <h2 className="text-2xl font-semibold leading-snug mb-2 font-sans">{title}</h2>
         <p className="text-gray-700 text-lg leading-relaxed mb-3">{description}</p>
-
         <div className="flex items-center justify-between text-gray-500 text-sm select-none">
-          {date && <time dateTime={date}>{t("publishedOn")} {formatDate(date)}</time>}
-          {href && (
-            <Link
-              href={href}
-              className="text-gray-500 hover:text-gray-700 font-medium no-underline focus:outline-none focus:ring-2 focus:ring-gray-400 rounded"
-              aria-label={`Leer post completo: ${title}`}
-            >
-              {t("readMore")}
-            </Link>
-          )}
+          {date && <time dateTime={date}>Publicado el {formatDate(date)}</time>}
+          <span className="text-gray-500 hover:text-gray-700 font-medium no-underline rounded">
+            Ver más →
+          </span>
         </div>
       </div>
     </article>
   );
+
+  if (href) {
+    return (
+      <Link href={href} aria-label={`Leer post completo: ${title}`} className="block no-underline">
+        {content}
+      </Link>
+    );
+  }
+
+  return content;
 }

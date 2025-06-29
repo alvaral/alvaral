@@ -48,7 +48,12 @@ export default function Footer() {
             </a>
           </p>
           <p className="mb-1">{t("businessEmail")}</p>
-          <p className="text-gray-600">alvaroalonso222@gmail.com</p>
+          <a
+            href="mailto:alvaroalonso222@gmail.com"
+            className="text-gray-600"
+          >
+            alvaroalonso222@gmail.com
+          </a>
           <div className="mt-4">
             <label htmlFor="language-select" className="mr-2 font-medium">
               {t("languageLabel")}:

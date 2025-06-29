@@ -30,7 +30,7 @@ export default function Gallery({ images }: GalleryProps) {
 
   while (i < images.length) {
     if (isWide && isOdd && i === images.length - 3) {
-      rows.push(images.slice(i, i + 3));  
+      rows.push(images.slice(i, i + 3));
       i += 3;
     } else {
       rows.push(images.slice(i, i + 2));
@@ -50,8 +50,11 @@ export default function Gallery({ images }: GalleryProps) {
           }`}
         >
           {row.map((img, index) => (
-            <Section key={`${rowIndex}-${index}`}
-              limitContentWidth={false}>
+            <Section
+              key={`${rowIndex}-${index}`}
+              limitContentWidth={false}
+              index={rowIndex + index} 
+            >
               <div className="overflow-hidden rounded-lg">
                 <Image
                   src={img.src}
