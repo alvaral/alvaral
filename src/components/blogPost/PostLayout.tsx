@@ -1,5 +1,3 @@
-import Section from "../Section";
-
 type PostLayoutProps = {
   title: string;
   children: React.ReactNode;
