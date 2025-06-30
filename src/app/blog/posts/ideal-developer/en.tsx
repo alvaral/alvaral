@@ -122,7 +122,7 @@ export default function IdealDeveloperPost() {
           It&apos;s not enough for code to work once (ask any tester). Tests
           ensure it keeps working after multiple changes. Knowing how to test
           (unit, integration, e2e…) is just as important as writing new code—and
-          skipping tests because you're in a rush is a terrible habit.
+          skipping tests because you&apos;re in a rush is a terrible habit.
         </PostParagraph>
 
         <PostHeading level={2}>Problem-solving (Debugging)</PostHeading>
