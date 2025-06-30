@@ -1,4 +1,7 @@
 import AuthorInfo from "@/components/AuthorInfoCard";
+import PostHeading from "@/components/blogPost/PostHeading";
+import { PostLayout } from "@/components/blogPost/PostLayout";
+import PostParagraph from "@/components/blogPost/PostParagraph";
 import HighlightedParagraph from "@/components/HighlightedParagraph";
 import Section from "@/components/Section";
 
@@ -6,6 +9,7 @@ const author = {
   name: "Álvaro Alonso",
   avatar: "/assets/images/profile-photo.jpeg",
   role: "Ingeniero de Software",
+  infoUrl: "/about",
 };
 
 export default function IdealDeveloperPost() {
@@ -230,52 +234,8 @@ export default function IdealDeveloperPost() {
         name={author.name}
         role={author.role}
         avatar={author.avatar}
+        infoUrl={author.infoUrl}
       />
     </PostLayout>
-  );
-}
-
-type PostHeadingProps = {
-  level: 1 | 2;
-  children: React.ReactNode;
-};
-
-export function PostHeading({ level, children }: PostHeadingProps) {
-  const common = "font-sans font-bold mb-4";
-  if (level === 1) {
-    return <h1 className={`text-[1.6rem] ${common}`}>{children}</h1>;
-  }
-  return <h2 className="text-[1.2rem] font-semibold mt-10 mb-3">{children}</h2>;
-}
-
-type PostParagraphProps = {
-  children: React.ReactNode;
-  className?: string;
-};
-
-export function PostParagraph({
-  children,
-  className = "mb-4",
-}: PostParagraphProps) {
-  return <p className={className}>{children}</p>;
-}
-
-type PostLayoutProps = {
-  title: string;
-  children: React.ReactNode;
-};
-
-export function PostLayout({ title, children }: PostLayoutProps) {
-  return (
-    <main className="px-4 md:px-6 lg:px-0 py-12 font-serif text-[#1A1A1A] bg-white">
-      <Section>
-        <article className="max-w-[680px] mx-auto text-[1.05rem] leading-7">
-          <h1 className="text-[2.2rem] leading-tight font-bold font-sans mb-6">
-            {title}
-          </h1>
-          {children}
-        </article>
-      </Section>
-    </main>
   );
 }

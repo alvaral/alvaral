@@ -1,14 +1,15 @@
 import AuthorInfo from "@/components/AuthorInfoCard";
 import HighlightedParagraph from "@/components/HighlightedParagraph";
 import Section from "@/components/Section";
-import { PostParagraph } from "./es";
 import PostHeading from "@/components/blogPost/PostHeading";
 import { PostLayout } from "@/components/blogPost/PostLayout";
+import PostParagraph from "@/components/blogPost/PostParagraph";
 
 const author = {
   name: "Álvaro Alonso",
   avatar: "/assets/images/profile-photo.jpeg",
   role: "Software Engineer",
+  infoUrl: "/about",
 };
 
 export default function IdealDeveloperPost() {
@@ -234,6 +235,7 @@ export default function IdealDeveloperPost() {
           name={author.name}
           role={author.role}
           avatar={author.avatar}
+          infoUrl={author.infoUrl}
         />
       </Section>
     </PostLayout>
