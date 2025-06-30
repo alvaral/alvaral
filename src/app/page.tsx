@@ -1,8 +1,9 @@
 import Section from "@/components/Section";
 import Gallery from "@/components/Gallery";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import BlogCard from "@/components/BlogCard";
 import Divider from "@/components/Divider";
+import { getPosts } from "@/posts/posts";
 
 const images = [
   { src: "/assets/images/A_1.123.1.jpg" },
@@ -16,7 +17,10 @@ const images = [
 
 export default function HomePage() {
   const t = useTranslations("homepage");
-  
+  const locale = useLocale();
+  const posts = getPosts(locale);
+  const latestPost = posts[0];
+
   return (
     <main className="p-8">
       <Section
@@ -35,9 +39,10 @@ export default function HomePage() {
       <Divider />
       <Section index={1} delay={images.length * 0.2}>
         <BlogCard
-          title={t("latestPostTitle")}
-          description={t("latestPostDescription")}
-          href="/blog/posts/1"
+          title={latestPost.title}
+          description={latestPost.description}
+          href={latestPost.href}
+          imageSrc={latestPost.imageSrc} // si tienes imagen
         />
       </Section>
     </main>
