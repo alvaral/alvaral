@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { getLocale } from "next-intl/server";
 
 interface BlogCardProps {
   title: string;
@@ -18,9 +20,12 @@ export default function BlogCard({
   imageAlt = "Imagen del post",
   href,
 }: BlogCardProps) {
-  function formatDate(dateStr: string) {
+  const t = useTranslations("blogCard");
+
+  async function formatDate(dateStr: string) {
     const dateObj = new Date(dateStr);
-    return dateObj.toLocaleDateString("es-ES", {
+    const locale = await getLocale();
+    return dateObj.toLocaleDateString(locale, {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -42,12 +47,20 @@ export default function BlogCard({
         </div>
       )}
       <div className="flex flex-col flex-1">
-        <h2 className="text-2xl font-semibold leading-snug mb-2 font-sans">{title}</h2>
-        <p className="text-gray-700 text-lg leading-relaxed mb-3">{description}</p>
+        <h2 className="text-2xl font-semibold leading-snug mb-2 font-sans">
+          {title}
+        </h2>
+        <p className="text-gray-700 text-lg leading-relaxed mb-3">
+          {description}
+        </p>
         <div className="flex items-center justify-between text-gray-500 text-sm select-none">
-          {date && <time dateTime={date}>Publicado el {formatDate(date)}</time>}
+          {date && (
+            <time dateTime={date}>
+              {t("publishedOn")} {formatDate(date)}
+            </time>
+          )}
           <span className="text-gray-500 hover:text-gray-700 font-medium no-underline rounded">
-            Ver más →
+            {t("readMore")}
           </span>
         </div>
       </div>
@@ -56,7 +69,11 @@ export default function BlogCard({
 
   if (href) {
     return (
-      <Link href={href} aria-label={`Leer post completo: ${title}`} className="block no-underline">
+      <Link
+        href={href}
+        aria-label={`Leer post completo: ${title}`}
+        className="block no-underline"
+      >
         {content}
       </Link>
     );

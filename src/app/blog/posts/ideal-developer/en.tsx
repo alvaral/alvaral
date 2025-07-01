@@ -30,7 +30,7 @@ export default function IdealDeveloperPost() {
         </PostParagraph>
 
         <PostParagraph>
-          All of them were—and are—brilliant programmers. Whether creating
+          All of them were —and are— brilliant programmers. Whether creating
           Linux, the Apollo 11 software that took humanity to the moon, or a
           social network that changed the world. Still, it would be unrealistic
           to think they never made mistakes or that their current abilities set

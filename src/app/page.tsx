@@ -32,7 +32,9 @@ export default function HomePage() {
         verticalAlign="middle"
       >
         <h1 className="text-4xl font-bold mb-4">{t("greeting")}</h1>
-        <h2>{t("intro")}</h2>
+        <h2 className="text-gray-700 text-lg leading-relaxed mb-3">
+          {t("intro")}
+        </h2>
       </Section>
       <Divider />
       <Gallery images={images} />
@@ -42,7 +44,7 @@ export default function HomePage() {
           title={latestPost.title}
           description={latestPost.description}
           href={latestPost.href}
-          imageSrc={latestPost.imageSrc} // si tienes imagen
+          imageSrc={latestPost.imageSrc}
         />
       </Section>
     </main>
