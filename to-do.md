@@ -10,6 +10,7 @@
 - [ ] Crear entorno de preproducción (www.pre.alvaral.dev)
 - [ ] Hacer que no se recojan analytics en PRE/Localhost
 - [ ] Mejorar SEO de página
+- [ ] Cambiar icono pestaña buscador
 
 ## Funcionalidades
 
