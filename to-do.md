@@ -5,29 +5,35 @@
 ## Infraestructura
 
 - [x] Gestionar bien los idiomas (por defecto inglés, a través de cookies)
+- [x] Crear dominio propio (ej. www.alvaral.dev) y comparar precios (5-20€ al año)
+- [x] Hacer que no se recojan analytics en PRE/Localhost
+- [x] Cambiar icono pestaña buscador
 - [ ] Crear artículos del `.tsx` y guardar el texto enriquecido en `.mdx`
-- [ ] Crear dominio propio (ej. www.alvaral.com) y comparar precios (5-20€ al año)
-- [ ] Crear entorno de preproducción
+- [ ] Crear entorno de preproducción (www.pre.alvaral.dev)
+- [ ] Mejorar SEO de página
 
 ## Funcionalidades
 
 - [x] Hacer clicable el email del footer (`mailto:...`)
 - [x] Hacer toda la blogcard clicable (especialmente descripción)
-- [ ] Añadir analytics (Plausible, Umami...): guardar usuarios, tiempo, lugar...
+- [x] Añadir analytics (Plausible, Umami...): guardar usuarios, tiempo, lugar... => Umami (caduca BBDD el 5 agosto 2025)
 - [ ] Mejorar formato de "fecha publicacion" y "Ver más" en blogcard
 - [ ] Añadir imagen en cabecera de página blog
+- [ ] Cambiar imágenes de Home
 
 ## Estética y experiencia de usuario
 
 - [x] Añadir animación fade-in más lenta y por orden (scroll)
 - [x] Añadir firma/foto del autor al final de cada artículo
-- [ ] arreglar fade in foto de pagina about (mostrar animacion al haber cargado la imagen)
+- [x] arreglar fade in foto de pagina about (mostrar animacion al haber cargado la imagen)
 - [ ] Mejorar presentación de blogcards con imagen (publicación y ver más)
 - [ ] Añadir emojis/redes sociales en: menú, página About, final del post
+- [ ] Añadir tags en publicaciones
+- [ ] Añadir 3 puntos adornos en publicaciones
 
 ## Contenido enriquecido
 
 - [x] Añadir texto remarcado con barra lateral en artículos
-- [ ] Traducir posts al inglés
-- [ ] Añadir gráficos explicativos estilo The Pragmatic Programmer
+- [x] Traducir posts al inglés
 - [ ] Añadir página reading-list
+- [ ] Añadir gráficos explicativos estilo The Pragmatic Programmer

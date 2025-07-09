@@ -7,7 +7,7 @@ export default function About() {
 
   return (
     <main className="max-w-3xl mx-auto p-6">
-      <Section>
+      <Section delay={1}>
         <div className="flex flex-col items-center mb-6">
           <div className="w-full max-w-xs relative aspect-square mb-4 rounded-md overflow-hidden">
             <Image
