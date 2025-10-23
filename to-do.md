@@ -11,12 +11,17 @@
 - [ ] Crear artículos del `.tsx` y guardar el texto enriquecido en `.mdx`
 - [ ] Crear entorno de preproducción (www.pre.alvaral.dev)
 - [ ] Mejorar SEO de página
+- [ ] Usar clean architecture
+- [ ] Usar rutas absolutas
 
 ## Funcionalidades
 
 - [x] Hacer clicable el email del footer (`mailto:...`)
 - [x] Hacer toda la blogcard clicable (especialmente descripción)
 - [x] Añadir analytics (Plausible, Umami...): guardar usuarios, tiempo, lugar... => Umami (caduca BBDD el 5 agosto 2025)
+- [ ] Añadir pomodoro Timer con tasks
+- [ ] Cambiar analytics a servicio de AWS
+- [ ] Usar arquitectura más robusta y compleja para CV
 - [ ] Mejorar formato de "fecha publicacion" y "Ver más" en blogcard
 - [ ] Añadir imagen en cabecera de página blog
 - [ ] Cambiar imágenes de Home

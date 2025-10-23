@@ -27,13 +27,31 @@ export default function Header() {
           <nav className="hidden md:flex space-x-6 text-sm font-medium">
             <Link
               href="/blog"
-              className={`hover:underline ${pathname === "/blog" ? "underline decoration-2 decoration-black" : ""}`}
+              className={`hover:underline ${
+                pathname === "/blog"
+                  ? "underline decoration-2 decoration-black"
+                  : ""
+              }`}
             >
               {t("blog")}
             </Link>
             <Link
+              href="/focus"
+              className={`hover:underline ${
+                pathname === "/focus"
+                  ? "underline decoration-2 decoration-black"
+                  : ""
+              }`}
+            >
+              {t("focus")}
+            </Link>
+            <Link
               href="/about"
-              className={`hover:underline ${pathname === "/about" ? "underline decoration-2 decoration-black" : ""}`}
+              className={`hover:underline ${
+                pathname === "/about"
+                  ? "underline decoration-2 decoration-black"
+                  : ""
+              }`}
             >
               {t("about")}
             </Link>
@@ -45,28 +63,53 @@ export default function Header() {
       <div
         className={`fixed inset-0 z-50 bg-white flex flex-col items-center justify-center space-y-8 text-lg font-semibold
           transition-opacity duration-300 ease-in-out
-          ${open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
+          ${
+            open
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }
         `}
         style={{ marginTop: "3.5rem" }}
       >
         <Link
           href="/"
           onClick={() => setOpen(false)}
-          className={`hover:underline ${pathname === "/" ? "underline decoration-2 decoration-black" : ""}`}
+          className={`hover:underline ${
+            pathname === "/" ? "underline decoration-2 decoration-black" : ""
+          }`}
         >
           {t("home")}
         </Link>
         <Link
           href="/blog"
           onClick={() => setOpen(false)}
-          className={`hover:underline ${pathname === "/blog" ? "underline decoration-2 decoration-black" : ""}`}
+          className={`hover:underline ${
+            pathname === "/blog"
+              ? "underline decoration-2 decoration-black"
+              : ""
+          }`}
         >
           {t("blog")}
         </Link>
         <Link
+          href="/focus"
+          onClick={() => setOpen(false)}
+          className={`hover:underline ${
+            pathname === "/focus"
+              ? "underline decoration-2 decoration-black"
+              : ""
+          }`}
+        >
+          {t("focus")}
+        </Link>
+        <Link
           href="/about"
           onClick={() => setOpen(false)}
-          className={`hover:underline ${pathname === "/about" ? "underline decoration-2 decoration-black" : ""}`}
+          className={`hover:underline ${
+            pathname === "/about"
+              ? "underline decoration-2 decoration-black"
+              : ""
+          }`}
         >
           {t("about")}
         </Link>
