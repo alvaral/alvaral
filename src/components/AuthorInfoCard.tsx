@@ -19,6 +19,7 @@ export default function AuthorInfo({
         <p className="text-sm font-semibold font-sans text-gray-900">{name}</p>
         <p className="text-xs text-gray-500">{role}</p>
       </div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={avatar}
         alt={name}
