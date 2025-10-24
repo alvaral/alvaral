@@ -22,6 +22,7 @@
   "header": {
     "home": "Inicio",
     "blog": "Blog",
+    "focus": "Focus",
     "about": "Sobre mí",
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú"

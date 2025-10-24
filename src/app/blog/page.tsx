@@ -9,9 +9,9 @@ export default function BlogPage() {
   const posts = getPosts(locale);
 
   return (
-    <main className="max-w-3xl mx-auto px-6 py-12 font-serif text-gray-900">
+    <main className="max-w-3xl mx-auto px-6 py-12 font-geist text-gray-900">
       <Section key={1}>
-        <h1 className="text-5xl font-bold font-sans mb-12 leading-tight">
+        <h1 className="text-5xl font-bold font-geist mb-12 leading-tight">
           {t("title")}
         </h1>
       </Section>
