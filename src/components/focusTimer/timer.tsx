@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
 import { Play, Pause, RotateCcw, Settings } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import { CupTimer } from "./cup-progress";
 
 interface TimerProps {
   timeLeft: number;
