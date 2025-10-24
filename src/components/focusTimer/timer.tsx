@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import { CupTimer } from "./cup-progress";
 
 interface TimerProps {
   timeLeft: number;
@@ -71,6 +72,7 @@ export function Timer({
             getProgressColor(timeLeft, totalTime)
           )}
         />
+
         <div className="flex justify-center items-center flex-col space-y-4 sm:space-y-0 sm:flex-row sm:space-x-4">
           <Button
             onClick={onToggle}

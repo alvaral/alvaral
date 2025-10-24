@@ -70,7 +70,7 @@ Ejemplo básico del archivo `page.tsx`:
 ```tsx
 export default function MiNuevoPost() {
   return (
-    <article className="max-w-3xl mx-auto px-6 py-12 font-serif text-gray-900">
+    <article className="max-w-3xl mx-auto px-6 py-12 font-geist text-gray-900">
       <h1 className="text-3xl font-bold mb-6">Título de mi nuevo post</h1>
       <p>Aquí va el contenido del post...</p>
     </article>

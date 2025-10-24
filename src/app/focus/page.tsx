@@ -5,9 +5,9 @@ import { Sun, Moon, Github, Settings } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { Timer } from "@/components/pomodoro/timer";
-import { TaskList } from "@/components/pomodoro/task-list";
-import { CollapsibleCard } from "@/components/pomodoro/collapsible-card";
+import { Timer } from "@/components/focusTimer/timer";
+import { TaskList } from "@/components/focusTimer/task-list";
+import { CollapsibleCard } from "@/components/focusTimer/collapsible-card";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 
 import { format } from "date-fns";
@@ -110,7 +110,7 @@ export default function Focus() {
       }, 1000);
     } else if (timeLeft === 0) {
       // Notificación o sonido aquí
-      new Audio("/notif.wav").play().catch(() => {});
+      new Audio("/notif.mp3").play().catch(() => {});
       if (mode === "work") {
         setMode("break");
         setTimeLeft(SHORT_BREAK);
@@ -216,7 +216,7 @@ export default function Focus() {
               />
             </Section>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="max-w-2xl mx-auto  w-full grid grid-cols-1 md:grid-cols gap-8">
             <Section delay={0.5}>
               <CollapsibleCard title="Task Manager">
                 <TaskList
@@ -262,7 +262,7 @@ export default function Focus() {
                   type="number"
                   min={1}
                   value={tempBreakMinutes}
-                  onChange={(e) => setTempWorkMinutes(Number(e.target.value))}
+                  onChange={(e) => setTempBreakMinutes(Number(e.target.value))}
                   className="w-full border rounded px-2 py-1 mt-1"
                 />
               </label>

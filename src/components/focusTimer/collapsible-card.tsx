@@ -19,7 +19,7 @@ export function CollapsibleCard({
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
   return (
-    <div className="bg-card text-card-foreground rounded-lg border shadow-sm h-fit">
+    <div className="bg-card text-card-foreground border-2 rounded-lg border shadow-sm h-fit">
       <div
         className="flex items-center justify-between p-4 cursor-pointer hover:cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
