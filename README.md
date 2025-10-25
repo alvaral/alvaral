@@ -7,7 +7,8 @@ Created and maintained by **Álvaro Alonso**, this project showcases technical w
 
 ## 🌍 Live Site
 
-**🔗 [www.alvaral.com](https://www.alvaral.com)** (coming soon)
+**🔗 [www.alvaral.com](https://www.alvaral.com)**
+PRE:**🔗 [https://pre.d134hx1nwdccd2.amplifyapp.com/](https://pre.d134hx1nwdccd2.amplifyapp.com/)**
 
 Deployed on **AWS** (Amplify) with CI/CD powered by **GitHub Actions**.
 
