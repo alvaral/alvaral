@@ -17,8 +17,8 @@ export default function BlogPage() {
       </Section>
 
       <ul className="space-y-16">
-        {posts.map(({ id, title, description, date, imageSrc }) => (
-          <Section key={id + 1} delay={0.5}>
+        {posts.map(({ id, title, description, date, imageSrc }, index) => (
+          <Section key={id + 1} delay={index * 1}>
             <BlogCard
               title={title}
               description={description}

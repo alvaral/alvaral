@@ -20,7 +20,7 @@ export default function HomePage() {
   const t = useTranslations("homepage");
   const locale = useLocale();
   const posts = getPosts(locale);
-  const latestPost = posts[0];
+  const latestPost = posts[posts.length - 1];
 
   return (
     <main className="p-8">
