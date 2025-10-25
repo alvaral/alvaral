@@ -34,6 +34,29 @@
   },
   "blogPage": {
     "title": "Blog"
+  },
+  "focus": {
+    "taskManager": "Task Manager",
+    "settings": {
+      "title": "Settings",
+      "workDuration": "Work duration (minutes):",
+      "breakDuration": "Break duration (minutes):",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "taskList": {
+      "showCompleted": "Show completed",
+      "addTaskPlaceholder": "Add a new task...",
+      "addButton": "Add"
+    },
+    "timer": {
+      "settingsLabel": "Settings",
+      "focusTime": "Focus Time",
+      "breakTime": "Break Time",
+      "pause": "Pause",
+      "start": "Start",
+      "reset": "Reset"
+    }
   }
 }
   

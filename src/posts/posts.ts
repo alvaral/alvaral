@@ -29,6 +29,23 @@ const posts: BlogPostMeta[] = [
       },
     },
   },
+  {
+    id: "frontend-vs-backend",
+    date: "2025-10-25",
+    href: "/blog/posts/frontend-vs-backend",
+    translations: {
+      es: {
+        title: "Frontend vs Backend: dos mitades del mismo todo",
+        description:
+          "La interfaz que ves y la lógica que no. Dos mundos, un objetivo: crear productos que funcionen.",
+      },
+      en: {
+        title: "Frontend vs Backend: Two Halves of the Same Whole",
+        description:
+          "The interface you see and the logic you don't. Two worlds, one goal: building products that work.",
+      },
+    },
+  },
   // Aquí puedes añadir más posts con su traducción
 ];
 

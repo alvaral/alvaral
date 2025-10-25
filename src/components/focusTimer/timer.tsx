@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface TimerProps {
   timeLeft: number;
@@ -25,6 +26,8 @@ export function Timer({
   onReset,
   onSettingsClick,
 }: TimerProps) {
+  const t = useTranslations("focus.timer");
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -35,10 +38,10 @@ export function Timer({
 
   const getProgressColor = (timeLeft: number, totalTime: number) => {
     const percentage = (timeLeft / totalTime) * 100;
-    if (percentage > 60) return "bg-emerald-500 dark:bg-emerald-600"; // Calming green for focused work
-    if (percentage > 20) return "bg-sky-500 dark:bg-sky-600"; // Neutral blue for steady progress
-    if (percentage > 8) return "bg-amber-500 dark:bg-amber-600"; // Gentle warning yellow
-    return "bg-rose-500 dark:bg-rose-600"; // Urgent red for final countdown
+    if (percentage > 60) return "bg-emerald-500 dark:bg-emerald-600";
+    if (percentage > 20) return "bg-sky-500 dark:bg-sky-600";
+    if (percentage > 8) return "bg-amber-500 dark:bg-amber-600";
+    return "bg-rose-500 dark:bg-rose-600";
   };
 
   return (
@@ -47,7 +50,7 @@ export function Timer({
         {onSettingsClick && (
           <button
             onClick={onSettingsClick}
-            aria-label="Settings"
+            aria-label={t("settingsLabel")}
             className="p-1 rounded bg-white hover:bg-gray-100 hover:cursor-pointer"
           >
             <Settings className="h-6 w-6" />
@@ -57,7 +60,7 @@ export function Timer({
       <div className="space-y-8">
         <div>
           <h2 className="text-2xl font-semibold mb-2">
-            {mode === "work" ? "Focus Time" : "Break Time"}
+            {mode === "work" ? t("focusTime") : t("breakTime")}
           </h2>
           <div className="text-6xl sm:text-8xl font-bold mb-6 text-primary tracking-tight">
             {formatTime(timeLeft)}
@@ -82,14 +85,14 @@ export function Timer({
             ) : (
               <Play className="mr-2 h-6 w-6" />
             )}
-            {isRunning ? "Pause" : "Start"}
+            {isRunning ? t("pause") : t("start")}
           </Button>
           <Button
             size="lg"
             onClick={onReset}
             className="w-36 h-12 text-lg hover:cursor-pointer hover:bg-gray-100"
           >
-            <RotateCcw className="mr-2 h-6 w-6" /> Reset
+            <RotateCcw className="mr-2 h-6 w-6" /> {t("reset")}
           </Button>
         </div>
       </div>

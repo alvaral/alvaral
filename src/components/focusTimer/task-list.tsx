@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useTranslations } from "next-intl";
 
 interface Task {
   id: string;
@@ -33,11 +34,15 @@ export function TaskList({
   showCompleted = false,
   onShowCompletedChange,
 }: TaskListProps) {
+  const t = useTranslations("focus.taskList");
+
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-2">
-          <span className="text-sm text-muted-foreground">Show completed</span>
+          <span className="text-sm text-muted-foreground">
+            {t("showCompleted")}
+          </span>
           <Switch
             checked={showCompleted}
             onCheckedChange={onShowCompletedChange}
@@ -47,12 +52,12 @@ export function TaskList({
       </div>
       <form onSubmit={onAddTask} className="flex gap-2 mb-4">
         <Input
-          placeholder="Add a new task..."
+          placeholder={t("addTaskPlaceholder")}
           value={newTask}
           onChange={(e) => onNewTaskChange(e.target.value)}
         />
         <Button type="submit" className="cursor-pointer hover:bg-gray-100">
-          <Plus className="mr-2" /> Add
+          <Plus className="mr-2" /> {t("addButton")}
         </Button>
       </form>
       <ScrollArea className="h-[200px]">

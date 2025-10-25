@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Timer } from "@/components/focusTimer/timer";
@@ -32,6 +33,7 @@ type CompletedTask = {
 };
 
 export default function Focus() {
+  const t = useTranslations("focus");
   const today = new Date();
   const todayString = today.toLocaleDateString();
 
@@ -52,7 +54,6 @@ export default function Focus() {
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState<"work" | "break">("work");
 
-  // Calcula los tiempos totales en segundos
   const POMODORO_TIME = workMinutes * 60;
   const SHORT_BREAK = breakMinutes * 60;
 
@@ -107,7 +108,6 @@ export default function Focus() {
         setTimeLeft(timeLeft - 1);
       }, 1000);
     } else if (timeLeft === 0) {
-      // Notificación o sonido aquí
       new Audio("/notif.mp3").play().catch(() => {});
       if (mode === "work") {
         setMode("break");
@@ -214,9 +214,9 @@ export default function Focus() {
               />
             </Section>
           </div>
-          <div className="max-w-2xl mx-auto  w-full grid grid-cols-1 md:grid-cols gap-8">
+          <div className="max-w-2xl mx-auto w-full grid grid-cols-1 md:grid-cols gap-8">
             <Section delay={0.5}>
-              <CollapsibleCard title="Task Manager">
+              <CollapsibleCard title={t("taskManager")}>
                 <TaskList
                   tasks={filteredTasks}
                   newTask={newTask}
@@ -235,17 +235,17 @@ export default function Focus() {
         </div>
         {showSettings && (
           <>
-            {/* Backdrop */}
             <div
               className="fixed inset-0 z-40 bg-opacity-20 backdrop-blur-lg"
               onClick={() => setShowSettings(false)}
             ></div>
 
-            {/* Modal */}
             <div className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-6 shadow-lg w-[300px] border-2">
-              <h2 className="text-lg font-semibold mb-4">Settings</h2>
+              <h2 className="text-lg font-semibold mb-4">
+                {t("settings.title")}
+              </h2>
               <label className="block mb-2">
-                Work duration (minutes):
+                {t("settings.workDuration")}
                 <input
                   type="number"
                   min={1}
@@ -255,7 +255,7 @@ export default function Focus() {
                 />
               </label>
               <label className="block mb-4">
-                Break duration (minutes):
+                {t("settings.breakDuration")}
                 <input
                   type="number"
                   min={1}
@@ -270,13 +270,13 @@ export default function Focus() {
                   className="hover:bg-gray-100 cursor-pointer"
                   onClick={() => setShowSettings(false)}
                 >
-                  Cancel
+                  {t("settings.cancel")}
                 </Button>
                 <Button
                   className="hover:bg-gray-100 cursor-pointer"
                   onClick={saveSettings}
                 >
-                  Save
+                  {t("settings.save")}
                 </Button>
               </div>
             </div>
