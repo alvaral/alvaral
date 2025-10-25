@@ -6,7 +6,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getLocale, getMessages } from "next-intl/server";
-import Script from "next/script";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,14 +36,17 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <head>
-        {isProduction && (
-          <Script
-            async
-            defer
-            data-website-id="748703d0-709c-4105-adfd-66625c8d2139"
-            src="https://umami-alvaral.onrender.com/script.js"
-          />
-        )}
+        {
+          isProduction
+          // && (
+          //   <Script
+          //     async
+          //     defer
+          //     data-website-id="748703d0-709c-4105-adfd-66625c8d2139"
+          //     src="https://umami-alvaral.onrender.com/script.js"
+          //   />
+          // )
+        }
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
