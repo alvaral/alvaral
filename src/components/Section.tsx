@@ -4,7 +4,7 @@ import React, { ReactNode, CSSProperties, useRef, useEffect } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 
 interface SectionProps {
-  index?: number, 
+  index?: number;
   theme?: string;
   classes?: string;
   sectionHeight?: string;
@@ -20,7 +20,7 @@ interface SectionProps {
 }
 
 const Section = ({
-  index = 0,  // default 0 si no se pasa
+  index = 0, // default 0 si no se pasa
   theme = "",
   classes = "",
   sectionHeight = "custom",
@@ -32,7 +32,7 @@ const Section = ({
   children,
   isAlternate = false,
   limitContentWidth = true,
-  delay = 0
+  delay = 0,
 }: SectionProps) => {
   const sectionClass = `
     page-section
@@ -46,7 +46,9 @@ const Section = ({
     ${isAlternate ? "bg-gray-100" : ""}
     ${theme}
     ${classes}
-  `.trim().replace(/\s+/g, " ");
+  `
+    .trim()
+    .replace(/\s+/g, " ");
 
   const inlineStyle = {
     minHeight: `${customHeight}vh`,
@@ -64,13 +66,17 @@ const Section = ({
   }, [inView, controls]);
 
   useEffect(() => {
-    // Forzar animación si no se ejecutó en 3 segundos
-    const timeout = setTimeout(() => {
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+    if (!inView) {
+      timeout = setTimeout(() => controls.start("visible"), 2000);
+    }
+    if (inView) {
       controls.start("visible");
-    }, 1500);
-
-    return () => clearTimeout(timeout);
-  }, [controls]);
+    }
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [inView, controls]);
 
   return (
     <motion.section
@@ -95,7 +101,11 @@ const Section = ({
           paddingTop: `calc(${customHeight}vmax / 10)`,
         }}
       >
-        <div className={`content ${limitContentWidth ? "max-w-[750px] mx-auto" : ""}`}>
+        <div
+          className={`content ${
+            limitContentWidth ? "max-w-[750px] mx-auto" : ""
+          }`}
+        >
           {children}
         </div>
       </div>
