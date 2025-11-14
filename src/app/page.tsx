@@ -1,3 +1,4 @@
+"use client";
 import Section from "@/components/Section";
 import Gallery from "@/components/Gallery";
 import { useLocale, useTranslations } from "next-intl";

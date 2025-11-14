@@ -1,3 +1,4 @@
+"use client";
 import Section from "@/components/Section";
 import Link from "next/link";
 import { useTranslations } from "next-intl";

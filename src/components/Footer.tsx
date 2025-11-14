@@ -5,32 +5,16 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 export default function Footer() {
-  const [locale, setLocale] = useState<string>("");
-  const router = useRouter();
   const t = useTranslations("footer");
+  const [locale, setLocale] = useState("es");
+  const router = useRouter();
 
   useEffect(() => {
-    const cookieLocale = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("ALVARAL_LOCALE="))
-      ?.split("=")[1];
-
-    if (cookieLocale) {
-      setLocale(cookieLocale);
-    } else {
-      const browserLocale = navigator.language.slice(0, 2);
-      setLocale(browserLocale);
-      document.cookie = `ALVARAL_LOCALE=${browserLocale};`;
-      router.refresh();
-    }
-  }, [router]);
-
-  const handleLocaleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedLocale = event.target.value;
-    document.cookie = `ALVARAL_LOCALE=${selectedLocale};`;
-    setLocale(selectedLocale);
+    const params = new URLSearchParams(window.location.search);
+    const lang = params.get("lang");
+    setLocale(lang === "en" ? "en" : "es");
     router.refresh();
-  };
+  }, [router]);
 
   return (
     <footer className="w-full bg-white border-t border-gray-200">
@@ -58,7 +42,10 @@ export default function Footer() {
             <select
               id="language-select"
               value={locale}
-              onChange={handleLocaleChange}
+              onChange={(e) => {
+                window.location.search = `?lang=${e.target.value}`;
+                router.refresh();
+              }}
               className="border border-gray-300 rounded px-2 py-1"
             >
               <option value="es">Español</option>

@@ -1,13 +1,20 @@
+"use client";
 import Section from "@/components/Section";
 import BlogCard from "@/components/BlogCard";
-import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { getLocaleFromURL } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { getPosts } from "@/posts/posts";
 
 export default function BlogPage() {
   const t = useTranslations("blogPage");
-  const locale = useLocale();
-  const posts = getPosts(locale);
+  const [lang, setLang] = useState("es");
 
+  useEffect(() => {
+    setLang(getLocaleFromURL());
+  }, []);
+
+  const posts = getPosts(lang);
   return (
     <main className="max-w-3xl mx-auto px-6 py-12 font-geist text-gray-900">
       <Section key={1}>

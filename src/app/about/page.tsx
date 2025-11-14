@@ -1,9 +1,24 @@
+"use client";
 import Section from "@/components/Section";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
+import esMessages from "../../../messages/es.json";
+import enMessages from "../../../messages/en.json";
+function getLangFromUrl() {
+  if (typeof window === "undefined") return "es";
+  const params = new URLSearchParams(window.location.search);
+  return params.get("lang") === "en" ? "en" : "es";
+}
 export default function About() {
-  const t = useTranslations("about");
+  const [lang, setLang] = useState("es");
+  useEffect(() => {
+    setLang(getLangFromUrl());
+  }, []);
+  const t = (key: string) =>
+    lang === "en"
+      ? (enMessages.about as Record<string, string>)[key] || key
+      : (esMessages.about as Record<string, string>)[key] || key;
 
   return (
     <main className="max-w-3xl mx-auto p-6">

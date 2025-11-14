@@ -1,11 +1,6 @@
-// app/layout.tsx
-import type { Metadata } from "next";
-import { headers } from "next/headers";
-import { NextIntlClientProvider } from "next-intl";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,26 +13,23 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "alvaral",
   description:
     "Technical blog by Álvaro Alonso, focused on software engineer, programming, and reflections on life as a developer.",
 };
 
-export default async function RootLayout({
+// El layout debe ser una función síncrona y SIN llamadas await/server
+export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  const messages = await getMessages();
-  const locale = await getLocale();
-  const host = (await headers()).get("host") || "";
-  const isProduction = host === "alvaral.dev" || host === "www.alvaral.dev";
+}) {
+  // Idioma por defecto (puedes cambiar en client con JS si quieres)
   return (
-    <html lang={locale}>
+    <html lang="en">
       <head>
         {
-          isProduction
           // && (
           //   <Script
           //     async
@@ -51,11 +43,9 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NextIntlClientProvider messages={messages}>
-          <Header />
-          <main className="pt-16">{children}</main>
-          <Footer />
-        </NextIntlClientProvider>
+        <Header />
+        <main className="pt-16">{children}</main>
+        <Footer />
       </body>
     </html>
   );
