@@ -7,7 +7,7 @@ import PostParagraph from "@/components/blogPost/PostParagraph";
 
 const author = {
   name: "Álvaro Alonso",
-  avatar: "/assets/images/profile-photo.jpeg",
+  avatar: "/assets/images/profile-photo.webp",
   role: "Software Engineer",
   infoUrl: "/about",
 };

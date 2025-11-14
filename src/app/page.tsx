@@ -6,13 +6,13 @@ import Divider from "@/components/Divider";
 import { getPosts } from "@/posts/posts";
 
 const images = [
-  { src: "/assets/images/1.jpg" },
-  { src: "/assets/images/4.jpeg" },
-  { src: "/assets/images/3.png" },
-  { src: "/assets/images/2.jpeg" },
-  { src: "/assets/images/8.jpg" },
-  { src: "/assets/images/5.jpeg" },
-  { src: "/assets/images/6.jpeg" },
+  { src: "/assets/images/1.webp" },
+  { src: "/assets/images/4.webp" },
+  { src: "/assets/images/3.webp" },
+  { src: "/assets/images/2.webp" },
+  { src: "/assets/images/8.webp" },
+  { src: "/assets/images/5.webp" },
+  { src: "/assets/images/6.webp" },
   { src: "/assets/images/7.webp" },
 ];
 

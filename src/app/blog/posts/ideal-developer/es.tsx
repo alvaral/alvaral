@@ -7,7 +7,7 @@ import Section from "@/components/Section";
 
 const author = {
   name: "Álvaro Alonso",
-  avatar: "/assets/images/profile-photo.jpeg",
+  avatar: "/assets/images/profile-photo.webp",
   role: "Ingeniero de Software",
   infoUrl: "/about",
 };
