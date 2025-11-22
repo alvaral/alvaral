@@ -3,8 +3,10 @@ FROM node:20-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json* ./
-# Instalamos dependencias (incluyendo sharp específico para linux)
-RUN npm ci
+# Instalamos dependencias 
+# Usamos 'npm install' en lugar de 'npm ci' para evitar fallos si falta el lockfile
+# y añadimos flags para evitar descargas innecesarias de auditoría
+RUN npm install --no-audit --no-fund
 
 # --- STAGE 2: BUILDER ---
 FROM node:20-alpine AS builder
