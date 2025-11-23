@@ -41,7 +41,7 @@ export default async function RootLayout({
           <Script
             async
             defer
-            data-website-id="2d06c035-ba93-4364-8091-8592d2e54f14"
+            data-website-id="c4ffcecb-6f68-4580-be22-3e3787bc34bd"
             src="https://analytics.alvaral.dev/script.js"
           />
         )}
