@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { getLocale } from "next-intl/server";
 
 interface BlogCardProps {
   title: string;
@@ -10,6 +9,7 @@ interface BlogCardProps {
   imageSrc?: string;
   imageAlt?: string;
   href?: string;
+  locale?: string;
 }
 
 export default function BlogCard({
@@ -19,17 +19,18 @@ export default function BlogCard({
   imageSrc,
   imageAlt = "Imagen del post",
   href,
+  locale = "en",
 }: BlogCardProps) {
   const t = useTranslations("blogCard");
 
-  async function formatDate(dateStr: string) {
-    const dateObj = new Date(dateStr);
-    const locale = await getLocale();
-    return dateObj.toLocaleDateString(locale, {
+  function formatDate(dateStr: string) {
+    const dateObj = new Date(`${dateStr}T00:00:00`);
+
+    return new Intl.DateTimeFormat(locale, {
       year: "numeric",
       month: "long",
       day: "numeric",
-    });
+    }).format(dateObj);
   }
 
   const content = (

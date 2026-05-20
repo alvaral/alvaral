@@ -46,6 +46,7 @@ export default function HomePage() {
           description={latestPost.description}
           href={latestPost.href}
           imageSrc={latestPost.imageSrc}
+          locale={locale}
         />
       </Section>
     </main>

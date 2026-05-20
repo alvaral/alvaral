@@ -25,6 +25,7 @@ export default function BlogPage() {
               date={date}
               imageSrc={imageSrc}
               href={`/blog/posts/${id}`}
+              locale={locale}
             />
           </Section>
         ))}
