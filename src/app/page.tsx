@@ -3,7 +3,7 @@ import Gallery from "@/components/Gallery";
 import { useLocale, useTranslations } from "next-intl";
 import BlogCard from "@/components/BlogCard";
 import Divider from "@/components/Divider";
-import { getPosts } from "@/posts/posts";
+import { getLatestPost } from "@/posts/posts";
 
 const images = [
   { src: "/assets/images/1.webp" },
@@ -19,8 +19,7 @@ const images = [
 export default function HomePage() {
   const t = useTranslations("homepage");
   const locale = useLocale();
-  const posts = getPosts(locale);
-  const latestPost = posts[posts.length - 1];
+  const latestPost = getLatestPost(locale);
 
   return (
     <main className="p-8">
