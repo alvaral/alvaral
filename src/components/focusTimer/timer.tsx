@@ -27,10 +27,12 @@ export function Timer({
   onSettingsClick,
 }: TimerProps) {
   const t = useTranslations("focus.timer");
+  const safeTotalTime = Math.max(totalTime, 1);
 
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
+    const safeSeconds = Math.max(seconds, 0);
+    const mins = Math.floor(safeSeconds / 60);
+    const secs = safeSeconds % 60;
     return `${mins.toString().padStart(2, "0")}:${secs
       .toString()
       .padStart(2, "0")}`;
@@ -67,10 +69,10 @@ export function Timer({
           </div>
         </div>
         <Progress
-          value={(timeLeft / totalTime) * 100}
+          value={(timeLeft / safeTotalTime) * 100}
           className={cn(
             "h-3 transition-colors duration-300",
-            getProgressColor(timeLeft, totalTime)
+            getProgressColor(timeLeft, safeTotalTime)
           )}
         />
 
