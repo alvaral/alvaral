@@ -1,33 +1,43 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import Section from "./Section";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import {
+  createLocaleCookie,
+  LOCALE_LABELS,
+  normalizeLocale,
+  readLocaleFromCookieString,
+  SUPPORTED_LOCALES,
+  type AppLocale,
+} from "@/i18n/locale";
+import Section from "./Section";
 
 export default function Footer() {
-  const [locale, setLocale] = useState<string>("");
+  const currentLocale = normalizeLocale(useLocale());
+  const [locale, setLocale] = useState<AppLocale>(currentLocale);
   const router = useRouter();
   const t = useTranslations("footer");
 
   useEffect(() => {
-    const cookieLocale = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("ALVARAL_LOCALE="))
-      ?.split("=")[1];
+    const cookieLocale = readLocaleFromCookieString(document.cookie);
+    const nextLocale =
+      cookieLocale ?? normalizeLocale(window.navigator.language);
 
-    if (cookieLocale) {
-      setLocale(cookieLocale);
-    } else {
-      const browserLocale = navigator.language.slice(0, 2);
-      setLocale(browserLocale);
-      document.cookie = `ALVARAL_LOCALE=${browserLocale};`;
+    setLocale(nextLocale);
+
+    if (!cookieLocale) {
+      document.cookie = createLocaleCookie(nextLocale);
+    }
+
+    if (nextLocale !== currentLocale) {
       router.refresh();
     }
-  }, [router]);
+  }, [currentLocale, router]);
 
   const handleLocaleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedLocale = event.target.value;
-    document.cookie = `ALVARAL_LOCALE=${selectedLocale};`;
+    const selectedLocale = normalizeLocale(event.target.value);
+    document.cookie = createLocaleCookie(selectedLocale);
     setLocale(selectedLocale);
     router.refresh();
   };
@@ -61,8 +71,11 @@ export default function Footer() {
               onChange={handleLocaleChange}
               className="border border-gray-300 rounded px-2 py-1"
             >
-              <option value="es">Español</option>
-              <option value="en">English</option>
+              {SUPPORTED_LOCALES.map((supportedLocale) => (
+                <option key={supportedLocale} value={supportedLocale}>
+                  {LOCALE_LABELS[supportedLocale]}
+                </option>
+              ))}
             </select>
           </div>
         </div>

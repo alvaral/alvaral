@@ -1,18 +1,13 @@
 import { getRequestConfig } from "next-intl/server";
 import { cookies } from "next/headers";
-
-const SUPPORTED_LOCALES = ["en", "es"];
-const DEFAULT_LOCALE = "en";
+import { LOCALE_COOKIE_NAME, normalizeLocale } from "../src/i18n/locale";
 
 export default getRequestConfig(async () => {
-  const cookieStore =  await cookies();
-  const cookieLocale = cookieStore.get("ALVARAL_LOCALE")?.value;
-
-  const locale: string =
-    SUPPORTED_LOCALES.includes(cookieLocale || "") ? cookieLocale! : DEFAULT_LOCALE;
+  const cookieStore = await cookies();
+  const locale = normalizeLocale(cookieStore.get(LOCALE_COOKIE_NAME)?.value);
 
   return {
     locale,
-    messages: (await import(`../messages/${locale}.json`)).default
+    messages: (await import(`../messages/${locale}.json`)).default,
   };
 });
