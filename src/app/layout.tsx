@@ -1,17 +1,42 @@
-// app/layout.tsx
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { siteConfig } from "@/config/site";
 import { getLocale, getMessages } from "next-intl/server";
-import "./globals.css";
 import Script from "next/script";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "alvaral",
-  description:
-    "Technical blog by Álvaro Alonso, focused on software engineer, programming, and reflections on life as a developer.",
+  metadataBase: new URL(siteConfig.url),
+  applicationName: siteConfig.name,
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  authors: [{ name: siteConfig.author }],
+  creator: siteConfig.author,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: siteConfig.name,
+    description: siteConfig.description,
+    url: "/",
+    siteName: siteConfig.name,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default async function RootLayout({

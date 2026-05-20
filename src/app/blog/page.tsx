@@ -2,6 +2,14 @@ import Section from "@/components/Section";
 import BlogCard from "@/components/BlogCard";
 import { useLocale, useTranslations } from "next-intl";
 import { getPosts } from "@/posts/posts";
+import { createPageMetadata } from "@/lib/metadata";
+
+export const metadata = createPageMetadata({
+  title: "Blog",
+  description:
+    "Articles about software engineering, programming, frontend, backend, and developer life.",
+  path: "/blog",
+});
 
 export default function BlogPage() {
   const t = useTranslations("blogPage");

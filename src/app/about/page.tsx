@@ -1,6 +1,14 @@
-import Section from "@/components/Section";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import Section from "@/components/Section";
+import { createPageMetadata } from "@/lib/metadata";
+
+export const metadata = createPageMetadata({
+  title: "About",
+  description:
+    "About Álvaro Alonso, a software engineer focused on useful and thoughtful digital experiences.",
+  path: "/about",
+});
 
 export default function About() {
   const t = useTranslations("about");
