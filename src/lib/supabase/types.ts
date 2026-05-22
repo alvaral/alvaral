@@ -69,6 +69,48 @@ export type Database = {
         };
         Relationships: [];
       };
+      analytics_page_views: {
+        Row: {
+          id: string;
+          path: string;
+          referrer: string | null;
+          referrer_host: string | null;
+          country: string | null;
+          region: string | null;
+          city: string | null;
+          device_type: string;
+          browser: string;
+          os: string;
+          visited_at: string;
+        };
+        Insert: {
+          id?: string;
+          path: string;
+          referrer?: string | null;
+          referrer_host?: string | null;
+          country?: string | null;
+          region?: string | null;
+          city?: string | null;
+          device_type?: string;
+          browser?: string;
+          os?: string;
+          visited_at?: string;
+        };
+        Update: {
+          id?: string;
+          path?: string;
+          referrer?: string | null;
+          referrer_host?: string | null;
+          country?: string | null;
+          region?: string | null;
+          city?: string | null;
+          device_type?: string;
+          browser?: string;
+          os?: string;
+          visited_at?: string;
+        };
+        Relationships: [];
+      };
       posts: {
         Row: {
           id: string;

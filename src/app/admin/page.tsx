@@ -5,14 +5,17 @@ import { getAdminContext } from "@/lib/supabase/admin";
 
 export default async function AdminPage() {
   const { supabase, user } = await getAdminContext();
-  const [postsResult, photosResult] = await Promise.all([
+  const [postsResult, photosResult, analyticsResult] = await Promise.all([
     supabase.from("posts").select("id", { count: "exact", head: true }),
     supabase.from("photos").select("id", { count: "exact", head: true }),
+    supabase
+      .from("analytics_page_views")
+      .select("id", { count: "exact", head: true }),
   ]);
 
   return (
     <AdminShell userEmail={user.email}>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2">
         <section className="rounded-md border border-gray-200 p-5">
           <p className="text-sm text-gray-500">Posts</p>
           <p className="mt-2 text-4xl font-bold">{postsResult.count ?? 0}</p>
@@ -42,6 +45,18 @@ export default async function AdminPage() {
           <div className="mt-5">
             <Button asChild>
               <Link href="/admin/about">Editar Sobre mi</Link>
+            </Button>
+          </div>
+        </section>
+
+        <section className="rounded-md border border-gray-200 p-5">
+          <p className="text-sm text-gray-500">Visitas</p>
+          <p className="mt-2 text-4xl font-bold">
+            {analyticsResult.count ?? 0}
+          </p>
+          <div className="mt-5">
+            <Button asChild>
+              <Link href="/admin/analytics">Ver analiticas</Link>
             </Button>
           </div>
         </section>

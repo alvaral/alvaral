@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { siteConfig } from "@/config/site";
 import { getLocale, getMessages } from "next-intl/server";
 import Script from "next/script";
@@ -65,6 +66,7 @@ export default async function RootLayout({
           <Header />
           <main className="pt-16">{children}</main>
           <Footer />
+          <AnalyticsTracker />
         </NextIntlClientProvider>
       </body>
     </html>

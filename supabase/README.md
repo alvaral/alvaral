@@ -42,3 +42,10 @@ Storage first.
 Run `supabase/add-about-profile.sql` if your Supabase database was created
 before the about-page editor existed. It adds the singleton `about_profile`
 record used by `/about` and `/admin/about`.
+
+## Analytics
+
+Run `supabase/add-analytics.sql` if your Supabase database was created before
+the analytics dashboard existed. It adds `analytics_page_views`, which stores
+page, timestamp, region headers, device type, browser, OS, and sanitized
+referrer information for `/admin/analytics`.

@@ -44,6 +44,9 @@ export default function AdminShell({ children, userEmail }: AdminShellProps) {
             <Button asChild variant="ghost" size="sm">
               <Link href="/admin/about">Sobre mi</Link>
             </Button>
+            <Button asChild variant="ghost" size="sm">
+              <Link href="/admin/analytics">Analiticas</Link>
+            </Button>
             <form action={signOut}>
               <SubmitButton
                 pendingLabel="Saliendo..."
