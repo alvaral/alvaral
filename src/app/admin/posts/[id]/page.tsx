@@ -1,0 +1,110 @@
+import { notFound } from "next/navigation";
+import AdminShell from "@/components/admin/AdminShell";
+import PostForm, { type PostFormValues } from "@/components/admin/PostForm";
+import { Button } from "@/components/ui/button";
+import { getAdminContext } from "@/lib/supabase/admin";
+import type { ContentLocale, PostStatus } from "@/lib/supabase/types";
+import { deletePost, updatePost } from "@/app/admin/posts/actions";
+
+type EditPostPageProps = {
+  params: Promise<{
+    id: string;
+  }>;
+  searchParams?: Promise<{
+    saved?: string;
+    error?: string;
+  }>;
+};
+
+type AdminPostRow = {
+  id: string;
+  slug: string;
+  status: PostStatus;
+  published_at: string | null;
+  cover_image_url: string | null;
+  post_translations: {
+    locale: ContentLocale;
+    title: string;
+    description: string;
+    content: string;
+  }[];
+};
+
+function valuesFromPost(post: AdminPostRow): PostFormValues {
+  const es = post.post_translations.find(
+    (translation) => translation.locale === "es"
+  );
+  const en = post.post_translations.find(
+    (translation) => translation.locale === "en"
+  );
+
+  return {
+    slug: post.slug,
+    status: post.status,
+    publishedAt: post.published_at?.slice(0, 10),
+    coverImageUrl: post.cover_image_url ?? undefined,
+    titleEs: es?.title,
+    descriptionEs: es?.description,
+    contentEs: es?.content,
+    titleEn: en?.title,
+    descriptionEn: en?.description,
+    contentEn: en?.content,
+  };
+}
+
+export default async function EditPostPage({
+  params,
+  searchParams,
+}: EditPostPageProps) {
+  const { id } = await params;
+  const feedback = await searchParams;
+  const { supabase, user } = await getAdminContext();
+  const { data: post } = await supabase
+    .from("posts")
+    .select(
+      "id, slug, status, published_at, cover_image_url, post_translations(locale, title, description, content)"
+    )
+    .eq("id", id)
+    .single()
+    .returns<AdminPostRow>();
+
+  if (!post) {
+    notFound();
+  }
+
+  const updatePostAction = updatePost.bind(null, id);
+  const deletePostAction = deletePost.bind(null, id);
+
+  return (
+    <AdminShell userEmail={user.email}>
+      <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Editar post</h1>
+          <p className="mt-1 text-sm text-gray-500">{post.slug}</p>
+        </div>
+        <form action={deletePostAction}>
+          <Button type="submit" variant="destructive">
+            Eliminar
+          </Button>
+        </form>
+      </div>
+
+      {feedback?.saved && (
+        <p className="mb-4 rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+          Guardado.
+        </p>
+      )}
+      {feedback?.error && (
+        <p className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          No se pudo guardar. Revisa que el slug no este repetido.
+        </p>
+      )}
+
+      <PostForm
+        action={updatePostAction}
+        values={valuesFromPost(post)}
+        submitLabel="Guardar cambios"
+      />
+    </AdminShell>
+  );
+}

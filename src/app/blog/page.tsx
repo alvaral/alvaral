@@ -1,7 +1,7 @@
 import Section from "@/components/Section";
 import BlogCard from "@/components/BlogCard";
-import { useLocale, useTranslations } from "next-intl";
-import { getPosts } from "@/posts/posts";
+import { getLocale, getTranslations } from "next-intl/server";
+import { getPublishedPosts } from "@/posts/supabase-posts";
 import { createPageMetadata } from "@/lib/metadata";
 
 export const metadata = createPageMetadata({
@@ -11,10 +11,10 @@ export const metadata = createPageMetadata({
   path: "/blog",
 });
 
-export default function BlogPage() {
-  const t = useTranslations("blogPage");
-  const locale = useLocale();
-  const posts = getPosts(locale);
+export default async function BlogPage() {
+  const t = await getTranslations("blogPage");
+  const locale = await getLocale();
+  const posts = await getPublishedPosts(locale);
 
   return (
     <main className="max-w-3xl mx-auto px-6 py-12 font-geist text-gray-900">

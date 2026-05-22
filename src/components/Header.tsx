@@ -10,6 +10,10 @@ export default function Header() {
   const pathname = usePathname();
   const t = useTranslations("header");
 
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <>
       <header className="fixed top-0 w-full z-40 bg-white transition-colors duration-300">

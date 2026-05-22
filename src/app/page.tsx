@@ -1,25 +1,16 @@
 import Section from "@/components/Section";
 import Gallery from "@/components/Gallery";
-import { useLocale, useTranslations } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
 import BlogCard from "@/components/BlogCard";
 import Divider from "@/components/Divider";
-import { getLatestPost } from "@/posts/posts";
+import { getGalleryImages } from "@/lib/gallery";
+import { getLatestPublishedPost } from "@/posts/supabase-posts";
 
-const images = [
-  { src: "/assets/images/1.webp" },
-  { src: "/assets/images/4.webp" },
-  { src: "/assets/images/3.webp" },
-  { src: "/assets/images/2.webp" },
-  { src: "/assets/images/8.webp" },
-  { src: "/assets/images/5.webp" },
-  { src: "/assets/images/6.webp" },
-  { src: "/assets/images/7.webp" },
-];
-
-export default function HomePage() {
-  const t = useTranslations("homepage");
-  const locale = useLocale();
-  const latestPost = getLatestPost(locale);
+export default async function HomePage() {
+  const t = await getTranslations("homepage");
+  const locale = await getLocale();
+  const images = await getGalleryImages(locale);
+  const latestPost = await getLatestPublishedPost(locale);
 
   return (
     <main className="p-8">
@@ -39,15 +30,17 @@ export default function HomePage() {
       <Divider />
       <Gallery images={images} />
       <Divider />
-      <Section index={1} delay={images.length * 0.2}>
-        <BlogCard
-          title={latestPost.title}
-          description={latestPost.description}
-          href={latestPost.href}
-          imageSrc={latestPost.imageSrc}
-          locale={locale}
-        />
-      </Section>
+      {latestPost && (
+        <Section index={1} delay={images.length * 0.2}>
+          <BlogCard
+            title={latestPost.title}
+            description={latestPost.description}
+            href={latestPost.href}
+            imageSrc={latestPost.imageSrc}
+            locale={locale}
+          />
+        </Section>
+      )}
     </main>
   );
 }

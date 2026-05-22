@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import {
   createLocaleCookie,
@@ -16,6 +16,7 @@ import Section from "./Section";
 export default function Footer() {
   const currentLocale = normalizeLocale(useLocale());
   const [locale, setLocale] = useState<AppLocale>(currentLocale);
+  const pathname = usePathname();
   const router = useRouter();
   const t = useTranslations("footer");
 
@@ -41,6 +42,10 @@ export default function Footer() {
     setLocale(selectedLocale);
     router.refresh();
   };
+
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <footer className="w-full bg-white border-t border-gray-200">
