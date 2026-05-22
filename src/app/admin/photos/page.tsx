@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { revalidatePath } from "next/cache";
 import AdminShell from "@/components/admin/AdminShell";
-import { Button } from "@/components/ui/button";
+import SubmitButton from "@/components/admin/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -174,7 +174,7 @@ export default async function AdminPhotosPage() {
             <Textarea id="captionEn" name="captionEn" rows={2} />
           </div>
         </div>
-        <Button type="submit">Subir foto</Button>
+        <SubmitButton pendingLabel="Subiendo...">Subir foto</SubmitButton>
       </form>
 
       <div className="grid gap-4">
@@ -257,16 +257,20 @@ export default async function AdminPhotosPage() {
                   </div>
                 </div>
 
-                <Button type="submit" variant="outline">
+                <SubmitButton pendingLabel="Guardando..." variant="outline">
                   Guardar foto
-                </Button>
+                </SubmitButton>
               </form>
 
               <form action={deletePhoto}>
                 <input type="hidden" name="id" value={photo.id} />
-                <Button type="submit" variant="destructive" size="sm">
+                <SubmitButton
+                  pendingLabel="Eliminando..."
+                  variant="destructive"
+                  size="sm"
+                >
                   Eliminar foto
-                </Button>
+                </SubmitButton>
               </form>
             </div>
           </section>

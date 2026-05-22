@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import SubmitButton from "@/components/admin/SubmitButton";
 import { Button } from "@/components/ui/button";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -44,9 +45,13 @@ export default function AdminShell({ children, userEmail }: AdminShellProps) {
               <Link href="/admin/about">Sobre mi</Link>
             </Button>
             <form action={signOut}>
-              <Button type="submit" variant="outline" size="sm">
+              <SubmitButton
+                pendingLabel="Saliendo..."
+                variant="outline"
+                size="sm"
+              >
                 Salir
-              </Button>
+              </SubmitButton>
             </form>
           </nav>
         </header>

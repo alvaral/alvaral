@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import SubmitButton from "@/components/admin/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -71,9 +71,9 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
           <Label htmlFor="password">Password</Label>
           <Input id="password" name="password" type="password" required />
         </div>
-        <Button type="submit" className="w-full">
+        <SubmitButton pendingLabel="Entrando..." className="w-full">
           Entrar
-        </Button>
+        </SubmitButton>
       </form>
     </main>
   );

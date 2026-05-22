@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import AdminShell from "@/components/admin/AdminShell";
 import PostForm, { type PostFormValues } from "@/components/admin/PostForm";
-import { Button } from "@/components/ui/button";
+import SubmitButton from "@/components/admin/SubmitButton";
 import { getAdminContext } from "@/lib/supabase/admin";
 import type { ContentLocale, PostStatus } from "@/lib/supabase/types";
 import { deletePost, updatePost } from "@/app/admin/posts/actions";
@@ -83,9 +83,9 @@ export default async function EditPostPage({
           <p className="mt-1 text-sm text-gray-500">{post.slug}</p>
         </div>
         <form action={deletePostAction}>
-          <Button type="submit" variant="destructive">
+          <SubmitButton pendingLabel="Eliminando..." variant="destructive">
             Eliminar
-          </Button>
+          </SubmitButton>
         </form>
       </div>
 

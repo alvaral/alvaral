@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { revalidatePath } from "next/cache";
 import AdminShell from "@/components/admin/AdminShell";
-import { Button } from "@/components/ui/button";
+import SubmitButton from "@/components/admin/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -192,7 +192,9 @@ export default async function AdminAboutPage() {
           </div>
         </section>
 
-        <Button type="submit">Guardar Sobre mi</Button>
+        <SubmitButton pendingLabel="Guardando...">
+          Guardar Sobre mi
+        </SubmitButton>
       </form>
     </AdminShell>
   );

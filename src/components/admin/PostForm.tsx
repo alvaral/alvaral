@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import SubmitButton from "@/components/admin/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -145,7 +145,7 @@ export default function PostForm({
         </div>
       </section>
 
-      <Button type="submit">{submitLabel}</Button>
+      <SubmitButton pendingLabel="Guardando...">{submitLabel}</SubmitButton>
     </form>
   );
 }
