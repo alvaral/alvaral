@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { DEFAULT_LOCALE, isSupportedLocale, type AppLocale } from "@/i18n/locale";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getPublicMediaUrl } from "@/lib/supabase/storage";
@@ -91,6 +92,8 @@ function mapPost(row: PostRow, locale: AppLocale): PublishedPost | null {
 }
 
 async function fetchSupabasePosts(locale: AppLocale) {
+  noStore();
+
   const supabase = await createSupabaseServerClient();
   if (!supabase) return [];
 
@@ -125,6 +128,8 @@ export async function getLatestPublishedPost(locale: string) {
 }
 
 export async function getPublishedPostBySlug(slug: string, locale: string) {
+  noStore();
+
   const resolvedLocale = resolveLocale(locale);
   const supabase = await createSupabaseServerClient();
 

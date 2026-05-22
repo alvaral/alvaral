@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import AdminShell from "@/components/admin/AdminShell";
 import SubmitButton from "@/components/admin/SubmitButton";
 import { Input } from "@/components/ui/input";
@@ -10,6 +11,20 @@ import { SUPABASE_MEDIA_BUCKET } from "@/lib/supabase/config";
 import type { Database } from "@/lib/supabase/types";
 
 type PhotoRow = Database["public"]["Tables"]["photos"]["Row"];
+
+type AdminPhotosPageProps = {
+  searchParams?: Promise<{
+    error?: string;
+    saved?: string;
+  }>;
+};
+
+const errorMessages: Record<string, string> = {
+  delete: "No se pudo eliminar la foto.",
+  image: "Selecciona una imagen.",
+  save: "No se pudo guardar la foto.",
+  upload: "No se pudo subir la foto.",
+};
 
 function textValue(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -40,7 +55,7 @@ async function uploadPhoto(formData: FormData) {
   const file = formData.get("image");
 
   if (!(file instanceof File) || file.size === 0) {
-    return;
+    redirect("/admin/photos?error=image");
   }
 
   const path = `gallery/${crypto.randomUUID()}-${safeFileName(file.name)}`;
@@ -52,14 +67,14 @@ async function uploadPhoto(formData: FormData) {
     });
 
   if (uploadError) {
-    return;
+    redirect("/admin/photos?error=upload");
   }
 
   const { data } = supabase.storage
     .from(SUPABASE_MEDIA_BUCKET)
     .getPublicUrl(path);
 
-  await supabase.from("photos").insert({
+  const { error } = await supabase.from("photos").insert({
     image_path: path,
     image_url: data.publicUrl,
     alt_es: optionalTextValue(formData, "altEs"),
@@ -70,8 +85,13 @@ async function uploadPhoto(formData: FormData) {
     sort_order: numberValue(formData, "sortOrder"),
   });
 
+  if (error) {
+    redirect("/admin/photos?error=save");
+  }
+
   revalidatePath("/");
   revalidatePath("/admin/photos");
+  redirect("/admin/photos?saved=1");
 }
 
 async function updatePhoto(formData: FormData) {
@@ -80,9 +100,9 @@ async function updatePhoto(formData: FormData) {
   const { supabase } = await getAdminContext();
   const id = textValue(formData, "id");
 
-  if (!id) return;
+  if (!id) redirect("/admin/photos?error=save");
 
-  await supabase
+  const { error } = await supabase
     .from("photos")
     .update({
       alt_es: optionalTextValue(formData, "altEs"),
@@ -94,8 +114,13 @@ async function updatePhoto(formData: FormData) {
     })
     .eq("id", id);
 
+  if (error) {
+    redirect("/admin/photos?error=save");
+  }
+
   revalidatePath("/");
   revalidatePath("/admin/photos");
+  redirect("/admin/photos?saved=1");
 }
 
 async function deletePhoto(formData: FormData) {
@@ -104,7 +129,7 @@ async function deletePhoto(formData: FormData) {
   const { supabase } = await getAdminContext();
   const id = textValue(formData, "id");
 
-  if (!id) return;
+  if (!id) redirect("/admin/photos?error=delete");
 
   const { data: photo } = await supabase
     .from("photos")
@@ -112,7 +137,11 @@ async function deletePhoto(formData: FormData) {
     .eq("id", id)
     .single();
 
-  await supabase.from("photos").delete().eq("id", id);
+  const { error } = await supabase.from("photos").delete().eq("id", id);
+
+  if (error) {
+    redirect("/admin/photos?error=delete");
+  }
 
   if (photo?.image_path) {
     await supabase.storage.from(SUPABASE_MEDIA_BUCKET).remove([photo.image_path]);
@@ -120,9 +149,13 @@ async function deletePhoto(formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/admin/photos");
+  redirect("/admin/photos?saved=1");
 }
 
-export default async function AdminPhotosPage() {
+export default async function AdminPhotosPage({
+  searchParams,
+}: AdminPhotosPageProps) {
+  const params = await searchParams;
   const { supabase, user } = await getAdminContext();
   const { data: photos } = await supabase
     .from("photos")
@@ -139,6 +172,17 @@ export default async function AdminPhotosPage() {
           Las fotos visibles aparecen en la galeria de la home.
         </p>
       </div>
+
+      {params?.saved && (
+        <p className="mb-4 rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+          Guardado.
+        </p>
+      )}
+      {params?.error && (
+        <p className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          {errorMessages[params.error] ?? errorMessages.save}
+        </p>
+      )}
 
       <form
         action={uploadPhoto}

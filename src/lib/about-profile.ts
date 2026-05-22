@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { DEFAULT_LOCALE, isSupportedLocale, type AppLocale } from "@/i18n/locale";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -30,6 +31,8 @@ function mapAboutProfile(row: AboutProfileRow, locale: AppLocale) {
 }
 
 export async function getAboutProfile(locale: string): Promise<AboutProfile> {
+  noStore();
+
   const resolvedLocale = resolveLocale(locale);
   const t = await getTranslations("about");
   const fallback = {

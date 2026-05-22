@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { DEFAULT_LOCALE, isSupportedLocale, type AppLocale } from "@/i18n/locale";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -30,6 +31,8 @@ function resolveLocale(locale: string): AppLocale {
 }
 
 export async function getGalleryImages(locale: string) {
+  noStore();
+
   const resolvedLocale = resolveLocale(locale);
   const supabase = await createSupabaseServerClient();
 

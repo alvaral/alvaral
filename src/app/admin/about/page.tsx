@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import AdminShell from "@/components/admin/AdminShell";
 import SubmitButton from "@/components/admin/SubmitButton";
 import { Input } from "@/components/ui/input";
@@ -10,6 +11,18 @@ import { SUPABASE_MEDIA_BUCKET } from "@/lib/supabase/config";
 import type { Database } from "@/lib/supabase/types";
 
 type AboutProfileRow = Database["public"]["Tables"]["about_profile"]["Row"];
+
+type AdminAboutPageProps = {
+  searchParams?: Promise<{
+    error?: string;
+    saved?: string;
+  }>;
+};
+
+const errorMessages: Record<string, string> = {
+  save: "No se pudo guardar el Sobre mi.",
+  upload: "No se pudo subir la imagen.",
+};
 
 function textValue(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -40,30 +53,42 @@ async function updateAboutProfile(formData: FormData) {
         upsert: false,
       });
 
-    if (!uploadError) {
-      const { data } = supabase.storage
-        .from(SUPABASE_MEDIA_BUCKET)
-        .getPublicUrl(path);
-
-      imagePath = path;
-      imageUrl = data.publicUrl;
+    if (uploadError) {
+      redirect("/admin/about?error=upload");
     }
+
+    const { data } = supabase.storage
+      .from(SUPABASE_MEDIA_BUCKET)
+      .getPublicUrl(path);
+
+    imagePath = path;
+    imageUrl = data.publicUrl;
   }
 
-  await supabase.from("about_profile").upsert({
-    id: true,
-    image_path: imagePath,
-    image_url: imageUrl || "/assets/images/profile-photo.webp",
-    title_es: textValue(formData, "titleEs") || "Sobre mí",
-    title_en: textValue(formData, "titleEn") || "About Me",
-    intro_es: textValue(formData, "introEs"),
-    intro_en: textValue(formData, "introEn"),
-    body_es: textValue(formData, "bodyEs"),
-    body_en: textValue(formData, "bodyEn"),
-  });
+  const { error } = await supabase
+    .from("about_profile")
+    .upsert(
+      {
+        id: true,
+        image_path: imagePath,
+        image_url: imageUrl || "/assets/images/profile-photo.webp",
+        title_es: textValue(formData, "titleEs") || "Sobre mí",
+        title_en: textValue(formData, "titleEn") || "About Me",
+        intro_es: textValue(formData, "introEs"),
+        intro_en: textValue(formData, "introEn"),
+        body_es: textValue(formData, "bodyEs"),
+        body_en: textValue(formData, "bodyEn"),
+      },
+      { onConflict: "id" }
+    );
+
+  if (error) {
+    redirect("/admin/about?error=save");
+  }
 
   revalidatePath("/about");
   revalidatePath("/admin/about");
+  redirect("/admin/about?saved=1");
 }
 
 const fallbackProfile: AboutProfileRow = {
@@ -84,7 +109,10 @@ const fallbackProfile: AboutProfileRow = {
   updated_at: "",
 };
 
-export default async function AdminAboutPage() {
+export default async function AdminAboutPage({
+  searchParams,
+}: AdminAboutPageProps) {
+  const params = await searchParams;
   const { supabase, user } = await getAdminContext();
   const { data } = await supabase
     .from("about_profile")
@@ -102,6 +130,17 @@ export default async function AdminAboutPage() {
           Edita el texto y la foto que aparecen en la pagina Sobre mi.
         </p>
       </div>
+
+      {params?.saved && (
+        <p className="mb-4 rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+          Guardado.
+        </p>
+      )}
+      {params?.error && (
+        <p className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          {errorMessages[params.error] ?? errorMessages.save}
+        </p>
+      )}
 
       <form action={updateAboutProfile} className="space-y-8">
         <input
