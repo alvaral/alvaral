@@ -36,3 +36,9 @@ Run `supabase/seed-legacy-photos.sql` to register the existing homepage images
 in the backoffice. These records point to the current `/assets/images/*.webp`
 files, so do not delete those files unless you upload replacements to Supabase
 Storage first.
+
+## About page
+
+Run `supabase/add-about-profile.sql` if your Supabase database was created
+before the about-page editor existed. It adds the singleton `about_profile`
+record used by `/about` and `/admin/about`.

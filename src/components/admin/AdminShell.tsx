@@ -40,6 +40,9 @@ export default function AdminShell({ children, userEmail }: AdminShellProps) {
             <Button asChild variant="ghost" size="sm">
               <Link href="/admin/photos">Fotos</Link>
             </Button>
+            <Button asChild variant="ghost" size="sm">
+              <Link href="/admin/about">Sobre mi</Link>
+            </Button>
             <form action={signOut}>
               <Button type="submit" variant="outline" size="sm">
                 Salir

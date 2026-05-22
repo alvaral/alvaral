@@ -12,7 +12,7 @@ export default async function AdminPage() {
 
   return (
     <AdminShell userEmail={user.email}>
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         <section className="rounded-md border border-gray-200 p-5">
           <p className="text-sm text-gray-500">Posts</p>
           <p className="mt-2 text-4xl font-bold">{postsResult.count ?? 0}</p>
@@ -32,6 +32,16 @@ export default async function AdminPage() {
           <div className="mt-5">
             <Button asChild>
               <Link href="/admin/photos">Gestionar fotos</Link>
+            </Button>
+          </div>
+        </section>
+
+        <section className="rounded-md border border-gray-200 p-5">
+          <p className="text-sm text-gray-500">Pagina</p>
+          <p className="mt-2 text-4xl font-bold">About</p>
+          <div className="mt-5">
+            <Button asChild>
+              <Link href="/admin/about">Editar Sobre mi</Link>
             </Button>
           </div>
         </section>

@@ -27,6 +27,48 @@ export type Database = {
         };
         Relationships: [];
       };
+      about_profile: {
+        Row: {
+          id: boolean;
+          image_path: string | null;
+          image_url: string;
+          title_es: string;
+          title_en: string;
+          intro_es: string;
+          intro_en: string;
+          body_es: string;
+          body_en: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: boolean;
+          image_path?: string | null;
+          image_url?: string;
+          title_es?: string;
+          title_en?: string;
+          intro_es?: string;
+          intro_en?: string;
+          body_es?: string;
+          body_en?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: boolean;
+          image_path?: string | null;
+          image_url?: string;
+          title_es?: string;
+          title_en?: string;
+          intro_es?: string;
+          intro_en?: string;
+          body_es?: string;
+          body_en?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       posts: {
         Row: {
           id: string;
