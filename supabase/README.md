@@ -20,3 +20,14 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=YOUR_PUBLISHABLE_KEY
 
 Do not add the Supabase secret key to the frontend or to Vercel unless a future
 server-only feature explicitly needs it.
+
+## Import existing content
+
+Run `supabase/seed-legacy-posts.sql` in the Supabase SQL editor to import the
+two posts that used to live as TSX files:
+
+- `frontend-vs-backend`
+- `ideal-developer`
+
+The script is safe to run more than once. It upserts the posts and their ES/EN
+translations.

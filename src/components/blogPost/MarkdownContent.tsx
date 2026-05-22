@@ -6,10 +6,31 @@ type MarkdownContentProps = {
   content: string;
 };
 
+function renderInline(text: string) {
+  return text
+    .split(/(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*)/g)
+    .filter(Boolean)
+    .map((part, index) => {
+      if (part.startsWith("`") && part.endsWith("`")) {
+        return <code key={index}>{part.slice(1, -1)}</code>;
+      }
+
+      if (part.startsWith("**") && part.endsWith("**")) {
+        return <strong key={index}>{part.slice(2, -2)}</strong>;
+      }
+
+      if (part.startsWith("*") && part.endsWith("*")) {
+        return <em key={index}>{part.slice(1, -1)}</em>;
+      }
+
+      return part;
+    });
+}
+
 function renderLines(block: string) {
   return block.split("\n").map((line, index, lines) => (
     <span key={`${line}-${index}`}>
-      {line}
+      {renderInline(line)}
       {index < lines.length - 1 && <br />}
     </span>
   ));
@@ -57,7 +78,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
             <ul key={index} className="list-disc pl-6 mb-5 space-y-2">
               {lines.map((line, lineIndex) => (
                 <li key={`${line}-${lineIndex}`}>
-                  {line.replace(/^[-*]\s+/, "")}
+                  {renderInline(line.replace(/^[-*]\s+/, ""))}
                 </li>
               ))}
             </ul>

@@ -1,12 +1,23 @@
 import { DEFAULT_LOCALE, isSupportedLocale, type AppLocale } from "@/i18n/locale";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getPublicMediaUrl } from "@/lib/supabase/storage";
-import {
-  getPostById as getStaticPostById,
-  getPosts as getStaticPosts,
-  type BlogPost,
-} from "@/posts/posts";
 import type { ContentLocale, PostStatus } from "@/lib/supabase/types";
+
+export type BlogPost = {
+  id: string;
+  date: string;
+  href: string;
+  imageSrc?: string;
+  translations: Record<
+    AppLocale,
+    {
+      title: string;
+      description: string;
+    }
+  >;
+  title: string;
+  description: string;
+};
 
 export type PublishedPost = BlogPost & {
   content?: string;
@@ -102,14 +113,9 @@ async function fetchSupabasePosts(locale: AppLocale) {
 
 export async function getPublishedPosts(locale: string) {
   const resolvedLocale = resolveLocale(locale);
-  const supabasePosts = await fetchSupabasePosts(resolvedLocale);
-  const staticPosts = getStaticPosts(resolvedLocale);
-  const supabaseSlugs = new Set(supabasePosts.map((post) => post.id));
+  const posts = await fetchSupabasePosts(resolvedLocale);
 
-  return [
-    ...supabasePosts,
-    ...staticPosts.filter((post) => !supabaseSlugs.has(post.id)),
-  ].sort(
+  return posts.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 }
@@ -137,6 +143,5 @@ export async function getPublishedPostBySlug(slug: string, locale: string) {
       return mapPost(data, resolvedLocale);
     }
   }
-
-  return getStaticPostById(slug, resolvedLocale);
+  return null;
 }

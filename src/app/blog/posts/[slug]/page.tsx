@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import AuthorInfo from "@/components/AuthorInfoCard";
 import MarkdownContent from "@/components/blogPost/MarkdownContent";
 import { PostLayout } from "@/components/blogPost/PostLayout";
 import { LOCALE_COOKIE_NAME, normalizeLocale } from "@/i18n/locale";
@@ -57,6 +58,14 @@ export default async function DynamicBlogPostPage({
   return (
     <PostLayout title={post.title}>
       <MarkdownContent content={content} />
+      <div className="mt-10">
+        <AuthorInfo
+          name="Álvaro Alonso"
+          role={locale === "es" ? "Ingeniero de Software" : "Software Engineer"}
+          avatar="/assets/images/profile-photo.webp"
+          infoUrl="/about"
+        />
+      </div>
     </PostLayout>
   );
 }
