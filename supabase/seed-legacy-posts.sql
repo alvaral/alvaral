@@ -2,7 +2,7 @@ begin;
 
 do $$
 declare
-  post_id uuid;
+  v_post_id uuid;
 begin
   insert into public.posts (slug, status, published_at, cover_image_url)
   values ('frontend-vs-backend', 'published', '2025-10-25T00:00:00.000Z', null)
@@ -11,7 +11,7 @@ begin
     status = excluded.status,
     published_at = excluded.published_at,
     cover_image_url = excluded.cover_image_url
-  returning id into post_id;
+  returning id into v_post_id;
 
   insert into public.post_translations (
     post_id,
@@ -22,7 +22,7 @@ begin
   )
   values
     (
-      post_id,
+      v_post_id,
       'es',
       'Frontend vs Backend: dos mitades del mismo todo',
       'La interfaz que ves y la lógica que no. Dos mundos, un objetivo: crear productos que funcionen.',
@@ -65,7 +65,7 @@ Así que la próxima vez que alguien te diga que "el frontend es más divertido"
 *Y tú, ¿de qué lado del escenario te gustaría tocar?*$md$
     ),
     (
-      post_id,
+      v_post_id,
       'en',
       'Frontend vs Backend: Two Halves of the Same Whole',
       'The interface you see and the logic you don''t. Two worlds, one goal: building products that work.',
@@ -116,7 +116,7 @@ end $$;
 
 do $$
 declare
-  post_id uuid;
+  v_post_id uuid;
 begin
   insert into public.posts (slug, status, published_at, cover_image_url)
   values ('ideal-developer', 'published', '2025-06-26T00:00:00.000Z', null)
@@ -125,7 +125,7 @@ begin
     status = excluded.status,
     published_at = excluded.published_at,
     cover_image_url = excluded.cover_image_url
-  returning id into post_id;
+  returning id into v_post_id;
 
   insert into public.post_translations (
     post_id,
@@ -136,7 +136,7 @@ begin
   )
   values
     (
-      post_id,
+      v_post_id,
       'es',
       'El desarrollador de software ideal',
       '¿Cómo sería el programador perfecto? Técnicas, habilidades humanas y una pizca de humildad.',
@@ -227,7 +227,7 @@ Probablemente no. Pero como todo en la vida, podemos aspirar a ser la mejor vers
 *Y tú, ¿cómo imaginas al desarrollador ideal?*$md$
     ),
     (
-      post_id,
+      v_post_id,
       'en',
       'The Ideal Software Developer',
       'What makes the perfect developer? Technical skills, soft skills, and a touch of humility.',

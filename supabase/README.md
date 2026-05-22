@@ -31,3 +31,8 @@ two posts that used to live as TSX files:
 
 The script is safe to run more than once. It upserts the posts and their ES/EN
 translations.
+
+Run `supabase/seed-legacy-photos.sql` to register the existing homepage images
+in the backoffice. These records point to the current `/assets/images/*.webp`
+files, so do not delete those files unless you upload replacements to Supabase
+Storage first.
