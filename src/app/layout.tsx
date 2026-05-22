@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { siteConfig } from "@/config/site";
 import { getLocale, getMessages } from "next-intl/server";
-import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -47,20 +45,9 @@ export default async function RootLayout({
 }>) {
   const messages = await getMessages();
   const locale = await getLocale();
-  const host = (await headers()).get("host") || "";
-  const isProduction = host === "alvaral.dev" || host === "www.alvaral.dev";
+
   return (
     <html lang={locale}>
-      <head>
-        {isProduction && (
-          <Script
-            async
-            defer
-            data-website-id="c4ffcecb-6f68-4580-be22-3e3787bc34bd"
-            src="https://analytics.alvaral.dev/script.js"
-          />
-        )}
-      </head>
       <body className="antialiased">
         <NextIntlClientProvider messages={messages}>
           <Header />
