@@ -53,7 +53,7 @@ export function Timer({
           <button
             onClick={onSettingsClick}
             aria-label={t("settingsLabel")}
-            className="rounded border border-gray-200 bg-white p-1 text-gray-900 transition-colors hover:cursor-pointer hover:bg-gray-100 dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800"
+            className="p-1 rounded bg-white hover:bg-gray-100 hover:cursor-pointer"
           >
             <Settings className="h-6 w-6" />
           </button>
@@ -80,7 +80,7 @@ export function Timer({
           <Button
             onClick={onToggle}
             size="lg"
-            className="h-12 w-36 text-lg hover:cursor-pointer hover:bg-gray-800 dark:hover:bg-gray-700"
+            className="w-36 h-12 text-lg hover:cursor-pointer"
           >
             {isRunning ? (
               <Pause className="mr-2 h-6 w-6" />
@@ -92,7 +92,7 @@ export function Timer({
           <Button
             size="lg"
             onClick={onReset}
-            className="h-12 w-36 text-lg hover:cursor-pointer hover:bg-gray-800 dark:hover:bg-gray-700"
+            className="w-36 h-12 text-lg hover:cursor-pointer"
           >
             <RotateCcw className="mr-2 h-6 w-6" /> {t("reset")}
           </Button>

@@ -53,7 +53,7 @@ export function FocusPageClient() {
               onClick={pomodoro.cancelSettings}
             ></div>
 
-            <div className="fixed left-1/2 top-1/2 z-50 w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 bg-white p-6 text-gray-900 shadow-lg dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-100">
+            <div className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-6 shadow-lg w-[300px] border-2">
               <h2 className="text-lg font-semibold mb-4">
                 {t("settings.title")}
               </h2>
@@ -67,7 +67,7 @@ export function FocusPageClient() {
                   onChange={(event) =>
                     pomodoro.setTempWorkMinutes(Number(event.target.value))
                   }
-                  className="mt-1 w-full rounded border px-2 py-1 text-gray-900 dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-100"
+                  className="w-full border rounded px-2 py-1 mt-1"
                 />
               </label>
               <label className="block mb-4">
@@ -80,19 +80,19 @@ export function FocusPageClient() {
                   onChange={(event) =>
                     pomodoro.setTempBreakMinutes(Number(event.target.value))
                   }
-                  className="mt-1 w-full rounded border px-2 py-1 text-gray-900 dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-100"
+                  className="w-full border rounded px-2 py-1 mt-1"
                 />
               </label>
               <div className="flex justify-end space-x-4">
                 <Button
                   variant="outline"
-                  className="cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-800"
+                  className="hover:bg-gray-100 cursor-pointer"
                   onClick={pomodoro.cancelSettings}
                 >
                   {t("settings.cancel")}
                 </Button>
                 <Button
-                  className="cursor-pointer hover:bg-gray-800 dark:hover:bg-gray-700"
+                  className="hover:bg-gray-100 cursor-pointer"
                   onClick={pomodoro.saveSettings}
                 >
                   {t("settings.save")}
