@@ -145,7 +145,7 @@ export default function PostForm({
         </div>
       </section>
 
-      <SubmitButton pendingLabel="Guardando...">{submitLabel}</SubmitButton>
+      <SubmitButton>{submitLabel}</SubmitButton>
     </form>
   );
 }

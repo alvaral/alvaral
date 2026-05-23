@@ -71,7 +71,7 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
           <Label htmlFor="password">Password</Label>
           <Input id="password" name="password" type="password" required />
         </div>
-        <SubmitButton pendingLabel="Entrando..." className="w-full">
+        <SubmitButton className="w-full">
           Entrar
         </SubmitButton>
       </form>

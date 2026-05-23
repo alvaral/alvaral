@@ -231,9 +231,7 @@ export default async function AdminAboutPage({
           </div>
         </section>
 
-        <SubmitButton pendingLabel="Guardando...">
-          Guardar Sobre mi
-        </SubmitButton>
+        <SubmitButton>Guardar Sobre mi</SubmitButton>
       </form>
     </AdminShell>
   );

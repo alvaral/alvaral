@@ -83,7 +83,7 @@ export default async function EditPostPage({
           <p className="mt-1 text-sm text-gray-500">{post.slug}</p>
         </div>
         <form action={deletePostAction}>
-          <SubmitButton pendingLabel="Eliminando..." variant="destructive">
+          <SubmitButton variant="destructive">
             Eliminar
           </SubmitButton>
         </form>

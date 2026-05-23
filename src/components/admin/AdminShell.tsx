@@ -48,11 +48,7 @@ export default function AdminShell({ children, userEmail }: AdminShellProps) {
               <Link href="/admin/analytics">Analiticas</Link>
             </Button>
             <form action={signOut}>
-              <SubmitButton
-                pendingLabel="Saliendo..."
-                variant="outline"
-                size="sm"
-              >
+              <SubmitButton variant="outline" size="sm">
                 Salir
               </SubmitButton>
             </form>

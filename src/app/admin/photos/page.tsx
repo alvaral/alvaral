@@ -218,7 +218,7 @@ export default async function AdminPhotosPage({
             <Textarea id="captionEn" name="captionEn" rows={2} />
           </div>
         </div>
-        <SubmitButton pendingLabel="Subiendo...">Subir foto</SubmitButton>
+        <SubmitButton>Subir foto</SubmitButton>
       </form>
 
       <div className="grid gap-4">
@@ -301,18 +301,14 @@ export default async function AdminPhotosPage({
                   </div>
                 </div>
 
-                <SubmitButton pendingLabel="Guardando..." variant="outline">
+                <SubmitButton variant="outline">
                   Guardar foto
                 </SubmitButton>
               </form>
 
               <form action={deletePhoto}>
                 <input type="hidden" name="id" value={photo.id} />
-                <SubmitButton
-                  pendingLabel="Eliminando..."
-                  variant="destructive"
-                  size="sm"
-                >
+                <SubmitButton variant="destructive" size="sm">
                   Eliminar foto
                 </SubmitButton>
               </form>
