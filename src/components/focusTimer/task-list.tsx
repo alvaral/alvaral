@@ -37,10 +37,10 @@ export function TaskList({
   const t = useTranslations("focus.taskList");
 
   return (
-    <div className="p-6">
+    <div className="p-6 text-gray-900 dark:text-gray-100">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-2">
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-gray-600 dark:text-gray-300">
             {t("showCompleted")}
           </span>
           <Switch
@@ -56,7 +56,10 @@ export function TaskList({
           value={newTask}
           onChange={(e) => onNewTaskChange(e.target.value)}
         />
-        <Button type="submit" className="cursor-pointer hover:bg-gray-100">
+        <Button
+          type="submit"
+          className="cursor-pointer hover:bg-gray-800 dark:hover:bg-gray-700"
+        >
           <Plus className="mr-2" /> {t("addButton")}
         </Button>
       </form>
@@ -65,20 +68,22 @@ export function TaskList({
           {tasks.map((task) => (
             <div
               key={task.id}
-              className="flex items-center justify-between p-2 rounded-lg hover:bg-muted"
+              className="flex items-center justify-between rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
             >
               <div className="flex items-center space-x-2">
                 <Button
                   size="sm"
                   variant={task.completed ? "default" : "outline"}
-                  className="w-6 h-6 p-0"
+                  className="h-6 w-6 p-0"
                   onClick={() => onToggleTask(task.id)}
                 >
                   {task.completed && <Check className="h-4 w-4" />}
                 </Button>
                 <span
                   className={
-                    task.completed ? "line-through text-muted-foreground" : ""
+                    task.completed
+                      ? "text-gray-500 line-through dark:text-gray-400"
+                      : "text-gray-900 dark:text-gray-100"
                   }
                 >
                   {task.text}
@@ -87,7 +92,7 @@ export function TaskList({
               <Button
                 size="sm"
                 variant="ghost"
-                className="hover:bg-gray-100 cursor-pointer"
+                className="cursor-pointer text-gray-600 hover:bg-gray-100 hover:text-gray-950 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white"
                 onClick={() => onDeleteTask(task.id)}
               >
                 <X className="h-4 w-4" />
