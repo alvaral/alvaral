@@ -3,6 +3,7 @@ import AdminShell from "@/components/admin/AdminShell";
 import PostForm, { type PostFormValues } from "@/components/admin/PostForm";
 import SubmitButton from "@/components/admin/SubmitButton";
 import { getAdminContext } from "@/lib/supabase/admin";
+import { getPublicMediaUrl } from "@/lib/supabase/storage";
 import type { ContentLocale, PostStatus } from "@/lib/supabase/types";
 import { deletePost, updatePost } from "@/app/admin/posts/actions";
 
@@ -22,6 +23,7 @@ type AdminPostRow = {
   status: PostStatus;
   published_at: string | null;
   cover_image_url: string | null;
+  cover_image_path: string | null;
   post_translations: {
     locale: ContentLocale;
     title: string;
@@ -52,7 +54,8 @@ function valuesFromPost(post: AdminPostRow): PostFormValues {
     slug: post.slug,
     status: post.status,
     publishedAt: post.published_at?.slice(0, 10),
-    coverImageUrl: post.cover_image_url ?? undefined,
+    coverImageUrl:
+      post.cover_image_url ?? getPublicMediaUrl(post.cover_image_path) ?? undefined,
     titleEs: es?.title,
     descriptionEs: es?.description,
     contentEs: es?.content,
@@ -73,7 +76,7 @@ export default async function EditPostPage({
   const { data: post } = await supabase
     .from("posts")
     .select(
-      "id, slug, status, published_at, cover_image_url, post_translations(locale, title, description, content)"
+      "id, slug, status, published_at, cover_image_url, cover_image_path, post_translations(locale, title, description, content)"
     )
     .eq("id", id)
     .single()

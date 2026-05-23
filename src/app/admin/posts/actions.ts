@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getAdminContext } from "@/lib/supabase/admin";
 import { normalizeSlug } from "@/lib/slug";
-import type { ContentLocale, PostStatus } from "@/lib/supabase/types";
+import { SUPABASE_MEDIA_BUCKET } from "@/lib/supabase/config";
+import { getPublicMediaUrl } from "@/lib/supabase/storage";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { ContentLocale, Database, PostStatus } from "@/lib/supabase/types";
 
 type SupabaseActionError = {
   code?: string;
@@ -12,6 +15,19 @@ type SupabaseActionError = {
   hint?: string | null;
   message?: string;
 };
+
+type PreviousPost = {
+  slug: string;
+  cover_image_url: string | null;
+  cover_image_path: string | null;
+};
+
+type CoverImage = {
+  url: string | null;
+  path: string | null;
+};
+
+const COVER_UPLOAD_PREFIX = "posts/covers/";
 
 function textValue(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -54,6 +70,58 @@ function translationsFromForm(formData: FormData, postId: string) {
       content: textValue(formData, "contentEn"),
     },
   ];
+}
+
+function uploadedCoverFromForm(formData: FormData): CoverImage | null {
+  const path = optionalTextValue(formData, "uploadedCoverImagePath");
+  const url = optionalTextValue(formData, "uploadedCoverImageUrl");
+
+  if (!path || !url) return null;
+  if (!path.startsWith(COVER_UPLOAD_PREFIX)) return null;
+
+  return { path, url };
+}
+
+function coverImageFromForm(
+  formData: FormData,
+  previousPost?: PreviousPost | null
+): CoverImage {
+  const uploadedCover = uploadedCoverFromForm(formData);
+
+  if (uploadedCover) {
+    return uploadedCover;
+  }
+
+  if (formData.get("removeCoverImage") === "on") {
+    return { path: null, url: null };
+  }
+
+  const url = optionalTextValue(formData, "coverImageUrl");
+
+  if (!previousPost?.cover_image_path) {
+    return { path: null, url };
+  }
+
+  const previousUrl =
+    previousPost.cover_image_url ?? getPublicMediaUrl(previousPost.cover_image_path);
+
+  if (url && url === previousUrl) {
+    return {
+      path: previousPost.cover_image_path,
+      url: previousPost.cover_image_url ?? url,
+    };
+  }
+
+  return { path: null, url };
+}
+
+async function removeCoverImage(
+  supabase: SupabaseClient<Database>,
+  path: string | null | undefined
+) {
+  if (!path?.startsWith(COVER_UPLOAD_PREFIX)) return;
+
+  await supabase.storage.from(SUPABASE_MEDIA_BUCKET).remove([path]);
 }
 
 function revalidatePostPaths(slug: string, previousSlug?: string) {
@@ -101,10 +169,13 @@ function postErrorParam(error: SupabaseActionError | null) {
 
 export async function createPost(formData: FormData) {
   const { supabase } = await getAdminContext();
+  const postId = crypto.randomUUID();
   const slug = normalizeSlug(textValue(formData, "slug"));
   const status = statusValue(formData);
+  const coverImage = coverImageFromForm(formData);
 
   if (!slug) {
+    await removeCoverImage(supabase, coverImage.path);
     redirect("/admin/posts/new?error=slug");
   }
 
@@ -115,26 +186,31 @@ export async function createPost(formData: FormData) {
     .maybeSingle();
 
   if (existingPostError) {
+    await removeCoverImage(supabase, coverImage.path);
     logPostError("check duplicate slug", existingPostError);
     redirect(`/admin/posts/new?error=${postErrorParam(existingPostError)}`);
   }
 
   if (existingPost) {
+    await removeCoverImage(supabase, coverImage.path);
     redirect("/admin/posts/new?error=duplicate");
   }
 
   const { data: post, error: postError } = await supabase
     .from("posts")
     .insert({
+      id: postId,
       slug,
       status,
       published_at: publishedAtValue(formData, status),
-      cover_image_url: optionalTextValue(formData, "coverImageUrl"),
+      cover_image_url: coverImage.url,
+      cover_image_path: coverImage.path,
     })
     .select("id")
     .single();
 
   if (postError || !post) {
+    await removeCoverImage(supabase, coverImage.path);
     logPostError("create post", postError);
     redirect(`/admin/posts/new?error=${postErrorParam(postError)}`);
   }
@@ -165,9 +241,12 @@ export async function updatePost(postId: string, formData: FormData) {
 
   const { data: previousPost } = await supabase
     .from("posts")
-    .select("slug")
+    .select("slug, cover_image_url, cover_image_path")
     .eq("id", postId)
-    .single();
+    .single()
+    .returns<PreviousPost>();
+
+  const coverImage = coverImageFromForm(formData, previousPost);
 
   const { error: postError } = await supabase
     .from("posts")
@@ -175,11 +254,16 @@ export async function updatePost(postId: string, formData: FormData) {
       slug,
       status,
       published_at: publishedAtValue(formData, status),
-      cover_image_url: optionalTextValue(formData, "coverImageUrl"),
+      cover_image_url: coverImage.url,
+      cover_image_path: coverImage.path,
     })
     .eq("id", postId);
 
   if (postError) {
+    if (coverImage.path !== previousPost?.cover_image_path) {
+      await removeCoverImage(supabase, coverImage.path);
+    }
+
     logPostError("update post", postError);
     redirect(`/admin/posts/${postId}?error=${postErrorParam(postError)}`);
   }
@@ -195,6 +279,10 @@ export async function updatePost(postId: string, formData: FormData) {
     redirect(`/admin/posts/${postId}?error=translation`);
   }
 
+  if (coverImage.path !== previousPost?.cover_image_path) {
+    await removeCoverImage(supabase, previousPost?.cover_image_path);
+  }
+
   revalidatePostPaths(slug, previousPost?.slug);
   redirect(`/admin/posts/${postId}?saved=1`);
 }
@@ -203,11 +291,19 @@ export async function deletePost(postId: string) {
   const { supabase } = await getAdminContext();
   const { data: previousPost } = await supabase
     .from("posts")
-    .select("slug")
+    .select("slug, cover_image_path")
     .eq("id", postId)
-    .single();
+    .single()
+    .returns<Pick<PreviousPost, "slug" | "cover_image_path">>();
 
-  await supabase.from("posts").delete().eq("id", postId);
+  const { error } = await supabase.from("posts").delete().eq("id", postId);
+
+  if (error) {
+    logPostError("delete post", error);
+    redirect(`/admin/posts/${postId}?error=${postErrorParam(error)}`);
+  }
+
+  await removeCoverImage(supabase, previousPost?.cover_image_path);
 
   revalidatePath("/");
   revalidatePath("/blog");
