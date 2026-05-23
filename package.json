@@ -49,7 +49,7 @@
     "framer-motion": "^12.19.1",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.523.0",
-    "next": "15.3.4",
+    "next": "15.4.10",
     "next-intl": "^4.3.1",
     "next-themes": "^0.4.6",
     "react": "18.2.0",
@@ -63,16 +63,6 @@
     "tailwind-merge": "^2.5.2",
     "vaul": "^0.9.9"
   },
-  "optionalDependencies": {
-    "@next/swc-darwin-arm64": "15.3.4",
-    "@next/swc-darwin-x64": "15.3.4",
-    "@next/swc-linux-arm64-gnu": "15.3.4",
-    "@next/swc-linux-arm64-musl": "15.3.4",
-    "@next/swc-linux-x64-gnu": "15.3.4",
-    "@next/swc-linux-x64-musl": "15.3.4",
-    "@next/swc-win32-arm64-msvc": "15.3.4",
-    "@next/swc-win32-x64-msvc": "15.3.4"
-  },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.1.10",
@@ -81,7 +71,7 @@
     "@types/react-dom": "18.2.7",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
-    "eslint-config-next": "15.3.4",
+    "eslint-config-next": "15.4.10",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.10",
     "tailwindcss-animate": "^1.0.7",
