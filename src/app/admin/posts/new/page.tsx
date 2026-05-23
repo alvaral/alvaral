@@ -10,7 +10,12 @@ type NewPostPageProps = {
 };
 
 const errorMessages: Record<string, string> = {
-  save: "No se pudo crear el post. Revisa que el slug no este repetido y que tu usuario sea admin.",
+  duplicate: "Ya existe un post con ese slug. Usa otro slug o edita el post existente.",
+  permission:
+    "Supabase ha rechazado el guardado por permisos. Revisa que tu usuario este en admin_users y que las politicas RLS esten aplicadas.",
+  save: "No se pudo crear el post. Revisa los logs de Vercel para ver el codigo exacto de Supabase.",
+  schema:
+    "Supabase no tiene la tabla o columna esperada. Revisa que hayas ejecutado el schema SQL.",
   slug: "El slug no es valido.",
 };
 

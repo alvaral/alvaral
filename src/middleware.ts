@@ -1,13 +1,29 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { getSupabaseConfig } from "@/lib/supabase/config";
+import { withCookieDomain } from "@/lib/supabase/cookies";
 import type { Database } from "@/lib/supabase/types";
 
 export async function middleware(request: NextRequest) {
   const config = getSupabaseConfig();
+  const host = request.headers.get("host");
+
+  if (
+    host?.toLowerCase() === "www.alvaral.dev" &&
+    (request.method === "GET" || request.method === "HEAD")
+  ) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.hostname = "alvaral.dev";
+    return NextResponse.redirect(redirectUrl, 308);
+  }
+
   let response = NextResponse.next({ request });
 
-  if (!config || request.nextUrl.pathname === "/admin/login") {
+  if (
+    !config ||
+    request.nextUrl.pathname === "/admin/login" ||
+    !request.nextUrl.pathname.startsWith("/admin")
+  ) {
     return response;
   }
 
@@ -27,7 +43,7 @@ export async function middleware(request: NextRequest) {
           response = NextResponse.next({ request });
 
           cookiesToSet.forEach(({ name, value, options }) => {
-            response.cookies.set(name, value, options);
+            response.cookies.set(name, value, withCookieDomain(options, host));
           });
         },
       },
@@ -58,5 +74,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|apple-icon.png|favicon.ico|icon0.svg|icon1.png|manifest.json|robots.txt|sitemap.xml).*)",
+  ],
 };

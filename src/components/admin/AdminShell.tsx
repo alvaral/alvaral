@@ -1,7 +1,12 @@
 import Link from "next/link";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import SubmitButton from "@/components/admin/SubmitButton";
 import { Button } from "@/components/ui/button";
+import {
+  getCookieDomain,
+  isSupabaseAuthCookie,
+} from "@/lib/supabase/cookies";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 type AdminShellProps = {
@@ -14,6 +19,26 @@ async function signOut() {
 
   const supabase = await createSupabaseServerClient();
   await supabase?.auth.signOut();
+
+  const cookieStore = await cookies();
+  const headersStore = await headers();
+  const sharedDomain = getCookieDomain(headersStore.get("host"));
+
+  cookieStore
+    .getAll()
+    .filter((cookie) => isSupabaseAuthCookie(cookie.name))
+    .forEach((cookie) => {
+      cookieStore.set(cookie.name, "", { maxAge: 0, path: "/" });
+
+      if (sharedDomain) {
+        cookieStore.set(cookie.name, "", {
+          domain: sharedDomain,
+          maxAge: 0,
+          path: "/",
+        });
+      }
+    });
+
   redirect("/admin/login");
 }
 

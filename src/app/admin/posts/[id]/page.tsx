@@ -30,6 +30,16 @@ type AdminPostRow = {
   }[];
 };
 
+const errorMessages: Record<string, string> = {
+  duplicate: "Ya existe un post con ese slug.",
+  permission:
+    "Supabase ha rechazado el guardado por permisos. Revisa admin_users y las politicas RLS.",
+  save: "No se pudo guardar. Revisa los logs de Vercel para ver el codigo exacto de Supabase.",
+  schema: "Supabase no tiene la tabla o columna esperada. Revisa el schema SQL.",
+  slug: "El slug no es valido.",
+  translation: "No se pudieron guardar las traducciones.",
+};
+
 function valuesFromPost(post: AdminPostRow): PostFormValues {
   const es = post.post_translations.find(
     (translation) => translation.locale === "es"
@@ -59,6 +69,7 @@ export default async function EditPostPage({
   const { id } = await params;
   const feedback = await searchParams;
   const { supabase, user } = await getAdminContext();
+  const error = feedback?.error ? errorMessages[feedback.error] : null;
   const { data: post } = await supabase
     .from("posts")
     .select(
@@ -94,9 +105,9 @@ export default async function EditPostPage({
           Guardado.
         </p>
       )}
-      {feedback?.error && (
+      {error && (
         <p className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-          No se pudo guardar. Revisa que el slug no este repetido.
+          {error}
         </p>
       )}
 

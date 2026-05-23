@@ -6,6 +6,13 @@ import { getAdminContext } from "@/lib/supabase/admin";
 import { normalizeSlug } from "@/lib/slug";
 import type { ContentLocale, PostStatus } from "@/lib/supabase/types";
 
+type SupabaseActionError = {
+  code?: string;
+  details?: string | null;
+  hint?: string | null;
+  message?: string;
+};
+
 function textValue(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" ? value.trim() : "";
@@ -59,6 +66,39 @@ function revalidatePostPaths(slug: string, previousSlug?: string) {
   }
 }
 
+function logPostError(action: string, error: SupabaseActionError | null) {
+  console.error(`[admin/posts] ${action} failed`, {
+    code: error?.code,
+    details: error?.details,
+    hint: error?.hint,
+    message: error?.message,
+  });
+}
+
+function postErrorParam(error: SupabaseActionError | null) {
+  if (!error) {
+    return "save";
+  }
+
+  if (error.code === "23505") {
+    return "duplicate";
+  }
+
+  if (error.code === "23514") {
+    return "slug";
+  }
+
+  if (error.code === "42501") {
+    return "permission";
+  }
+
+  if (error.code === "42P01" || error.code === "42703") {
+    return "schema";
+  }
+
+  return "save";
+}
+
 export async function createPost(formData: FormData) {
   const { supabase } = await getAdminContext();
   const slug = normalizeSlug(textValue(formData, "slug"));
@@ -66,6 +106,21 @@ export async function createPost(formData: FormData) {
 
   if (!slug) {
     redirect("/admin/posts/new?error=slug");
+  }
+
+  const { data: existingPost, error: existingPostError } = await supabase
+    .from("posts")
+    .select("id")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (existingPostError) {
+    logPostError("check duplicate slug", existingPostError);
+    redirect(`/admin/posts/new?error=${postErrorParam(existingPostError)}`);
+  }
+
+  if (existingPost) {
+    redirect("/admin/posts/new?error=duplicate");
   }
 
   const { data: post, error: postError } = await supabase
@@ -80,16 +135,18 @@ export async function createPost(formData: FormData) {
     .single();
 
   if (postError || !post) {
-    redirect("/admin/posts/new?error=save");
+    logPostError("create post", postError);
+    redirect(`/admin/posts/new?error=${postErrorParam(postError)}`);
   }
 
   const { error: translationsError } = await supabase
     .from("post_translations")
     .upsert(translationsFromForm(formData, post.id), {
       onConflict: "post_id,locale",
-    });
+  });
 
   if (translationsError) {
+    logPostError("create post translations", translationsError);
     redirect(`/admin/posts/${post.id}?error=translation`);
   }
 
@@ -123,16 +180,18 @@ export async function updatePost(postId: string, formData: FormData) {
     .eq("id", postId);
 
   if (postError) {
-    redirect(`/admin/posts/${postId}?error=save`);
+    logPostError("update post", postError);
+    redirect(`/admin/posts/${postId}?error=${postErrorParam(postError)}`);
   }
 
   const { error: translationsError } = await supabase
     .from("post_translations")
     .upsert(translationsFromForm(formData, postId), {
       onConflict: "post_id,locale",
-    });
+  });
 
   if (translationsError) {
+    logPostError("update post translations", translationsError);
     redirect(`/admin/posts/${postId}?error=translation`);
   }
 
