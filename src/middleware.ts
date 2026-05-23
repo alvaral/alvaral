@@ -8,15 +8,6 @@ export async function middleware(request: NextRequest) {
   const config = getSupabaseConfig();
   const host = request.headers.get("host");
 
-  if (
-    host?.toLowerCase() === "www.alvaral.dev" &&
-    (request.method === "GET" || request.method === "HEAD")
-  ) {
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.hostname = "alvaral.dev";
-    return NextResponse.redirect(redirectUrl, 308);
-  }
-
   let response = NextResponse.next({ request });
 
   if (
