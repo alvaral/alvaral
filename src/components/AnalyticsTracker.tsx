@@ -2,6 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import {
+  ANALYTICS_OPT_OUT_KEY,
+  ANALYTICS_OPT_OUT_QUERY_PARAM,
+} from "@/lib/analytics";
 
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000;
 const SESSION_ID_KEY = "alvaral.analytics.session_id";
@@ -18,7 +22,9 @@ function shouldTrack(path: string) {
 }
 
 function isLocalHost(hostname: string) {
-  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
+  return (
+    hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1"
+  );
 }
 
 function createTrackingId(prefix: "session" | "visitor") {
@@ -44,6 +50,27 @@ function writeStorageValue(key: string, value: string) {
   } catch {
     // Storage can be unavailable in strict privacy modes.
   }
+}
+
+function isOptedOut() {
+  return readStorageValue(ANALYTICS_OPT_OUT_KEY) === "true";
+}
+
+function applyOptOutFromUrl() {
+  const url = new URL(window.location.href);
+  const value = url.searchParams.get(ANALYTICS_OPT_OUT_QUERY_PARAM);
+
+  if (value !== "1" && value !== "0") {
+    return;
+  }
+
+  writeStorageValue(ANALYTICS_OPT_OUT_KEY, value === "1" ? "true" : "false");
+  url.searchParams.delete(ANALYTICS_OPT_OUT_QUERY_PARAM);
+  window.history.replaceState(
+    window.history.state,
+    "",
+    `${url.pathname}${url.search}${url.hash}`
+  );
 }
 
 function getTrackingIds(): TrackingIds {
@@ -109,6 +136,8 @@ export default function AnalyticsTracker() {
   const previousPath = useRef<string | null>(null);
 
   useEffect(() => {
+    applyOptOutFromUrl();
+
     const path = pathname;
 
     if (isLocalHost(window.location.hostname)) {
@@ -117,6 +146,11 @@ export default function AnalyticsTracker() {
     }
 
     if (!shouldTrack(path)) {
+      previousPath.current = null;
+      return;
+    }
+
+    if (isOptedOut()) {
       previousPath.current = null;
       return;
     }

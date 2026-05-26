@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
+import AnalyticsOptOutControl from "@/components/admin/AnalyticsOptOutControl";
 import SubmitButton from "@/components/admin/SubmitButton";
 import { Button } from "@/components/ui/button";
 import {
@@ -57,6 +58,7 @@ export default function AdminShell({ children, userEmail }: AdminShellProps) {
           </div>
 
           <nav className="flex flex-wrap items-center gap-2">
+            <AnalyticsOptOutControl />
             <Button asChild variant="ghost" size="sm">
               <Link href="/">Web</Link>
             </Button>
