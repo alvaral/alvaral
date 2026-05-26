@@ -3,6 +3,8 @@ create table if not exists public.analytics_page_views (
   path text not null,
   referrer text,
   referrer_host text,
+  visitor_id text,
+  session_id text,
   country text,
   region text,
   city text,
@@ -12,11 +14,21 @@ create table if not exists public.analytics_page_views (
   visited_at timestamptz not null default now()
 );
 
+alter table public.analytics_page_views
+add column if not exists visitor_id text,
+add column if not exists session_id text;
+
 create index if not exists analytics_page_views_visited_at_idx
 on public.analytics_page_views (visited_at desc);
 
 create index if not exists analytics_page_views_path_idx
 on public.analytics_page_views (path);
+
+create index if not exists analytics_page_views_visitor_id_idx
+on public.analytics_page_views (visitor_id);
+
+create index if not exists analytics_page_views_session_id_idx
+on public.analytics_page_views (session_id);
 
 alter table public.analytics_page_views enable row level security;
 

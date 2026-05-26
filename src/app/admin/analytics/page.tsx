@@ -6,7 +6,14 @@ import type { Database } from "@/lib/supabase/types";
 type PageViewRow = Database["public"]["Tables"]["analytics_page_views"]["Row"];
 type SummaryRow = Pick<
   PageViewRow,
-  "country" | "device_type" | "path" | "referrer" | "referrer_host" | "visited_at"
+  | "country"
+  | "device_type"
+  | "path"
+  | "referrer"
+  | "referrer_host"
+  | "session_id"
+  | "visited_at"
+  | "visitor_id"
 >;
 
 type AggregateItem = {
@@ -329,13 +336,6 @@ function aggregateCountries(rows: SummaryRow[]) {
       coordinates: COUNTRY_COORDINATES[code],
     }))
     .sort((a, b) => b.value - a.value || a.label.localeCompare(b.label));
-}
-
-function countSince(rows: SummaryRow[], days: number) {
-  const threshold = Date.now() - days * 24 * 60 * 60 * 1000;
-
-  return rows.filter((row) => new Date(row.visited_at).getTime() >= threshold)
-    .length;
 }
 
 function projectCoordinate({ lat, lon }: CountryCoordinate) {
@@ -818,13 +818,17 @@ export default async function AdminAnalyticsPage({
   const summaryQuery = visitedSince
     ? supabase
         .from("analytics_page_views")
-        .select("country, device_type, path, referrer, referrer_host, visited_at")
+        .select(
+          "country, device_type, path, referrer, referrer_host, session_id, visited_at, visitor_id"
+        )
         .gte("visited_at", visitedSince)
         .order("visited_at", { ascending: false })
         .limit(SUMMARY_LIMIT)
     : supabase
         .from("analytics_page_views")
-        .select("country, device_type, path, referrer, referrer_host, visited_at")
+        .select(
+          "country, device_type, path, referrer, referrer_host, session_id, visited_at, visitor_id"
+        )
         .order("visited_at", { ascending: false })
         .limit(SUMMARY_LIMIT);
   const [countResult, summaryResult] = await Promise.all([
@@ -855,11 +859,16 @@ export default async function AdminAnalyticsPage({
   const visibleStart = totalViews === 0 ? 0 : pageStart + 1;
   const visibleEnd = Math.min(pageEnd + 1, totalViews);
   const uniquePages = new Set(summaryViews.map((view) => view.path)).size;
+  const uniqueSessions = new Set(
+    summaryViews.map((view) => view.session_id).filter(Boolean)
+  ).size;
+  const uniqueVisitors = new Set(
+    summaryViews.map((view) => view.visitor_id).filter(Boolean)
+  ).size;
   const countryData = aggregateCountries(summaryViews);
   const knownCountryCount = countryData.filter(
     (country) => country.code !== UNKNOWN_COUNTRY
   ).length;
-  const lastSevenDays = countSince(summaryViews, 7);
   const scopeLabel =
     totalViews > summaryViews.length && summaryViews.length > 0
       ? `Agregados calculados sobre las ultimas ${formatNumber(
@@ -891,7 +900,7 @@ export default async function AdminAnalyticsPage({
         <PeriodFilter period={period} />
       </div>
 
-      <div className="mb-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="mb-6 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <MetricCard
           help={
             period === "all"
@@ -902,9 +911,14 @@ export default async function AdminAnalyticsPage({
           value={formatNumber(totalViews)}
         />
         <MetricCard
-          help="Actividad reciente dentro de la muestra"
-          label="Ultimos 7 dias"
-          value={formatNumber(lastSevenDays)}
+          help="Sesiones anonimas detectadas"
+          label="Sesiones"
+          value={formatNumber(uniqueSessions)}
+        />
+        <MetricCard
+          help="Visitantes anonimos detectados"
+          label="Visitantes"
+          value={formatNumber(uniqueVisitors)}
         />
         <MetricCard
           help="Rutas distintas vistas recientemente"

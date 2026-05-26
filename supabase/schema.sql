@@ -76,6 +76,8 @@ create table if not exists public.analytics_page_views (
   path text not null,
   referrer text,
   referrer_host text,
+  visitor_id text,
+  session_id text,
   country text,
   region text,
   city text,
@@ -90,6 +92,12 @@ on public.analytics_page_views (visited_at desc);
 
 create index if not exists analytics_page_views_path_idx
 on public.analytics_page_views (path);
+
+create index if not exists analytics_page_views_visitor_id_idx
+on public.analytics_page_views (visitor_id);
+
+create index if not exists analytics_page_views_session_id_idx
+on public.analytics_page_views (session_id);
 
 create or replace function public.set_updated_at()
 returns trigger

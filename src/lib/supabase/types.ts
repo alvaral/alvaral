@@ -75,6 +75,8 @@ export type Database = {
           path: string;
           referrer: string | null;
           referrer_host: string | null;
+          visitor_id: string | null;
+          session_id: string | null;
           country: string | null;
           region: string | null;
           city: string | null;
@@ -88,6 +90,8 @@ export type Database = {
           path: string;
           referrer?: string | null;
           referrer_host?: string | null;
+          visitor_id?: string | null;
+          session_id?: string | null;
           country?: string | null;
           region?: string | null;
           city?: string | null;
@@ -101,6 +105,8 @@ export type Database = {
           path?: string;
           referrer?: string | null;
           referrer_host?: string | null;
+          visitor_id?: string | null;
+          session_id?: string | null;
           country?: string | null;
           region?: string | null;
           city?: string | null;
