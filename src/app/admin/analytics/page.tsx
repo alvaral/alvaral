@@ -28,6 +28,8 @@ type CountryAggregate = AggregateItem & {
 const SUMMARY_LIMIT = 1000;
 const TABLE_PAGE_SIZE = 25;
 const UNKNOWN_COUNTRY = "unknown";
+const MAP_WIDTH = 1000;
+const MAP_HEIGHT = 500;
 
 const PERIOD_OPTIONS = [
   {
@@ -228,17 +230,6 @@ const COUNTRY_COORDINATES: Record<string, CountryCoordinate> = {
   ZW: { lat: -17.8, lon: 31.0 },
 };
 
-const WORLD_LAND_PATHS = [
-  "M110 178C140 125 218 105 292 130C332 144 342 177 302 204C272 224 263 245 232 262C204 278 174 253 162 232C142 221 113 211 110 178Z",
-  "M268 246C306 240 346 256 360 280C331 288 302 282 283 270C273 264 264 258 268 246Z",
-  "M328 292C367 312 392 352 384 398C374 457 334 506 306 486C293 449 309 421 296 383C284 346 302 317 328 292Z",
-  "M468 152C505 127 564 136 591 164C570 188 516 190 490 178C473 170 462 163 468 152Z",
-  "M500 205C552 196 608 226 632 277C653 325 623 382 573 388C530 372 512 326 495 278C483 243 480 218 500 205Z",
-  "M573 158C664 118 779 136 861 188C899 212 876 252 818 252C767 252 731 281 684 267C650 256 640 221 607 207C578 195 547 174 573 158Z",
-  "M749 346C803 332 860 350 881 386C848 414 786 411 752 384C736 372 732 356 749 346Z",
-  "M884 414C918 408 943 420 955 446C928 468 892 458 879 436C872 425 874 417 884 414Z",
-];
-
 type AdminAnalyticsPageProps = {
   searchParams?: Promise<{
     page?: string | string[];
@@ -349,8 +340,8 @@ function countSince(rows: SummaryRow[], days: number) {
 
 function projectCoordinate({ lat, lon }: CountryCoordinate) {
   return {
-    x: ((lon + 180) / 360) * 1000,
-    y: ((90 - lat) / 180) * 520,
+    x: ((lon + 180) / 360) * MAP_WIDTH,
+    y: ((90 - lat) / 180) * MAP_HEIGHT,
   };
 }
 
@@ -680,41 +671,39 @@ function CountryActivityMap({
             aria-label="Mapa de peticiones por pais"
             className="h-[320px] w-full"
             role="img"
-            viewBox="0 0 1000 520"
+            viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}
           >
-            <rect fill="#f8fafc" height="520" width="1000" />
+            <rect fill="#f8fafc" height={MAP_HEIGHT} width={MAP_WIDTH} />
             {[200, 400, 600, 800].map((x) => (
               <line
                 key={`vertical-${x}`}
-                stroke="#e5e7eb"
+                stroke="#e2e8f0"
                 strokeWidth="1"
                 x1={x}
                 x2={x}
                 y1="0"
-                y2="520"
+                y2={MAP_HEIGHT}
               />
             ))}
-            {[130, 260, 390].map((y) => (
+            {[125, 250, 375].map((y) => (
               <line
                 key={`horizontal-${y}`}
-                stroke="#e5e7eb"
+                stroke="#e2e8f0"
                 strokeWidth="1"
                 x1="0"
-                x2="1000"
+                x2={MAP_WIDTH}
                 y1={y}
                 y2={y}
               />
             ))}
-            {WORLD_LAND_PATHS.map((path, index) => (
-              <path
-                d={path}
-                fill="#e5e7eb"
-                key={path}
-                opacity={index === 0 ? 0.95 : 0.85}
-                stroke="#d1d5db"
-                strokeWidth="2"
-              />
-            ))}
+            <image
+              height={MAP_HEIGHT}
+              href="/assets/maps/world-equirectangular.svg"
+              preserveAspectRatio="none"
+              width={MAP_WIDTH}
+              x="0"
+              y="0"
+            />
             {mappedCountries.map((country) => {
               const point = projectCoordinate(country.coordinates!);
               const radius = 6 + Math.sqrt(country.value / maxValue) * 16;
@@ -755,8 +744,8 @@ function CountryActivityMap({
                 fill="#6b7280"
                 fontSize="24"
                 textAnchor="middle"
-                x="500"
-                y="260"
+                x={MAP_WIDTH / 2}
+                y={MAP_HEIGHT / 2}
               >
                 Sin paises para pintar todavia
               </text>
