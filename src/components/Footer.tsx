@@ -1,49 +1,34 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import {
   createLocaleCookie,
   LOCALE_LABELS,
+  localeFromPathname,
   normalizeLocale,
-  readLocaleFromCookieString,
+  stripLocaleFromPathname,
   SUPPORTED_LOCALES,
-  type AppLocale,
+  withLocalePathname,
 } from "@/i18n/locale";
 import Section from "./Section";
 
 export default function Footer() {
-  const currentLocale = normalizeLocale(useLocale());
-  const [locale, setLocale] = useState<AppLocale>(currentLocale);
   const pathname = usePathname();
-  const router = useRouter();
+  const intlLocale = useLocale();
+  const locale = localeFromPathname(pathname) ?? normalizeLocale(intlLocale);
+  const visiblePathname = stripLocaleFromPathname(pathname);
   const t = useTranslations("footer");
-
-  useEffect(() => {
-    const cookieLocale = readLocaleFromCookieString(document.cookie);
-    const nextLocale =
-      cookieLocale ?? normalizeLocale(window.navigator.language);
-
-    setLocale(nextLocale);
-
-    if (!cookieLocale) {
-      document.cookie = createLocaleCookie(nextLocale);
-    }
-
-    if (nextLocale !== currentLocale) {
-      router.refresh();
-    }
-  }, [currentLocale, router]);
 
   const handleLocaleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedLocale = normalizeLocale(event.target.value);
+    const nextPathname = withLocalePathname(pathname, selectedLocale);
+
     document.cookie = createLocaleCookie(selectedLocale);
-    setLocale(selectedLocale);
-    router.refresh();
+    window.location.assign(`${nextPathname}${window.location.search}`);
   };
 
-  if (pathname.startsWith("/admin")) {
+  if (visiblePathname.startsWith("/admin")) {
     return null;
   }
 

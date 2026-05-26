@@ -3,6 +3,7 @@ create table if not exists public.analytics_page_views (
   path text not null,
   referrer text,
   referrer_host text,
+  locale text check (locale in ('en', 'es')),
   visitor_id text,
   session_id text,
   country text,
@@ -16,13 +17,26 @@ create table if not exists public.analytics_page_views (
 
 alter table public.analytics_page_views
 add column if not exists visitor_id text,
-add column if not exists session_id text;
+add column if not exists session_id text,
+add column if not exists locale text check (locale in ('en', 'es'));
+
+update public.analytics_page_views
+set locale = substring(path from '^/(en|es)(/|$)')
+where locale is null
+  and path ~ '^/(en|es)(/|$)';
+
+update public.analytics_page_views
+set path = regexp_replace(path, '^/(en|es)(/|$)', '/')
+where path ~ '^/(en|es)(/|$)';
 
 create index if not exists analytics_page_views_visited_at_idx
 on public.analytics_page_views (visited_at desc);
 
 create index if not exists analytics_page_views_path_idx
 on public.analytics_page_views (path);
+
+create index if not exists analytics_page_views_locale_idx
+on public.analytics_page_views (locale);
 
 create index if not exists analytics_page_views_visitor_id_idx
 on public.analytics_page_views (visitor_id);

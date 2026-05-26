@@ -1,11 +1,13 @@
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import { getLocale } from "next-intl/server";
 import AuthorInfo from "@/components/AuthorInfoCard";
 import MarkdownContent from "@/components/blogPost/MarkdownContent";
 import { PostLayout } from "@/components/blogPost/PostLayout";
-import { LOCALE_COOKIE_NAME, normalizeLocale } from "@/i18n/locale";
+import { normalizeLocale, withLocalePathname } from "@/i18n/locale";
 import { createPageMetadata } from "@/lib/metadata";
 import { getPublishedPostBySlug } from "@/posts/supabase-posts";
+
+export const dynamic = "force-dynamic";
 
 type BlogPostPageProps = {
   params: Promise<{
@@ -14,7 +16,7 @@ type BlogPostPageProps = {
 };
 
 async function getPageLocale() {
-  return normalizeLocale((await cookies()).get(LOCALE_COOKIE_NAME)?.value);
+  return normalizeLocale(await getLocale());
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
@@ -26,15 +28,17 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     return createPageMetadata({
       title: "Post",
       description: "Blog post",
-      path: `/blog/posts/${slug}`,
-      type: "article",
-    });
+    path: `/blog/posts/${slug}`,
+    locale,
+    type: "article",
+  });
   }
 
   return createPageMetadata({
     title: post.title,
     description: post.description,
     path: `/blog/posts/${slug}`,
+    locale,
     type: "article",
     publishedTime: post.date,
   });
@@ -63,7 +67,7 @@ export default async function DynamicBlogPostPage({
           name="Álvaro Alonso"
           role={locale === "es" ? "Ingeniero de Software" : "Software Engineer"}
           avatar="/assets/images/profile-photo.webp"
-          infoUrl="/about"
+          infoUrl={withLocalePathname("/about", locale)}
         />
       </div>
     </PostLayout>

@@ -3,14 +3,28 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import {
+  localeFromPathname,
+  normalizeLocale,
+  stripLocaleFromPathname,
+  withLocalePathname,
+} from "@/i18n/locale";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const intlLocale = useLocale();
+  const currentPathname = stripLocaleFromPathname(pathname);
+  const locale = localeFromPathname(pathname) ?? normalizeLocale(intlLocale);
   const t = useTranslations("header");
+  const links = [
+    { href: "/blog", label: t("blog") },
+    { href: "/focus", label: t("focus") },
+    { href: "/about", label: t("about") },
+  ];
 
-  if (pathname.startsWith("/admin")) {
+  if (currentPathname.startsWith("/admin")) {
     return null;
   }
 
@@ -18,7 +32,10 @@ export default function Header() {
     <>
       <header className="fixed top-0 w-full z-40 bg-white transition-colors duration-300">
         <div className="mx-auto px-4 py-4 flex items-center justify-between max-w-[750px]">
-          <Link href="/" className="text-xl font-bold whitespace-nowrap">
+          <Link
+            href={withLocalePathname("/", locale)}
+            className="text-xl font-bold whitespace-nowrap"
+          >
             alvaral
           </Link>
           <button
@@ -29,41 +46,27 @@ export default function Header() {
             <MenuIcon isOpen={open} />
           </button>
           <nav className="hidden md:flex space-x-6 text-sm font-medium">
-            <Link
-              href="/blog"
-              className={`hover:underline ${
-                pathname === "/blog"
-                  ? "underline decoration-2 decoration-black"
-                  : ""
-              }`}
-            >
-              {t("blog")}
-            </Link>
-            <Link
-              href="/focus"
-              className={`hover:underline ${
-                pathname === "/focus"
-                  ? "underline decoration-2 decoration-black"
-                  : ""
-              }`}
-            >
-              {t("focus")}
-            </Link>
-            <Link
-              href="/about"
-              className={`hover:underline ${
-                pathname === "/about"
-                  ? "underline decoration-2 decoration-black"
-                  : ""
-              }`}
-            >
-              {t("about")}
-            </Link>
+            {links.map((link) => {
+              const isActive =
+                currentPathname === link.href ||
+                currentPathname.startsWith(`${link.href}/`);
+
+              return (
+                <Link
+                  key={link.href}
+                  href={withLocalePathname(link.href, locale)}
+                  className={`hover:underline ${
+                    isActive ? "underline decoration-2 decoration-black" : ""
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
         </div>
       </header>
 
-      {/* Menú móvil */}
       <div
         className={`fixed inset-0 z-50 bg-white flex flex-col items-center justify-center space-y-8 text-lg font-semibold
           transition-opacity duration-300 ease-in-out
@@ -76,47 +79,34 @@ export default function Header() {
         style={{ marginTop: "3.5rem" }}
       >
         <Link
-          href="/"
+          href={withLocalePathname("/", locale)}
           onClick={() => setOpen(false)}
           className={`hover:underline ${
-            pathname === "/" ? "underline decoration-2 decoration-black" : ""
+            currentPathname === "/"
+              ? "underline decoration-2 decoration-black"
+              : ""
           }`}
         >
           {t("home")}
         </Link>
-        <Link
-          href="/blog"
-          onClick={() => setOpen(false)}
-          className={`hover:underline ${
-            pathname === "/blog"
-              ? "underline decoration-2 decoration-black"
-              : ""
-          }`}
-        >
-          {t("blog")}
-        </Link>
-        <Link
-          href="/focus"
-          onClick={() => setOpen(false)}
-          className={`hover:underline ${
-            pathname === "/focus"
-              ? "underline decoration-2 decoration-black"
-              : ""
-          }`}
-        >
-          {t("focus")}
-        </Link>
-        <Link
-          href="/about"
-          onClick={() => setOpen(false)}
-          className={`hover:underline ${
-            pathname === "/about"
-              ? "underline decoration-2 decoration-black"
-              : ""
-          }`}
-        >
-          {t("about")}
-        </Link>
+        {links.map((link) => {
+          const isActive =
+            currentPathname === link.href ||
+            currentPathname.startsWith(`${link.href}/`);
+
+          return (
+            <Link
+              key={link.href}
+              href={withLocalePathname(link.href, locale)}
+              onClick={() => setOpen(false)}
+              className={`hover:underline ${
+                isActive ? "underline decoration-2 decoration-black" : ""
+              }`}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
       </div>
     </>
   );

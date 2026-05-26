@@ -22,6 +22,30 @@ export function normalizeLocale(value: string | null | undefined): AppLocale {
   return isSupportedLocale(normalized) ? normalized : DEFAULT_LOCALE;
 }
 
+export function localeFromPathname(pathname: string): AppLocale | undefined {
+  const segment = pathname.split("/").filter(Boolean)[0];
+  return isSupportedLocale(segment) ? segment : undefined;
+}
+
+export function stripLocaleFromPathname(pathname: string) {
+  const locale = localeFromPathname(pathname);
+
+  if (!locale) return pathname || "/";
+
+  const strippedPath = pathname.replace(`/${locale}`, "") || "/";
+  return strippedPath.startsWith("/") ? strippedPath : `/${strippedPath}`;
+}
+
+export function withLocalePathname(pathname: string, locale: AppLocale) {
+  const pathWithoutLocale = stripLocaleFromPathname(pathname);
+
+  if (pathWithoutLocale === "/") {
+    return `/${locale}`;
+  }
+
+  return `/${locale}${pathWithoutLocale}`;
+}
+
 export function readLocaleFromCookieString(
   cookieString: string
 ): AppLocale | undefined {

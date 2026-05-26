@@ -3,12 +3,29 @@ import Gallery from "@/components/Gallery";
 import { getLocale, getTranslations } from "next-intl/server";
 import BlogCard from "@/components/BlogCard";
 import Divider from "@/components/Divider";
+import { siteConfig } from "@/config/site";
+import { normalizeLocale, withLocalePathname } from "@/i18n/locale";
 import { getGalleryImages } from "@/lib/gallery";
+import { createPageMetadata } from "@/lib/metadata";
 import { getLatestPublishedPost } from "@/posts/supabase-posts";
+
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata() {
+  const locale = normalizeLocale(await getLocale());
+
+  return createPageMetadata({
+    title: siteConfig.name,
+    description: siteConfig.description,
+    path: "/",
+    locale,
+    absoluteTitle: true,
+  });
+}
 
 export default async function HomePage() {
   const t = await getTranslations("homepage");
-  const locale = await getLocale();
+  const locale = normalizeLocale(await getLocale());
   const images = await getGalleryImages(locale);
   const latestPost = await getLatestPublishedPost(locale);
 
@@ -35,7 +52,7 @@ export default async function HomePage() {
           <BlogCard
             title={latestPost.title}
             description={latestPost.description}
-            href={latestPost.href}
+            href={withLocalePathname(latestPost.href, locale)}
             imageSrc={latestPost.imageSrc}
             locale={locale}
           />

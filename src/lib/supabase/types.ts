@@ -75,6 +75,7 @@ export type Database = {
           path: string;
           referrer: string | null;
           referrer_host: string | null;
+          locale: ContentLocale | null;
           visitor_id: string | null;
           session_id: string | null;
           country: string | null;
@@ -90,6 +91,7 @@ export type Database = {
           path: string;
           referrer?: string | null;
           referrer_host?: string | null;
+          locale?: ContentLocale | null;
           visitor_id?: string | null;
           session_id?: string | null;
           country?: string | null;
@@ -105,6 +107,7 @@ export type Database = {
           path?: string;
           referrer?: string | null;
           referrer_host?: string | null;
+          locale?: ContentLocale | null;
           visitor_id?: string | null;
           session_id?: string | null;
           country?: string | null;

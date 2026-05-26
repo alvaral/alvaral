@@ -1,18 +1,26 @@
 import Image from "next/image";
 import { getLocale } from "next-intl/server";
 import Section from "@/components/Section";
+import { normalizeLocale } from "@/i18n/locale";
 import { getAboutProfile } from "@/lib/about-profile";
 import { createPageMetadata } from "@/lib/metadata";
 
-export const metadata = createPageMetadata({
-  title: "About",
-  description:
-    "About Álvaro Alonso, a software engineer focused on useful and thoughtful digital experiences.",
-  path: "/about",
-});
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata() {
+  const locale = normalizeLocale(await getLocale());
+
+  return createPageMetadata({
+    title: "About",
+    description:
+      "About Álvaro Alonso, a software engineer focused on useful and thoughtful digital experiences.",
+    path: "/about",
+    locale,
+  });
+}
 
 export default async function About() {
-  const locale = await getLocale();
+  const locale = normalizeLocale(await getLocale());
   const profile = await getAboutProfile(locale);
 
   return (

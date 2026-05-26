@@ -1,4 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
+import {
+  localeFromPathname,
+  stripLocaleFromPathname,
+} from "@/i18n/locale";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 type PageViewPayload = {
@@ -66,12 +70,20 @@ function normalizePath(value: unknown) {
   if (!rawPath.startsWith("/")) return null;
 
   const url = new URL(rawPath, "https://www.alvaral.dev");
+  const locale = localeFromPathname(url.pathname) ?? null;
+  url.pathname = stripLocaleFromPathname(url.pathname);
   const path = cleanUrlPath(url);
 
   if (!path.startsWith("/")) return null;
   if (path.startsWith("/admin") || path.startsWith("/api")) return null;
 
-  return shortText(path, 300);
+  const normalizedPath = shortText(path, 300);
+  if (!normalizedPath) return null;
+
+  return {
+    path: normalizedPath,
+    locale,
+  };
 }
 
 function sanitizeReferrer(value: unknown) {
@@ -166,8 +178,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false }, { status: 400 });
   }
 
-  const path = normalizePath(payload.path);
-  if (!path) {
+  const normalizedPath = normalizePath(payload.path);
+  if (!normalizedPath) {
     return NextResponse.json({ ok: true }, { status: 202 });
   }
 
@@ -183,7 +195,8 @@ export async function POST(request: NextRequest) {
   const sessionId = normalizeTrackingId(payload.sessionId);
 
   const insertPayload = {
-    path,
+    path: normalizedPath.path,
+    locale: normalizedPath.locale,
     referrer,
     referrer_host: referrerHost,
     visitor_id: visitorId,
@@ -199,11 +212,32 @@ export async function POST(request: NextRequest) {
   const { error } = await supabase
     .from("analytics_page_views")
     .insert(insertPayload);
+  let insertError = error;
+
+  if (insertError?.message.includes("locale")) {
+    const payloadWithoutLocale = {
+      path: insertPayload.path,
+      referrer: insertPayload.referrer,
+      referrer_host: insertPayload.referrer_host,
+      visitor_id: insertPayload.visitor_id,
+      session_id: insertPayload.session_id,
+      country: insertPayload.country,
+      region: insertPayload.region,
+      city: insertPayload.city,
+      device_type: insertPayload.device_type,
+      browser: insertPayload.browser,
+      os: insertPayload.os,
+    };
+    const retryResult = await supabase
+      .from("analytics_page_views")
+      .insert(payloadWithoutLocale);
+    insertError = retryResult.error;
+  }
 
   if (
-    error &&
-    (error.message.includes("session_id") ||
-      error.message.includes("visitor_id"))
+    insertError &&
+    (insertError.message.includes("session_id") ||
+      insertError.message.includes("visitor_id"))
   ) {
     const legacyPayload = {
       path: insertPayload.path,

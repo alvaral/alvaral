@@ -1,5 +1,6 @@
 import Link from "next/link";
 import AdminShell from "@/components/admin/AdminShell";
+import { stripLocaleFromPathname } from "@/i18n/locale";
 import { getAdminContext } from "@/lib/supabase/admin";
 import type { Database } from "@/lib/supabase/types";
 
@@ -8,6 +9,7 @@ type SummaryRow = Pick<
   PageViewRow,
   | "country"
   | "device_type"
+  | "locale"
   | "path"
   | "referrer"
   | "referrer_host"
@@ -280,6 +282,7 @@ function isNoisyQueryParam(name: string) {
 function cleanDisplayPath(value: string) {
   try {
     const url = new URL(value, "https://www.alvaral.dev");
+    url.pathname = stripLocaleFromPathname(url.pathname);
 
     Array.from(url.searchParams.keys()).forEach((key) => {
       if (isNoisyQueryParam(key)) {
@@ -301,6 +304,12 @@ function locationLabel(view: PageViewRow) {
 function referrerLabel(view: PageViewRow) {
   if (!view.referrer) return "Directa";
   return view.referrer_host ?? view.referrer;
+}
+
+function localeLabel(value: string | null) {
+  if (value === "es") return "Español";
+  if (value === "en") return "English";
+  return "Sin idioma";
 }
 
 function normalizeCountryCode(value: string | null) {
@@ -857,7 +866,7 @@ export default async function AdminAnalyticsPage({
     ? supabase
         .from("analytics_page_views")
         .select(
-          "country, device_type, path, referrer, referrer_host, session_id, visited_at, visitor_id"
+          "country, device_type, locale, path, referrer, referrer_host, session_id, visited_at, visitor_id"
         )
         .gte("visited_at", visitedSince)
         .order("visited_at", { ascending: false })
@@ -865,7 +874,7 @@ export default async function AdminAnalyticsPage({
     : supabase
         .from("analytics_page_views")
         .select(
-          "country, device_type, path, referrer, referrer_host, session_id, visited_at, visitor_id"
+          "country, device_type, locale, path, referrer, referrer_host, session_id, visited_at, visitor_id"
         )
         .order("visited_at", { ascending: false })
         .limit(SUMMARY_LIMIT);
@@ -931,6 +940,11 @@ export default async function AdminAnalyticsPage({
     (view) => view.device_type,
     4
   );
+  const topLanguages = aggregateRows(
+    summaryViews,
+    (view) => localeLabel(view.locale),
+    4
+  );
 
   return (
     <AdminShell userEmail={user.email}>
@@ -976,7 +990,7 @@ export default async function AdminAnalyticsPage({
         />
       </div>
 
-      <div className="mb-6 grid gap-4 lg:grid-cols-3">
+      <div className="mb-6 grid gap-4 lg:grid-cols-4">
         <TopList
           emptyLabel="Aun no hay paginas registradas."
           items={topPages}
@@ -991,6 +1005,11 @@ export default async function AdminAnalyticsPage({
           emptyLabel="Aun no hay dispositivos registrados."
           items={topDevices}
           title="Dispositivos"
+        />
+        <TopList
+          emptyLabel="Aun no hay idiomas registrados."
+          items={topLanguages}
+          title="Idiomas"
         />
       </div>
 
@@ -1010,10 +1029,11 @@ export default async function AdminAnalyticsPage({
           </p>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[980px] table-fixed text-left text-sm">
+          <table className="w-full min-w-[1080px] table-fixed text-left text-sm">
             <colgroup>
               <col className="w-[170px]" />
               <col className="w-[260px]" />
+              <col className="w-[110px]" />
               <col className="w-[220px]" />
               <col className="w-[150px]" />
               <col className="w-[130px]" />
@@ -1023,6 +1043,7 @@ export default async function AdminAnalyticsPage({
               <tr>
                 <th className="px-4 py-3 font-medium">Cuando</th>
                 <th className="px-4 py-3 font-medium">Pagina</th>
+                <th className="px-4 py-3 font-medium">Idioma</th>
                 <th className="px-4 py-3 font-medium">Region</th>
                 <th className="px-4 py-3 font-medium">Dispositivo</th>
                 <th className="px-4 py-3 font-medium">Navegador</th>
@@ -1031,6 +1052,7 @@ export default async function AdminAnalyticsPage({
             </thead>
             <tbody className="divide-y divide-gray-200">
               {views.map((view) => {
+                const displayPath = cleanDisplayPath(view.path);
                 const referrer = referrerLabel(view);
 
                 return (
@@ -1041,9 +1063,17 @@ export default async function AdminAnalyticsPage({
                     <td className="px-4 py-3">
                       <span
                         className="block truncate font-medium"
-                        title={view.path}
+                        title={displayPath}
                       >
-                        {view.path}
+                        {displayPath}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span
+                        className="block truncate"
+                        title={localeLabel(view.locale)}
+                      >
+                        {localeLabel(view.locale)}
                       </span>
                     </td>
                     <td className="px-4 py-3">
@@ -1077,7 +1107,7 @@ export default async function AdminAnalyticsPage({
               })}
               {views.length === 0 && (
                 <tr>
-                  <td className="px-4 py-6 text-gray-500" colSpan={6}>
+                  <td className="px-4 py-6 text-gray-500" colSpan={7}>
                     Aun no hay visitas registradas.
                   </td>
                 </tr>
