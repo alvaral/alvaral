@@ -3,10 +3,16 @@ import Gallery from "@/components/Gallery";
 import { getLocale, getTranslations } from "next-intl/server";
 import BlogCard from "@/components/BlogCard";
 import Divider from "@/components/Divider";
+import StructuredData from "@/components/StructuredData";
 import { siteConfig } from "@/config/site";
 import { normalizeLocale, withLocalePathname } from "@/i18n/locale";
 import { getGalleryImages } from "@/lib/gallery";
 import { createPageMetadata } from "@/lib/metadata";
+import { seoContent } from "@/lib/seo-content";
+import {
+  personStructuredData,
+  websiteStructuredData,
+} from "@/lib/structured-data";
 import { getLatestPublishedPost } from "@/posts/supabase-posts";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +22,7 @@ export async function generateMetadata() {
 
   return createPageMetadata({
     title: siteConfig.name,
-    description: siteConfig.description,
+    description: seoContent[locale].home.description,
     path: "/",
     locale,
     absoluteTitle: true,
@@ -31,6 +37,9 @@ export default async function HomePage() {
 
   return (
     <main className="p-8">
+      <StructuredData
+        data={[websiteStructuredData(locale), personStructuredData(locale)]}
+      />
       <Section
         index={0}
         sectionHeight="custom"

@@ -13,8 +13,15 @@ type PageMetadataOptions = {
   path: string;
   locale?: AppLocale;
   absoluteTitle?: boolean;
+  image?: string;
   type?: "website" | "article";
   publishedTime?: string;
+  modifiedTime?: string;
+};
+
+const OPEN_GRAPH_LOCALES: Record<AppLocale, string> = {
+  en: "en_US",
+  es: "es_ES",
 };
 
 export function createLocalizedAlternates(path: string, locale: AppLocale) {
@@ -40,16 +47,31 @@ export function createPageMetadata({
   path,
   locale = DEFAULT_LOCALE,
   absoluteTitle = false,
+  image = "/opengraph-image",
   type = "website",
   publishedTime,
+  modifiedTime,
 }: PageMetadataOptions): Metadata {
   const localizedPath = withLocalePathname(path, locale);
   const url = new URL(localizedPath, siteConfig.url).toString();
+  const imageUrl = new URL(image, siteConfig.url).toString();
   const baseOpenGraph = {
     title,
     description,
     url,
     siteName: siteConfig.name,
+    locale: OPEN_GRAPH_LOCALES[locale],
+    alternateLocale: SUPPORTED_LOCALES.filter(
+      (supportedLocale) => supportedLocale !== locale
+    ).map((supportedLocale) => OPEN_GRAPH_LOCALES[supportedLocale]),
+    images: [
+      {
+        url: imageUrl,
+        width: 1200,
+        height: 630,
+        alt: title,
+      },
+    ],
   };
 
   return {
@@ -62,6 +84,7 @@ export function createPageMetadata({
             ...baseOpenGraph,
             type,
             publishedTime,
+            modifiedTime,
             authors: [siteConfig.author],
           }
         : {
@@ -72,6 +95,7 @@ export function createPageMetadata({
       card: "summary_large_image",
       title,
       description,
+      images: [imageUrl],
     },
   };
 }

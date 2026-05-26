@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import AuthorInfo from "@/components/AuthorInfoCard";
+import StructuredData from "@/components/StructuredData";
 import MarkdownContent from "@/components/blogPost/MarkdownContent";
 import { PostLayout } from "@/components/blogPost/PostLayout";
+import { siteConfig } from "@/config/site";
 import { normalizeLocale, withLocalePathname } from "@/i18n/locale";
 import { createPageMetadata } from "@/lib/metadata";
+import { blogPostStructuredData } from "@/lib/structured-data";
 import { getPublishedPostBySlug } from "@/posts/supabase-posts";
 
 export const dynamic = "force-dynamic";
@@ -28,10 +31,10 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     return createPageMetadata({
       title: "Post",
       description: "Blog post",
-    path: `/blog/posts/${slug}`,
-    locale,
-    type: "article",
-  });
+      path: `/blog/posts/${slug}`,
+      locale,
+      type: "article",
+    });
   }
 
   return createPageMetadata({
@@ -39,8 +42,10 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     description: post.description,
     path: `/blog/posts/${slug}`,
     locale,
+    image: post.imageSrc,
     type: "article",
     publishedTime: post.date,
+    modifiedTime: post.updatedAt,
   });
 }
 
@@ -61,10 +66,11 @@ export default async function DynamicBlogPostPage({
 
   return (
     <PostLayout title={post.title}>
+      <StructuredData data={blogPostStructuredData({ locale, post })} />
       <MarkdownContent content={content} />
       <div className="mt-10">
         <AuthorInfo
-          name="Álvaro Alonso"
+          name={siteConfig.author}
           role={locale === "es" ? "Ingeniero de Software" : "Software Engineer"}
           avatar="/assets/images/profile-photo.webp"
           infoUrl={withLocalePathname("/about", locale)}

@@ -15,9 +15,14 @@ import { withCookieDomain } from "@/lib/supabase/cookies";
 import type { Database } from "@/lib/supabase/types";
 
 const PUBLIC_FILE = /\/[^/]+\.[^/]+$/;
+const PUBLIC_METADATA_ROUTES = new Set([
+  "/opengraph-image",
+  "/twitter-image",
+]);
 
 function isIgnoredPath(pathname: string) {
   return (
+    PUBLIC_METADATA_ROUTES.has(pathname) ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
     pathname.startsWith("/assets") ||
@@ -171,6 +176,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|apple-icon.png|favicon.ico|icon0.svg|icon1.png|manifest.json|robots.txt|sitemap.xml).*)",
+    "/((?!_next/static|_next/image|apple-icon.png|favicon.ico|icon0.svg|icon1.png|manifest.json|opengraph-image|robots.txt|sitemap.xml|twitter-image).*)",
   ],
 };
