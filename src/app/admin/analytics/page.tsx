@@ -259,6 +259,41 @@ function requestLabel(count: number) {
   return count === 1 ? "1 peticion" : `${formatNumber(count)} peticiones`;
 }
 
+function isNoisyQueryParam(name: string) {
+  const normalizedName = name.toLowerCase();
+
+  return (
+    normalizedName.startsWith("utm_") ||
+    [
+      "fbclid",
+      "gclid",
+      "gbraid",
+      "wbraid",
+      "igshid",
+      "mc_cid",
+      "mc_eid",
+      "msclkid",
+    ].includes(normalizedName)
+  );
+}
+
+function cleanDisplayPath(value: string) {
+  try {
+    const url = new URL(value, "https://www.alvaral.dev");
+
+    Array.from(url.searchParams.keys()).forEach((key) => {
+      if (isNoisyQueryParam(key)) {
+        url.searchParams.delete(key);
+      }
+    });
+
+    const query = url.searchParams.toString();
+    return `${url.pathname}${query ? `?${query}` : ""}`;
+  } catch {
+    return value;
+  }
+}
+
 function locationLabel(view: PageViewRow) {
   return [view.city, view.region, view.country].filter(Boolean).join(", ") || "-";
 }
@@ -470,8 +505,11 @@ function TopList({
       <div className="mt-4 space-y-4">
         {items.map((item) => (
           <div key={item.label}>
-            <div className="flex items-start justify-between gap-3 text-sm">
-              <span className="min-w-0 truncate font-medium" title={item.label}>
+            <div className="flex min-w-0 items-start justify-between gap-3 text-sm">
+              <span
+                className="min-w-0 max-w-full truncate break-all font-medium"
+                title={item.label}
+              >
                 {item.label}
               </span>
               <span className="shrink-0 text-gray-500">
@@ -858,7 +896,9 @@ export default async function AdminAnalyticsPage({
   const views = (recentResult.data ?? []) as PageViewRow[];
   const visibleStart = totalViews === 0 ? 0 : pageStart + 1;
   const visibleEnd = Math.min(pageEnd + 1, totalViews);
-  const uniquePages = new Set(summaryViews.map((view) => view.path)).size;
+  const uniquePages = new Set(
+    summaryViews.map((view) => cleanDisplayPath(view.path))
+  ).size;
   const uniqueSessions = new Set(
     summaryViews.map((view) => view.session_id).filter(Boolean)
   ).size;
@@ -876,7 +916,11 @@ export default async function AdminAnalyticsPage({
         )} visitas ${periodOption.summary}.`
       : `Agregados calculados sobre las visitas ${periodOption.summary}.`;
 
-  const topPages = aggregateRows(summaryViews, (view) => view.path, 6);
+  const topPages = aggregateRows(
+    summaryViews,
+    (view) => cleanDisplayPath(view.path),
+    6
+  );
   const topReferrers = aggregateRows(
     summaryViews,
     (view) => view.referrer_host ?? (view.referrer ? "Otros" : "Directa"),
