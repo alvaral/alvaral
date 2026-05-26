@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   ANALYTICS_OPT_OUT_KEY,
   ANALYTICS_OPT_OUT_QUERY_PARAM,
@@ -43,18 +42,15 @@ export default function AnalyticsOptOutControl() {
   }
 
   return (
-    <div className="flex items-center gap-2 rounded-md border border-gray-200 px-3 py-1.5">
-      <span className="text-sm text-gray-600">No contarme</span>
-      <Switch
-        aria-label="Excluir este navegador de analiticas"
+    <label className="flex h-9 cursor-pointer items-center gap-2 rounded-md border border-gray-200 px-2.5 text-sm text-gray-600 hover:bg-gray-50">
+      <Checkbox
         checked={isOptedOut}
-        onCheckedChange={updateOptOut}
+        onCheckedChange={(value) => updateOptOut(value === true)}
       />
-      <Button asChild size="sm" variant="ghost">
-        <a href={currentPathWithOptOut(!isOptedOut)}>
-          {isOptedOut ? "Desactivar" : "Activar"}
-        </a>
-      </Button>
-    </div>
+      <span>No contarme</span>
+      <a className="sr-only" href={currentPathWithOptOut(!isOptedOut)}>
+        {isOptedOut ? "Desactivar opt-out" : "Activar opt-out"}
+      </a>
+    </label>
   );
 }
