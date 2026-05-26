@@ -31,10 +31,15 @@ function currentPathWithOptOut(value: boolean) {
 
 export default function AnalyticsOptOutControl() {
   const [isOptedOut, setIsOptedOut] = useState(false);
+  const [optOutHref, setOptOutHref] = useState("#");
 
   useEffect(() => {
     setIsOptedOut(readOptOut());
   }, []);
+
+  useEffect(() => {
+    setOptOutHref(currentPathWithOptOut(!isOptedOut));
+  }, [isOptedOut]);
 
   function updateOptOut(value: boolean) {
     writeOptOut(value);
@@ -48,7 +53,7 @@ export default function AnalyticsOptOutControl() {
         onCheckedChange={(value) => updateOptOut(value === true)}
       />
       <span>No contarme</span>
-      <a className="sr-only" href={currentPathWithOptOut(!isOptedOut)}>
+      <a className="sr-only" href={optOutHref}>
         {isOptedOut ? "Desactivar opt-out" : "Activar opt-out"}
       </a>
     </label>
