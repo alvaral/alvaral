@@ -31,6 +31,7 @@ export type PostFormValues = {
 
 type PostFormProps = {
   action: (formData: FormData) => void | Promise<void>;
+  formId?: string;
   values?: PostFormValues;
   submitLabel: string;
 };
@@ -139,6 +140,7 @@ async function uploadCoverImage(file: File) {
 
 export default function PostForm({
   action,
+  formId,
   values,
   submitLabel,
 }: PostFormProps) {
@@ -189,9 +191,9 @@ export default function PostForm({
   return (
     <form
       ref={formRef}
+      id={formId}
       action={action}
       className="space-y-8"
-      encType="multipart/form-data"
       onSubmit={handleSubmit}
     >
       <input name="uploadedCoverImagePath" type="hidden" />

@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import AdminShell from "@/components/admin/AdminShell";
 import PostForm, { type PostFormValues } from "@/components/admin/PostForm";
 import SubmitButton from "@/components/admin/SubmitButton";
+import { Button } from "@/components/ui/button";
 import { getAdminContext } from "@/lib/supabase/admin";
 import { getPublicMediaUrl } from "@/lib/supabase/storage";
 import type { ContentLocale, PostStatus } from "@/lib/supabase/types";
@@ -88,6 +90,7 @@ export default async function EditPostPage({
 
   const updatePostAction = updatePost.bind(null, id);
   const deletePostAction = deletePost.bind(null, id);
+  const postFormId = "edit-post-form";
 
   return (
     <AdminShell userEmail={user.email}>
@@ -96,11 +99,25 @@ export default async function EditPostPage({
           <h1 className="text-3xl font-bold">Editar post</h1>
           <p className="mt-1 text-sm text-gray-500">{post.slug}</p>
         </div>
-        <form action={deletePostAction}>
-          <SubmitButton variant="destructive">
-            Eliminar
-          </SubmitButton>
-        </form>
+        <div className="flex flex-wrap items-center gap-2">
+          {post.status === "draft" && (
+            <Button asChild variant="outline">
+              <Link
+                href={`/admin/posts/${post.id}/preview?locale=es`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Ver vista previa
+              </Link>
+            </Button>
+          )}
+          <SubmitButton form={postFormId}>Guardar cambios</SubmitButton>
+          <form action={deletePostAction}>
+            <SubmitButton variant="destructive">
+              Eliminar
+            </SubmitButton>
+          </form>
+        </div>
       </div>
 
       {feedback?.saved && (
@@ -116,6 +133,7 @@ export default async function EditPostPage({
 
       <PostForm
         action={updatePostAction}
+        formId={postFormId}
         values={valuesFromPost(post)}
         submitLabel="Guardar cambios"
       />
