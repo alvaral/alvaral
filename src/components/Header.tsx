@@ -21,6 +21,7 @@ export default function Header() {
   const links = [
     { href: "/blog", label: t("blog") },
     { href: "/focus", label: t("focus") },
+    { href: "/typing", label: t("typing") },
     { href: "/about", label: t("about") },
   ];
 
@@ -55,8 +56,8 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={withLocalePathname(link.href, locale)}
-                  className={`hover:underline ${
-                    isActive ? "underline decoration-2 decoration-black" : ""
+                  className={`inline-flex items-center leading-none transition-transform hover:underline ${
+                    isActive ? "scale-110 font-semibold text-black" : ""
                   }`}
                 >
                   {link.label}
@@ -81,9 +82,9 @@ export default function Header() {
         <Link
           href={withLocalePathname("/", locale)}
           onClick={() => setOpen(false)}
-          className={`hover:underline ${
+          className={`inline-flex items-center leading-none transition-transform hover:underline ${
             currentPathname === "/"
-              ? "underline decoration-2 decoration-black"
+              ? "scale-110 font-semibold text-black"
               : ""
           }`}
         >
@@ -99,8 +100,8 @@ export default function Header() {
               key={link.href}
               href={withLocalePathname(link.href, locale)}
               onClick={() => setOpen(false)}
-              className={`hover:underline ${
-                isActive ? "underline decoration-2 decoration-black" : ""
+              className={`inline-flex items-center leading-none transition-transform hover:underline ${
+                isActive ? "scale-110 font-semibold text-black" : ""
               }`}
             >
               {link.label}

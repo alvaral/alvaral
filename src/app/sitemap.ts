@@ -10,6 +10,7 @@ const staticRoutes = [
   { path: "/blog", priority: 0.8 },
   { path: "/about", priority: 0.7 },
   { path: "/focus", priority: 0.6 },
+  { path: "/typing", priority: 0.55 },
 ] as const;
 
 function absoluteUrl(path: string) {
