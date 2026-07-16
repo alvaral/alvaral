@@ -38,20 +38,20 @@
   },
   "typing": {
     "title": "Entrenador de escritura",
-    "description": "Pega tu propio texto o codigo y practica reescribiendolo con estadisticas en vivo, temporizador y correccion forzada.",
+    "description": "Pega tu propio texto o código y practica reescribiéndolo con estadísticas en vivo, temporizador y corrección forzada.",
     "hero": {
-      "eyebrow": "Desafio de escritura",
-      "subtitle": "Un espacio local, sin backend, para copiar codigo o texto con feedback en tiempo real."
+      "eyebrow": "Desafío de escritura",
+      "subtitle": "Un espacio local, sin backend, para copiar código o texto con feedback en tiempo real."
     },
     "source": {
       "title": "Fuente",
       "description": "Pega el texto que quieres practicar. Puede ser un fragmento corto o un snippet completo.",
-      "placeholder": "Pega aqui tu codigo o texto...",
+      "placeholder": "Pega aquí tu código o texto...",
       "characterCount": "caracteres",
       "contentMode": "Tipo de contenido",
       "contentModes": {
         "text": "Texto",
-        "csharp": "Codigo C#"
+        "csharp": "C#"
       },
       "save": "Guardar fuente",
       "saved": "Fuente guardada",
@@ -68,20 +68,20 @@
     "stats": {
       "timer": "Temporizador",
       "wpm": "PPM",
-      "accuracy": "Precision",
+      "accuracy": "Precisión",
       "errors": "Errores",
       "progress": "Progreso"
     },
     "controls": {
-      "forcedCorrection": "Correccion forzada",
-      "forcedCorrectionHelp": "Cuando esta activada, solo se aceptan caracteres que mantengan el texto alineado con la fuente.",
+      "forcedCorrection": "Corrección forzada",
+      "forcedCorrectionHelp": "Cuando está activada, solo se aceptan caracteres que mantengan el texto alineado con la fuente.",
       "active": "Activada",
       "inactive": "Desactivada",
       "combinedView": "Vista combinada",
       "splitView": "Vista dividida",
-      "splitViewHelp": "Activa esto para separar la vista previa y el area de escritura.",
-      "lineNumbers": "Numeros de linea",
-      "lineNumbersHelp": "Muestra u oculta los numeros de linea del preview."
+      "splitViewHelp": "Activa esto para separar la vista previa y el área de escritura.",
+      "lineNumbers": "Números de línea",
+      "lineNumbersHelp": "Muestra u oculta los números de línea del preview."
     },
     "actions": {
       "reset": "Reiniciar",
@@ -96,24 +96,24 @@
     },
     "session": {
       "title": "Sesión",
-      "description": "Guarda primero un texto y luego inicia o detiene la sesion de escritura.",
+      "description": "Inicia o detiene la sesión de escritura.",
       "start": "Iniciar",
       "stop": "Detener",
       "idle": "Guarda el texto y pulsa Iniciar para empezar."
     },
     "feedback": {
-      "forcedCorrection": "Manten el texto alineado con la fuente antes de avanzar.",
-      "forcedMistake": "La correccion forzada bloqueo este caracter",
+      "forcedCorrection": "Mantén el texto alineado con la fuente antes de avanzar.",
+      "forcedMistake": "La corrección forzada bloqueó este carácter",
       "saveSourceFirst": "Guarda primero la fuente para empezar a escribir."
     },
     "completion": {
       "title": "Sesión completada",
-      "description": "Buen trabajo. Aqui tienes tus estadisticas finales.",
+      "description": "Buen trabajo. Aquí tienes tus estadísticas finales.",
       "keep": "Seguir practicando",
       "reset": "Reiniciar y repetir"
     },
     "tips": {
-      "main": "Consejo: coloca la fuente y tu escritura una al lado de la otra para corregir más rapido."
+      "main": "Consejo: coloca la fuente y tu escritura una al lado de la otra para corregir más rápido."
     },
     "livePreview": {
       "title": "Vista previa en vivo",
