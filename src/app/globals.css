@@ -74,6 +74,16 @@
   }
 }
 
+@keyframes typing-caret-slide {
+  from {
+    transform: translateX(-0.28rem);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
 .fade-in {
   animation: fadeIn 0.5s ease forwards;
 }

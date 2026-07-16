@@ -18,12 +18,16 @@ export const seoContent: Record<
       title: string;
       description: string;
     };
+    typing: {
+      title: string;
+      description: string;
+    };
   }
 > = {
   en: {
     home: {
       description:
-        "Technical blog and personal site by Álvaro Alonso, focused on software engineering, programming, and thoughtful digital products.",
+        "Technical blog and personal site by Alvaro Alonso, focused on software engineering, programming, and thoughtful digital products.",
     },
     blog: {
       title: "Blog",
@@ -33,33 +37,43 @@ export const seoContent: Record<
     about: {
       title: "About",
       description:
-        "About Álvaro Alonso, a software engineer focused on useful and thoughtful digital experiences.",
+        "About Alvaro Alonso, a software engineer focused on useful and thoughtful digital experiences.",
     },
     focus: {
       title: "Focus timer",
       description:
         "A small focus timer with task tracking for planning and completing focused work sessions.",
     },
+    typing: {
+      title: "Typing trainer",
+      description:
+        "Paste your own text or code and practice retyping it with live stats, a timer, and forced correction mode.",
+    },
   },
   es: {
     home: {
       description:
-        "Blog técnico y web personal de Álvaro Alonso sobre ingeniería de software, programación y productos digitales bien pensados.",
+        "Blog tecnico y web personal de Alvaro Alonso sobre ingenieria de software, programacion y productos digitales bien pensados.",
     },
     blog: {
       title: "Blog",
       description:
-        "Artículos sobre ingeniería de software, programación, frontend, backend y vida como desarrollador.",
+        "Articulos sobre ingenieria de software, programacion, frontend, backend y vida como desarrollador.",
     },
     about: {
-      title: "Sobre mí",
+      title: "Sobre mi",
       description:
-        "Sobre Álvaro Alonso, ingeniero de software centrado en crear experiencias digitales útiles y cuidadas.",
+        "Sobre Alvaro Alonso, ingeniero de software centrado en crear experiencias digitales utiles y cuidadas.",
     },
     focus: {
       title: "Temporizador de enfoque",
       description:
-        "Un pequeño temporizador de enfoque con tareas para planificar y completar sesiones de trabajo concentrado.",
+        "Un pequeno temporizador de enfoque con tareas para planificar y completar sesiones de trabajo concentrado.",
+    },
+    typing: {
+      title: "Entrenador de escritura",
+      description:
+        "Pega tu propio texto o codigo y practica reescribiendolo con estadisticas en vivo, contador y modo de correccion forzada.",
     },
   },
 };

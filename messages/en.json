@@ -5,7 +5,7 @@
     "backHome": "Back to home"
   },
   "blogCard": {
-    "readMore": "Read more →",
+    "readMore": "Read more ->",
     "publishedOn": "Published on"
   },
   "footer": {
@@ -22,8 +22,9 @@
   "header": {
     "home": "Home",
     "blog": "Blog",
-    "about": "About",
     "focus": "Focus",
+    "typing": "Typing",
+    "about": "About",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
   },
@@ -34,6 +35,90 @@
   },
   "blogPage": {
     "title": "Blog"
+  },
+  "typing": {
+    "title": "Typing trainer",
+    "description": "Paste your own text or code and practice retyping it with live stats, a timer, and forced correction mode.",
+    "hero": {
+      "eyebrow": "Typing challenge",
+      "subtitle": "A local, no-backend practice arena for copying code or text with live feedback."
+    },
+    "source": {
+      "title": "Source",
+      "description": "Paste the text you want to practice. You can keep it short or use a full snippet.",
+      "placeholder": "Paste your code or text here...",
+      "characterCount": "characters",
+      "contentMode": "Content type",
+      "contentModes": {
+        "text": "Text",
+        "csharp": "C# code"
+      },
+      "save": "Save source",
+      "saved": "Saved source",
+      "unsaved": "Draft only",
+      "previewTitle": "Saved source preview",
+      "previewSaved": "Saved and ready to practice",
+      "previewDraft": "Preview of your draft"
+    },
+    "target": {
+      "title": "Your typing",
+      "description": "Type the source again. Mistakes are highlighted as you go.",
+      "placeholder": "Start retyping here..."
+    },
+    "stats": {
+      "timer": "Timer",
+      "wpm": "WPM",
+      "accuracy": "Accuracy",
+      "errors": "Errors",
+      "progress": "Progress"
+    },
+    "controls": {
+      "forcedCorrection": "Forced correction",
+      "forcedCorrectionHelp": "When enabled, only characters that keep the text aligned with the source are accepted.",
+      "active": "On",
+      "inactive": "Off",
+      "combinedView": "Combined view",
+      "splitView": "Split view",
+      "splitViewHelp": "Turn this on to separate the preview and the typing area.",
+      "lineNumbers": "Line numbers",
+      "lineNumbersHelp": "Show or hide line numbers in the preview."
+    },
+    "actions": {
+      "reset": "Reset",
+      "loadSample": "Load sample",
+      "changeSource": "Change source"
+    },
+    "status": {
+      "ready": "Ready",
+      "running": "Running",
+      "completed": "Completed",
+      "typing": "Typing"
+    },
+    "session": {
+      "title": "Session",
+      "description": "Save a source first, then start or stop the typing session.",
+      "start": "Start",
+      "stop": "Stop",
+      "idle": "Save the source and press Start to begin."
+    },
+    "feedback": {
+      "forcedCorrection": "Keep the text aligned with the source before moving on.",
+      "forcedMistake": "Forced correction blocked this character",
+      "saveSourceFirst": "Save the source first to begin typing."
+    },
+    "completion": {
+      "title": "Session complete",
+      "description": "Nice work. Here are your final stats.",
+      "keep": "Keep practicing",
+      "reset": "Reset and try again"
+    },
+    "tips": {
+      "main": "Tip: keep the source and your typing side by side for faster corrections."
+    },
+    "livePreview": {
+      "title": "Live preview",
+      "description": "Characters are colored by state: correct, incorrect, or current position."
+    }
   },
   "focus": {
     "taskManager": "Task Manager",
@@ -59,4 +144,3 @@
     }
   }
 }
-  

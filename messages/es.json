@@ -23,6 +23,7 @@
     "home": "Inicio",
     "blog": "Blog",
     "focus": "Focus",
+    "typing": "Escritura",
     "about": "Sobre mí",
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú"
@@ -34,6 +35,90 @@
   },
   "blogPage": {
     "title": "Blog"
+  },
+  "typing": {
+    "title": "Entrenador de escritura",
+    "description": "Pega tu propio texto o codigo y practica reescribiendolo con estadisticas en vivo, temporizador y correccion forzada.",
+    "hero": {
+      "eyebrow": "Desafio de escritura",
+      "subtitle": "Un espacio local, sin backend, para copiar codigo o texto con feedback en tiempo real."
+    },
+    "source": {
+      "title": "Fuente",
+      "description": "Pega el texto que quieres practicar. Puede ser un fragmento corto o un snippet completo.",
+      "placeholder": "Pega aqui tu codigo o texto...",
+      "characterCount": "caracteres",
+      "contentMode": "Tipo de contenido",
+      "contentModes": {
+        "text": "Texto",
+        "csharp": "Codigo C#"
+      },
+      "save": "Guardar fuente",
+      "saved": "Fuente guardada",
+      "unsaved": "Solo borrador",
+      "previewTitle": "Vista previa de la fuente guardada",
+      "previewSaved": "Guardada y lista para practicar",
+      "previewDraft": "Vista previa del borrador"
+    },
+    "target": {
+      "title": "Tu escritura",
+      "description": "Vuelve a escribir la fuente. Los errores se resaltan mientras avanzas.",
+      "placeholder": "Empieza a reescribir aquí..."
+    },
+    "stats": {
+      "timer": "Temporizador",
+      "wpm": "PPM",
+      "accuracy": "Precision",
+      "errors": "Errores",
+      "progress": "Progreso"
+    },
+    "controls": {
+      "forcedCorrection": "Correccion forzada",
+      "forcedCorrectionHelp": "Cuando esta activada, solo se aceptan caracteres que mantengan el texto alineado con la fuente.",
+      "active": "Activada",
+      "inactive": "Desactivada",
+      "combinedView": "Vista combinada",
+      "splitView": "Vista dividida",
+      "splitViewHelp": "Activa esto para separar la vista previa y el area de escritura.",
+      "lineNumbers": "Numeros de linea",
+      "lineNumbersHelp": "Muestra u oculta los numeros de linea del preview."
+    },
+    "actions": {
+      "reset": "Reiniciar",
+      "loadSample": "Cargar ejemplo",
+      "changeSource": "Cambiar fuente"
+    },
+    "status": {
+      "ready": "Listo",
+      "running": "En marcha",
+      "completed": "Completado",
+      "typing": "Escribiendo"
+    },
+    "session": {
+      "title": "Sesión",
+      "description": "Guarda primero un texto y luego inicia o detiene la sesion de escritura.",
+      "start": "Iniciar",
+      "stop": "Detener",
+      "idle": "Guarda el texto y pulsa Iniciar para empezar."
+    },
+    "feedback": {
+      "forcedCorrection": "Manten el texto alineado con la fuente antes de avanzar.",
+      "forcedMistake": "La correccion forzada bloqueo este caracter",
+      "saveSourceFirst": "Guarda primero la fuente para empezar a escribir."
+    },
+    "completion": {
+      "title": "Sesión completada",
+      "description": "Buen trabajo. Aqui tienes tus estadisticas finales.",
+      "keep": "Seguir practicando",
+      "reset": "Reiniciar y repetir"
+    },
+    "tips": {
+      "main": "Consejo: coloca la fuente y tu escritura una al lado de la otra para corregir más rapido."
+    },
+    "livePreview": {
+      "title": "Vista previa en vivo",
+      "description": "Los caracteres se colorean por estado: correcto, incorrecto o posición actual."
+    }
   },
   "focus": {
     "taskManager": "Tareas",
@@ -52,11 +137,10 @@
     "timer": {
       "settingsLabel": "Ajustes",
       "focusTime": "Tiempo de enfoque",
-      "breakTime": "Tiempo de Descanso",
+      "breakTime": "Tiempo de descanso",
       "pause": "Pausar",
       "start": "Iniciar",
       "reset": "Reiniciar"
     }
   }
 }
-  
