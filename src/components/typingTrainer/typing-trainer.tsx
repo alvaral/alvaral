@@ -263,7 +263,9 @@ function getCSharpSyntaxClasses(line: string) {
 }
 
 function visibleText(text: string) {
-  return text.replaceAll(" ", "\u00a0");
+  return text
+    .replaceAll(" ", "\u00a0")
+    .replace(/([A-Za-z0-9])\-([A-Za-z0-9])/g, "$1\u2011$2");
 }
 
 function renderCorrectSegment({
@@ -562,6 +564,8 @@ export function TypingTrainerPageClient() {
   const progress = activeSourceText.length
     ? Math.min(100, Math.round((maxProgressChars / activeSourceText.length) * 100))
     : 0;
+  const canType = hasSavedSource && isRunning;
+  const canSelectCompletedText = isCompleted && hasSavedSource;
 
   useEffect(() => {
     if (!isRunning || !sessionStartedAt || isCompleted) {
@@ -758,6 +762,10 @@ export function TypingTrainerPageClient() {
   const focusTypingArea = () => {
     if (!hasSavedSource) {
       setFeedback(t("feedback.saveSourceFirst"));
+      return;
+    }
+
+    if (isCompleted) {
       return;
     }
 
@@ -1083,7 +1091,7 @@ export function TypingTrainerPageClient() {
                       role="button"
                       tabIndex={0}
                       className="relative min-h-[260px] cursor-text rounded-[28px] border border-slate-200 bg-white p-4 text-left focus:outline-none focus:ring-2 focus:ring-slate-300"
-                      onClick={focusTypingArea}
+                      onClick={canSelectCompletedText ? undefined : focusTypingArea}
                       onKeyDown={handleTypingKeyDown}
                     >
                       <div className="mb-2">
@@ -1099,7 +1107,9 @@ export function TypingTrainerPageClient() {
                         </p>
                       </div>
                       <div className="mt-4 max-h-[420px] overflow-auto rounded-[8px] border border-slate-100 bg-slate-50 p-2 font-mono text-sm leading-5 text-slate-900 shadow-inner">
-                        <div>{livePreview}</div>
+                        <div className={cn(canSelectCompletedText && "select-text")}>
+                          {livePreview}
+                        </div>
                       </div>
                       {!splitView ? (
                         <Textarea
@@ -1109,12 +1119,15 @@ export function TypingTrainerPageClient() {
                             handleTypingChange(event.target.value)
                           }
                           onKeyDown={handleTypingKeyDown}
-                          className="absolute inset-0 z-10 h-full min-h-full w-full cursor-text resize-none border-0 bg-transparent p-0 opacity-0 focus-visible:ring-0"
+                          className={cn(
+                            "absolute inset-0 z-10 h-full min-h-full w-full cursor-text resize-none border-0 bg-transparent p-0 opacity-0 focus-visible:ring-0",
+                            canSelectCompletedText && "pointer-events-none"
+                          )}
                           spellCheck={false}
                           autoCapitalize="off"
                           autoCorrect="off"
                           autoComplete="off"
-                          readOnly={!hasSavedSource || !isRunning}
+                          readOnly={!canType}
                           aria-label={t("target.title")}
                         />
                       ) : null}
@@ -1146,7 +1159,7 @@ export function TypingTrainerPageClient() {
                           autoCapitalize="off"
                           autoCorrect="off"
                           autoComplete="off"
-                          readOnly={!hasSavedSource || !isRunning}
+                          readOnly={!canType}
                         />
                       </div>
                     ) : null}
